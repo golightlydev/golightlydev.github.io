@@ -29,12 +29,8 @@ document.getElementById("charName").innerHTML = "Name: " + myName;
 </div>
 <div id="statIncrease">
 	<p id="pointsAvailable">Points Available: 5</p>
-	<form  onsubmit="increment(str)">
-		<input type="submit" value="&gt">
-	</form>
-	<form  onsubmit="increment(con)">
-		<input type="submit" value="&gt">
-	</form>
+	<button name="str" value="&gt" onClick="increment('str');"/>
+	<button name="con" value="&gt" onClick="increment('con');"/>
 	<form  onsubmit="increment('agi')">
 		<input type="submit" value="&gt">
 	</form>
