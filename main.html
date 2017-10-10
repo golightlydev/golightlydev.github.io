@@ -25,50 +25,50 @@
 </div>
 <div id="statIncrease">
 	<p id="pointsAvailable">Points Available: 5</p>
-	<form method="post" action="str" onSubmit="return increment(this);" >
+	<form method="post"onSubmit="return increment(this);" >
 		<input type="submit" name="strength" value="&gt" onClick="increment(this);">
 	</form>
-	<form method="post" action="con" onSubmit="return increment(this);" >
+	<form method="post"onSubmit="return increment(this);" >
 		<input type="submit" name="strength" value="&gt" onClick="increment(this);">
 	</form>
-	<form method="post" action="agi" onSubmit="return increment(this);" >
+	<form method="post" onSubmit="return increment(this);" >
 		<input type="submit" name="strength" value="&gt" onClick="increment(this);">
 	</form>
-	<form method="post" action="acc" onSubmit="return increment(this);" >
+	<form method="post"onSubmit="return increment(this);" >
 		<input type="submit" name="strength" value="&gt" onClick="increment(this);">
 	</form>
-	<form method="post" action="spd" onSubmit="return increment(this);" >
+	<form method="post"onSubmit="return increment(this);" >
 		<input type="submit" name="strength" value="&gt" onClick="increment(this);">
 	</form>
-	<form method="post" action="lck" onSubmit="return increment(this);" >
+	<form method="post"onSubmit="return increment(this);" >
 		<input type="submit" name="strength" value="&gt" onClick="increment(this);">
 	</form>
 </div>
 <script>
 function increment(element) {
 	if(pointsAvailable > 0) {
-		if(element.action == "str") {
+		if(element.name == "str") {
 			str += 1;
 			document.getElementById("strength").innerHTML = "Strength: " + str;
 		}
-		if(element.action = "con") {
+		if(element.name = "con") {
 			con += 1;
 			maxHp = con * 5;
 			document.getElementById("constitution").innerHTML = "Constitution: " + con;
 		}
-		if(element.action = "agi") {
+		if(element.name = "agi") {
 			agi += 1;
 			document.getElementById("agility").innerHTML = "Agility: " + agi;
 		}
-		if(element.action = "acc") {
+		if(element.name = "acc") {
 			acc += 1;
 			document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
 		}
-		if(element.action = "spd") {
+		if(element.name = "spd") {
 			spd += 1;
 			document.getElementById("speed").innerHTML = "Speed: " + spd;
 		}
-		if(element.action = "lck") {
+		if(element.name = "lck") {
 			lck += 1;
 			document.getElementById("luck").innerHTML = "Luck: " + lck;
 		}
