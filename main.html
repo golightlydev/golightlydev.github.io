@@ -1,13 +1,14 @@
 <html>
 <head>
 <link rel="stylesheet" href="style.css">
+<script src = "script.js"></script>
 <title>adventure</title>
 </head>
 <body>
 <p id="charName">test</p>
 <script>
 function getName() {
-	var myName = location.search;
+	var myName = location.search.split("?")[1];
 	document.getElementById("charName").innerHTML = myName;
 	return true;
 }
