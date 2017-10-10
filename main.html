@@ -1,14 +1,16 @@
 <html>
 <head>
 <link rel="stylesheet" href="style.css">
-<script src = "script.js"></script>
 <title>adventure</title>
 </head>
 <body>
 <div id = "charData">
 	<p id="charName">Name: test</p>
-	<p id = "charLevel">Level: test</p>
-	<p id = "charGold">Gold: test</p>
+	<p id = "charLevel">Level: 1</p>
+	<p id = "charGold">Gold: 0</p>
+	<p id="hitPoints">Hit Points: 5</p>
+	<p id="playerExp">Experience Points: 0</p>
+	<p id="floorNum">Floor Number: 1</p>
 </div>
 <script>
 var myName = location.search.split("=")[1];
@@ -18,12 +20,12 @@ document.getElementById("charName").innerHTML = "Name: " + myName;
 	<p id="text">test</p>
 </div>
 <div id="stats">
-	<p id="strength">Strength: 0</p>
-	<p id="constitution">Constitution: 0</p>
-	<p id="agility">Agility: 0</p>
-	<p id="accuracy">Accuracy: 0</p>
-	<p id="speed">Speed: 0</p>
-	<p id="luck">Luck: 0</p>
+	<p id="strength">Strength: 1</p>
+	<p id="constitution">Constitution: 1</p>
+	<p id="agility">Agility: 1</p>
+	<p id="accuracy">Accuracy: 1</p>
+	<p id="speed">Speed: 1</p>
+	<p id="luck">Luck: 1</p>
 </div>
 <div id="statIncrease">
 	<p id="pointsAvailable">Points Available: 5</p>
@@ -45,5 +47,64 @@ document.getElementById("charName").innerHTML = "Name: " + myName;
 	<form  onsubmit="increment('lck')">
 		<input type="submit" value="&gt">
 	</form>
+</div>
+<script>
+var gameOver = false;
+var str = 1;
+var con = 1;
+var agi = 1;
+var acc = 1;
+var spd = 1;
+var lck = 1;
+var gold = 0;
+var level = 1;
+var floor = 1;
+var exp = 0;
+var hp = con * 5;
+var maxHp = hp;
+var enemyStr = 0;
+var enemyAgi = 0;
+var enemyAcc = 0;
+var enemySpd = 0;
+var enemyLck = 0;
+var enemyGold = 0;
+var enemyExp = 0;
+enemyHp = enemyCon * 5;
+enemyMaxHp = enemyHp;
+var pointsAvailable = 5;
+function increment(val) {
+	if(pointsAvailable > 0) {
+		if(val == "str") {
+			str += 1;
+			document.getElementById("strength").innerHTML = "Strength: " + str;
+		}
+		if(val == "con") {
+			con += 1;
+			maxHp = con * 5;
+			document.getElementById("constitution").innerHTML = "Constitution: " + con;
+		}
+		if(val == "agi") {
+			agi += 1;
+			document.getElementById("agility").innerHTML = "Agility: " + agi;
+		}
+		if(val == "acc") {
+			acc += 1;
+			document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
+		}
+		if(val == "spd") {
+			spd += 1;
+			document.getElementById("speed").innerHTML = "Speed: " + spd;
+		}
+		if(val == "lck") {
+			lck += 1;
+			document.getElementById("luck").innerHTML = "Luck: " + lck;
+		}
+		pointsAvailable -= 1;
+		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
+	}
+}
+while(!gameOver) {
+	
+}
 </body>
 </html>
