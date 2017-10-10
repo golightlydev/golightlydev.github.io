@@ -29,20 +29,12 @@ document.getElementById("charName").innerHTML = "Name: " + myName;
 </div>
 <div id="statIncrease">
 	<p id="pointsAvailable">Points Available: 5</p>
-	<button name="str" value="&gt" onClick="increment('str');"/>
-	<button name="con" value="&gt" onClick="increment('con');"/>
-	<form  onsubmit="increment('agi')">
-		<input type="submit" value="&gt">
-	</form>
-	<form  onsubmit="increment('acc')">
-		<input type="submit" value="&gt">
-	</form>
-	<form  onsubmit="increment('spd')">
-		<input type="submit" value="&gt">
-	</form>
-	<form  onsubmit="increment('lck')">
-		<input type="submit" value="&gt">
-	</form>
+	<button name="str" value="&gt" onClick="increment(this);"/>
+	<button name="con" value="&gt" onClick="increment(this);"/>
+	<button name="agi" value="&gt" onClick="increment(this);"/>
+	<button name="acc" value="&gt" onClick="increment(this);"/>
+	<button name="spd" value="&gt" onClick="increment(this);"/>
+	<button name="lck" value="&gt" onClick="increment(this);"/>
 </div>
 <script>
 var gameOver = false;
@@ -68,30 +60,30 @@ var enemyExp = 0;
 enemyHp = enemyCon * 5;
 enemyMaxHp = enemyHp;
 var pointsAvailable = 5;
-function increment(val) {
+function increment(element) {
 	if(pointsAvailable > 0) {
-		if(val == "str") {
+		if(element.value == "str") {
 			str += 1;
 			document.getElementById("strength").innerHTML = "Strength: " + str;
 		}
-		if(val == "con") {
+		if(element.value = "con") {
 			con += 1;
 			maxHp = con * 5;
 			document.getElementById("constitution").innerHTML = "Constitution: " + con;
 		}
-		if(val == "agi") {
+		if(element.value = "agi") {
 			agi += 1;
 			document.getElementById("agility").innerHTML = "Agility: " + agi;
 		}
-		if(val == "acc") {
+		if(element.value = "acc") {
 			acc += 1;
 			document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
 		}
-		if(val == "spd") {
+		if(element.value = "spd") {
 			spd += 1;
 			document.getElementById("speed").innerHTML = "Speed: " + spd;
 		}
-		if(val == "lck") {
+		if(element.value = "lck") {
 			lck += 1;
 			document.getElementById("luck").innerHTML = "Luck: " + lck;
 		}
