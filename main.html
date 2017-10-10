@@ -35,28 +35,28 @@
 <script>
 function increment(element) {
 	if(pointsAvailable > 0) {
-		if(element.value == "strButton") {
+		if(element.value == "str") {
 			str += 1;
 			document.getElementById("strength").innerHTML = "Strength: " + str;
 		}
-		if(element.value = "conButton") {
+		if(element.value = "con") {
 			con += 1;
 			maxHp = con * 5;
 			document.getElementById("constitution").innerHTML = "Constitution: " + con;
 		}
-		if(element.value = "agiButton") {
+		if(element.value = "agi") {
 			agi += 1;
 			document.getElementById("agility").innerHTML = "Agility: " + agi;
 		}
-		if(element.value = "accButton") {
+		if(element.value = "acc") {
 			acc += 1;
 			document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
 		}
-		if(element.value = "spdButton") {
+		if(element.value = "spd") {
 			spd += 1;
 			document.getElementById("speed").innerHTML = "Speed: " + spd;
 		}
-		if(element.value = "lckButton") {
+		if(element.value = "lck") {
 			lck += 1;
 			document.getElementById("luck").innerHTML = "Luck: " + lck;
 		}
