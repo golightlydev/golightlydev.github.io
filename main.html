@@ -47,28 +47,28 @@
 <script>
 function increment(element) {
 	if(pointsAvailable > 0) {
-		if(element.name == "str") {
+		if(element.name == "strButton") {
 			str += 1;
 			document.getElementById("strength").innerHTML = "Strength: " + str;
 		}
-		if(element.name = "con") {
+		if(element.name = "conButton") {
 			con += 1;
 			maxHp = con * 5;
 			document.getElementById("constitution").innerHTML = "Constitution: " + con;
 		}
-		if(element.name = "agi") {
+		if(element.name = "agiButton") {
 			agi += 1;
 			document.getElementById("agility").innerHTML = "Agility: " + agi;
 		}
-		if(element.name = "acc") {
+		if(element.name = "accButton") {
 			acc += 1;
 			document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
 		}
-		if(element.name = "spd") {
+		if(element.name = "spdButton") {
 			spd += 1;
 			document.getElementById("speed").innerHTML = "Speed: " + spd;
 		}
-		if(element.name = "lck") {
+		if(element.name = "lckButton") {
 			lck += 1;
 			document.getElementById("luck").innerHTML = "Luck: " + lck;
 		}
