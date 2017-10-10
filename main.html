@@ -59,8 +59,12 @@ enemyHp = enemyCon * 5;
 enemyMaxHp = enemyHp;
 pointsAvailable = 5;
 function incrementStr() {
+	console.log("function activated!");
+	console.log(pointsAvailable);
 	if(pointsAvailable > 0) {
+		console.log("inner function activated!");
 		str += 1;
+		console.log(str);
 		document.getElementById("strength").innerHTML = "Strength: " + str;
 		pointsAvailable -= 1;
 		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
