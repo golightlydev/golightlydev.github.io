@@ -2,39 +2,6 @@
 <head>
 <link rel="stylesheet" href="style.css">
 <title>adventure</title>
-<script>
-function increment(element) {
-	if(pointsAvailable > 0) {
-		if(element.value == "str") {
-			str += 1;
-			document.getElementById("strength").innerHTML = "Strength: " + str;
-		}
-		if(element.value = "con") {
-			con += 1;
-			maxHp = con * 5;
-			document.getElementById("constitution").innerHTML = "Constitution: " + con;
-		}
-		if(element.value = "agi") {
-			agi += 1;
-			document.getElementById("agility").innerHTML = "Agility: " + agi;
-		}
-		if(element.value = "acc") {
-			acc += 1;
-			document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
-		}
-		if(element.value = "spd") {
-			spd += 1;
-			document.getElementById("speed").innerHTML = "Speed: " + spd;
-		}
-		if(element.value = "lck") {
-			lck += 1;
-			document.getElementById("luck").innerHTML = "Luck: " + lck;
-		}
-		pointsAvailable -= 1;
-		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
-	}
-}
-</script>
 </head>
 <body>
 <div id = "charData">
@@ -68,6 +35,37 @@ function increment(element) {
 	</form>
 </div>
 <script>
+function increment(element) {
+	if(pointsAvailable > 0) {
+		if(element.value == "str") {
+			str += 1;
+			document.getElementById("strength").innerHTML = "Strength: " + str;
+		}
+		if(element.value = "con") {
+			con += 1;
+			maxHp = con * 5;
+			document.getElementById("constitution").innerHTML = "Constitution: " + con;
+		}
+		if(element.value = "agi") {
+			agi += 1;
+			document.getElementById("agility").innerHTML = "Agility: " + agi;
+		}
+		if(element.value = "acc") {
+			acc += 1;
+			document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
+		}
+		if(element.value = "spd") {
+			spd += 1;
+			document.getElementById("speed").innerHTML = "Speed: " + spd;
+		}
+		if(element.value = "lck") {
+			lck += 1;
+			document.getElementById("luck").innerHTML = "Luck: " + lck;
+		}
+		pointsAvailable -= 1;
+		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
+	}
+}
 var myName = location.search.split("=")[1];
 document.getElementById("charName").innerHTML = "Name: " + myName;
 var gameOver = false;
