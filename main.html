@@ -74,6 +74,7 @@ function increment(element) {
 		}
 		pointsAvailable -= 1;
 		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
+		return true;
 	}
 }
 var myName = location.search.split("=")[1];
