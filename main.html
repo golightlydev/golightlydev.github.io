@@ -25,45 +25,61 @@
 </div>
 <div id="statIncrease">
 	<p id="pointsAvailable">Points Available: 5</p>
-	<button type="button" value="str" onclick=increment(this)>&gt</button>
-	<button type="button" value="con" onclick=increment(this)>&gt</button>
-	<button type="button" value="agi" onclick=increment(this)>&gt</button>
-	<button type="button" value="acc" onclick=increment(this)>&gt</button>
-	<button type="button" value="spd" onclick=increment(this)>&gt</button>
-	<button type="button" value="lck" onclick=increment(this)>&gt</button>
+	<button type="button" value="str" onclick=incrementStr()>&gt</button>
+	<button type="button" value="con" onclick=incrementCon()>&gt</button>
+	<button type="button" value="agi" onclick=incrementAgi()>&gt</button>
+	<button type="button" value="acc" onclick=incrementAcc()>&gt</button>
+	<button type="button" value="spd" onclick=incrementSpd()>&gt</button>
+	<button type="button" value="lck" onclick=incrementLck()>&gt</button>
 </div>
 <script>
-function increment(element) {
-	var val = element.value;
+function incrementStr() {
 	if(pointsAvailable > 0) {
-		if(val == "str") {
-			str += 1;
-			document.getElementById("strength").innerHTML = "Strength: " + str;
-		}
-		if(val == "con") {
-			con += 1;
-			maxHp = con * 5;
-			document.getElementById("constitution").innerHTML = "Constitution: " + con;
-		}
-		if(val == "agi") {
-			agi += 1;
-			document.getElementById("agility").innerHTML = "Agility: " + agi;
-		}
-		if(val == "acc") {
-			acc += 1;
-			document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
-		}
-		if(val == "spd") {
-			spd += 1;
-			document.getElementById("speed").innerHTML = "Speed: " + spd;
-		}
-		if(val == "lck") {
-			lck += 1;
-			document.getElementById("luck").innerHTML = "Luck: " + lck;
-		}
+		str += 1;
+		document.getElementById("strength").innerHTML = "Strength: " + str;
 		pointsAvailable -= 1;
 		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
-		return true;
+	}
+}
+function incrementCon() {
+	if(pointsAvailable > 0) {
+		con += 1;
+		maxHp = con * 5;
+		document.getElementById("constitution").innerHTML = "Constitution: " + con;
+		pointsAvailable -= 1;
+		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
+	}
+}
+function incrementAgi() {
+	if(pointsAvailable > 0) {
+		agi += 1;
+		document.getElementById("agility").innerHTML = "Agility: " + agi;
+		pointsAvailable -= 1;
+		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
+	}
+}
+function incrementAcc() {
+	if(pointsAvailable > 0) {
+		acc += 1;
+		document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
+		pointsAvailable -= 1;
+		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
+	}
+}
+function incrementSpd() {
+	if(pointsAvailable > 0) {
+		spd += 1;
+		document.getElementById("speed").innerHTML = "Speed: " + spd;
+		pointsAvailable -= 1;
+		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
+	}
+}
+function incrementLck() {
+	if(pointsAvailable > 0) {
+		lck += 1;
+		document.getElementById("luck").innerHTML = "Luck: " + lck;
+		pointsAvailable -= 1;
+		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
 	}
 }
 var myName = location.search.split("=")[1];
