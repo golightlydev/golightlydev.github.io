@@ -34,29 +34,30 @@
 </div>
 <script>
 function increment(element) {
+	var val = element.value;
 	if(pointsAvailable > 0) {
-		if(element.value == "str") {
+		if(val == "str") {
 			str += 1;
 			document.getElementById("strength").innerHTML = "Strength: " + str;
 		}
-		if(element.value = "con") {
+		if(val = "con") {
 			con += 1;
 			maxHp = con * 5;
 			document.getElementById("constitution").innerHTML = "Constitution: " + con;
 		}
-		if(element.value = "agi") {
+		if(val = "agi") {
 			agi += 1;
 			document.getElementById("agility").innerHTML = "Agility: " + agi;
 		}
-		if(element.value = "acc") {
+		if(val = "acc") {
 			acc += 1;
 			document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
 		}
-		if(element.value = "spd") {
+		if(val = "spd") {
 			spd += 1;
 			document.getElementById("speed").innerHTML = "Speed: " + spd;
 		}
-		if(element.value = "lck") {
+		if(val = "lck") {
 			lck += 1;
 			document.getElementById("luck").innerHTML = "Luck: " + lck;
 		}
