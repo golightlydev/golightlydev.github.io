@@ -8,7 +8,7 @@
 <p id="charName">test</p>
 <script>
 function getName() {
-	var myName = location.search.split("?")[1];
+	var myName = location.search.split("=")[1];
 	document.getElementById("charName").innerHTML = myName;
 	return true;
 }
