@@ -37,29 +37,6 @@ document.getElementById("charName").innerHTML = "Name: " + myName;
 	<button name="lck" value="&gt" onClick="increment(this);"/>
 </div>
 <script>
-var gameOver = false;
-var str = 1;
-var con = 1;
-var agi = 1;
-var acc = 1;
-var spd = 1;
-var lck = 1;
-var gold = 0;
-var level = 1;
-var floor = 1;
-var exp = 0;
-var hp = con * 5;
-var maxHp = hp;
-var enemyStr = 0;
-var enemyAgi = 0;
-var enemyAcc = 0;
-var enemySpd = 0;
-var enemyLck = 0;
-var enemyGold = 0;
-var enemyExp = 0;
-enemyHp = enemyCon * 5;
-enemyMaxHp = enemyHp;
-var pointsAvailable = 5;
 function increment(element) {
 	if(pointsAvailable > 0) {
 		if(element.value == "str") {
@@ -91,6 +68,31 @@ function increment(element) {
 		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsAvailable;
 	}
 }
+</script>
+<script>
+var gameOver = false;
+var str = 1;
+var con = 1;
+var agi = 1;
+var acc = 1;
+var spd = 1;
+var lck = 1;
+var gold = 0;
+var level = 1;
+var floor = 1;
+var exp = 0;
+var hp = con * 5;
+var maxHp = hp;
+var enemyStr = 0;
+var enemyAgi = 0;
+var enemyAcc = 0;
+var enemySpd = 0;
+var enemyLck = 0;
+var enemyGold = 0;
+var enemyExp = 0;
+enemyHp = enemyCon * 5;
+enemyMaxHp = enemyHp;
+var pointsAvailable = 5;
 while(!gameOver) {
 	
 }
