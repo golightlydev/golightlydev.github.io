@@ -2,40 +2,6 @@
 <head>
 <link rel="stylesheet" href="style.css">
 <title>adventure</title>
-</head>
-<body>
-<div id = "charData">
-	<p id="charName">Name: test</p>
-	<p id = "charLevel">Level: 1</p>
-	<p id = "charGold">Gold: 0</p>
-	<p id="hitPoints">Hit Points: 5</p>
-	<p id="playerExp">Experience Points: 0</p>
-	<p id="floorNum">Floor Number: 1</p>
-</div>
-<script>
-var myName = location.search.split("=")[1];
-document.getElementById("charName").innerHTML = "Name: " + myName;
-</script>
-<div id="mainArea">
-	<p id="text">test</p>
-</div>
-<div id="stats">
-	<p id="strength">Strength: 1</p>
-	<p id="constitution">Constitution: 1</p>
-	<p id="agility">Agility: 1</p>
-	<p id="accuracy">Accuracy: 1</p>
-	<p id="speed">Speed: 1</p>
-	<p id="luck">Luck: 1</p>
-</div>
-<div id="statIncrease">
-	<p id="pointsAvailable">Points Available: 5</p>
-	<button name="str" value="&gt" onClick="increment(this);"/>
-	<button name="con" value="&gt" onClick="increment(this);"/>
-	<button name="agi" value="&gt" onClick="increment(this);"/>
-	<button name="acc" value="&gt" onClick="increment(this);"/>
-	<button name="spd" value="&gt" onClick="increment(this);"/>
-	<button name="lck" value="&gt" onClick="increment(this);"/>
-</div>
 <script>
 function increment(element) {
 	if(pointsAvailable > 0) {
@@ -69,7 +35,39 @@ function increment(element) {
 	}
 }
 </script>
+</head>
+<body>
+<div id = "charData">
+	<p id="charName">Name: test</p>
+	<p id = "charLevel">Level: 1</p>
+	<p id = "charGold">Gold: 0</p>
+	<p id="hitPoints">Hit Points: 5</p>
+	<p id="playerExp">Experience Points: 0</p>
+	<p id="floorNum">Floor Number: 1</p>
+</div>
+<div id="mainArea">
+	<p id="text">test</p>
+</div>
+<div id="stats">
+	<p id="strength">Strength: 1</p>
+	<p id="constitution">Constitution: 1</p>
+	<p id="agility">Agility: 1</p>
+	<p id="accuracy">Accuracy: 1</p>
+	<p id="speed">Speed: 1</p>
+	<p id="luck">Luck: 1</p>
+</div>
+<div id="statIncrease">
+	<p id="pointsAvailable">Points Available: 5</p>
+	<button name="str" value="&gt" onClick="increment(this);"/>
+	<button name="con" value="&gt" onClick="increment(this);"/>
+	<button name="agi" value="&gt" onClick="increment(this);"/>
+	<button name="acc" value="&gt" onClick="increment(this);"/>
+	<button name="spd" value="&gt" onClick="increment(this);"/>
+	<button name="lck" value="&gt" onClick="increment(this);"/>
+</div>
 <script>
+var myName = location.search.split("=")[1];
+document.getElementById("charName").innerHTML = "Name: " + myName;
 var gameOver = false;
 var str = 1;
 var con = 1;
