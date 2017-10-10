@@ -25,50 +25,38 @@
 </div>
 <div id="statIncrease">
 	<p id="pointsAvailable">Points Available: 5</p>
-	<form onSubmit="increment(this);" >
-		<input type="submit" name="strButton" value="&gt" onClick="increment(this);">
-	</form>
-	<form onSubmit="increment(this);" >
-		<input type="submit" name="conButton" value="&gt" onClick="increment(this);">
-	</form>
-	<form onSubmit="increment(this);" >
-		<input type="submit" name="agiButton" value="&gt" onClick="increment(this);">
-	</form>
-	<form onSubmit="increment(this);" >
-		<input type="submit" name="accButton" value="&gt" onClick="increment(this);">
-	</form>
-	<form onSubmit="increment(this);" >
-		<input type="submit" name="spdButton" value="&gt" onClick="increment(this);">
-	</form>
-	<form onSubmit="increment(this);" >
-		<input type="submit" name="lckButton" value="&gt" onClick="increment(this);">
-	</form>
+	<button type="button" value="str" onclick=increment(this)>&gt</button>
+	<button type="button" value="con" onclick=increment(this)>&gt</button>
+	<button type="button" value="agi" onclick=increment(this)>&gt</button>
+	<button type="button" value="acc" onclick=increment(this)>&gt</button>
+	<button type="button" value="spd" onclick=increment(this)>&gt</button>
+	<button type="button" value="lck" onclick=increment(this)>&gt</button>
 </div>
 <script>
 function increment(element) {
 	if(pointsAvailable > 0) {
-		if(element.name == "strButton") {
+		if(element.value == "strButton") {
 			str += 1;
 			document.getElementById("strength").innerHTML = "Strength: " + str;
 		}
-		if(element.name = "conButton") {
+		if(element.value = "conButton") {
 			con += 1;
 			maxHp = con * 5;
 			document.getElementById("constitution").innerHTML = "Constitution: " + con;
 		}
-		if(element.name = "agiButton") {
+		if(element.value = "agiButton") {
 			agi += 1;
 			document.getElementById("agility").innerHTML = "Agility: " + agi;
 		}
-		if(element.name = "accButton") {
+		if(element.value = "accButton") {
 			acc += 1;
 			document.getElementById("accuracy").innerHTML = "Accuracy: " + acc;
 		}
-		if(element.name = "spdButton") {
+		if(element.value = "spdButton") {
 			spd += 1;
 			document.getElementById("speed").innerHTML = "Speed: " + spd;
 		}
-		if(element.name = "lckButton") {
+		if(element.value = "lckButton") {
 			lck += 1;
 			document.getElementById("luck").innerHTML = "Luck: " + lck;
 		}
