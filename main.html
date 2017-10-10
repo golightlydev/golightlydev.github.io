@@ -5,14 +5,45 @@
 <title>adventure</title>
 </head>
 <body>
-<p id="charName">test</p>
+<div id = "charData">
+	<p id="charName">Name: test</p>
+	<p id = "charLevel">Level: test</p>
+	<p id = "charGold">Gold: test</p>
+</div>
 <script>
-function getName() {
-	var myName = location.search.split("=")[1];
-	document.getElementById("charName").innerHTML = myName;
-	return true;
-}
-getName();
+var myName = location.search.split("=")[1];
+document.getElementById("charName").innerHTML = "Name: " + myName;
 </script>
+<div id="mainArea">
+	<p id="text">test</p>
+</div>
+<div id="stats">
+	<p id="strength">Strength: 0</p>
+	<p id="constitution">Constitution: 0</p>
+	<p id="agility">Agility: 0</p>
+	<p id="accuracy">Accuracy: 0</p>
+	<p id="speed">Speed: 0</p>
+	<p id="luck">Luck: 0</p>
+</div>
+<div id="statIncrease">
+	<p id="pointsAvailable">Points Available: 5</p>
+	<form  onsubmit="increment('str')">
+		<input type="submit" value="&gt">
+	</form>
+	<form  onsubmit="increment('con')">
+		<input type="submit" value="&gt">
+	</form>
+	<form  onsubmit="increment('agi')">
+		<input type="submit" value="&gt">
+	</form>
+	<form  onsubmit="increment('acc')">
+		<input type="submit" value="&gt">
+	</form>
+	<form  onsubmit="increment('spd')">
+		<input type="submit" value="&gt">
+	</form>
+	<form  onsubmit="increment('lck')">
+		<input type="submit" value="&gt">
+	</form>
 </body>
 </html>
