@@ -1,0 +1,20 @@
+#charData {
+	width: 60%;
+}
+
+#mainArea {
+	width: 60%;
+}
+
+#stats {
+	float: right;
+	right: 10%;
+	margin-left: 5%;
+	width: 25%;
+}
+
+#statsIncrease {
+	float: right;
+	width: 10%;
+}
+
