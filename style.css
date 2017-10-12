@@ -8,13 +8,24 @@
 
 #stats {
 	float: right;
-	right: 10%;
-	margin-left: 5%;
+	right:25%;
 	width: 25%;
 }
 
-#statsIncrease {
-	float: right;
-	width: 10%;
+#adNotification {
+	position: relative;
+	left:60%;
+	width: 20%;
+	text-align:right;
 }
 
+#adArea {
+	position: relative;
+	left:60%;
+	width:40%;
+}
+
+#stats button {
+	position: absolute;
+	left: 85%;
+}

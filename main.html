@@ -4,6 +4,21 @@
 <title>adventure</title>
 </head>
 <body>
+<div id="stats">
+	<p id="pointsAvailable">Points Available: 5</p>
+	<span id="strength">Strength: 1</span>
+	<button type="button" value="str" onclick="incrementStr()">&gt</button> <br>
+	<span id="constitution">Constitution: 1</span>
+	<button type="button" value="con" onclick="incrementCon()">&gt</button> <br>
+	<span id="agility">Agility: 1</span>
+	<button type="button" value="agi" onclick="incrementAgi()">&gt</button> <br>
+	<span id="accuracy">Accuracy: 1</span>
+	<button type="button" value="acc" onclick="incrementAcc()">&gt</button> <br>
+	<span id="speed">Speed: 1</span>
+	<button type="button" value="spd" onclick="incrementSpd()">&gt</button> <br>
+	<span id="luck">Luck: 1</span>
+	<button type="button" value="lck" onclick="incrementLck()">&gt</button> <br>
+</div>
 <div id = "charData">
 	<p id="charName">Name: test</p>
 	<p id = "charLevel">Level: 1</p>
@@ -15,29 +30,12 @@
 <div id="mainArea">
 	<p id="text">test</p>
 </div>
-
-<div id="stats">
-	<p id="strength">Strength: 1</p>
-	<p id="constitution">Constitution: 1</p>
-	<p id="agility">Agility: 1</p>
-	<p id="accuracy">Accuracy: 1</p>
-	<p id="speed">Speed: 1</p>
-	<p id="luck">Luck: 1</p>
-</div>
-<div id="statIncrease">
-	<p id="pointsAvailable">Points Available: 5</p>
-	<button type="button" value="str" onclick="incrementStr()">&gt</button>
-	<button type="button" value="con" onclick="incrementCon()">&gt</button>
-	<button type="button" value="agi" onclick="incrementAgi()">&gt</button>
-	<button type="button" value="acc" onclick="incrementAcc()">&gt</button>
-	<button type="button" value="spd" onclick="incrementSpd()">&gt</button>
-	<button type="button" value="lck" onclick="incrementLck()">&gt</button>
-</div>
 <div id="adNotification">
 	<p id="adText">Click the ad for an exp boost</p>
 </div>
 <div id="adArea">
 </div>
+
 <script>
 var myName = location.search.split("=")[1];
 document.getElementById("charName").innerHTML = "Name: " + myName;
