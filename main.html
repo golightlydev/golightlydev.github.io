@@ -18,6 +18,12 @@
 	<button type="button" value="spd" onclick="incrementSpd()">&gt</button> <br>
 	<span id="luck">Luck: 1</span>
 	<button type="button" value="lck" onclick="incrementLck()">&gt</button> <br>
+	<div id="notification">
+		<p id="adText">Click below for an exp boost</p>
+	</div>
+	<div id="displayArea">
+		<img src="https://i.imgur.com/rcz86tZ.png" alt="couldn't be displayed">
+	</div>
 </div>
 <div id = "charData">
 	<p id="charName">Name: test</p>
@@ -28,19 +34,12 @@
 	<p id="floorNum">Floor Number: 1</p>
 </div>
 <div id="mainArea">
-	<p id="text">test</p>
-</div>
-<div id="notification">
-	<p id="adText">Click below for an exp boost</p>
-</div>
-<div id="displayArea">
-	<img src="https://i.imgur.com/rcz86tZ.png" alt="couldn't be displayed">
+	<p id="text">time remaining: 30</p>
 </div>
 
 <script>
 var myName = location.search.split("=")[1];
 document.getElementById("charName").innerHTML = "Name: " + myName;
-var gameOver = false;
 var str = 1;
 var con = 1;
 var agi = 1;
@@ -62,8 +61,14 @@ var enemyLck = 0;
 var enemyGold = 0;
 var enemyExp = 0;
 var enemyHp = enemyCon * 5;
-var enemyMaxHp = enemyHp;
+var enemyPoints = 0;
 var pointsVar = 5;
+var initiative = 0;
+var numAttacks = 0;
+var gameOver = false;
+var healTime = 50;
+var floorTime = 600;
+var numRounds = 2;
 function incrementStr() {
 	console.log("function activated!");
 	console.log(pointsVar);
@@ -118,14 +123,168 @@ function incrementLck() {
 	}
 }
 var time = 30;
+var phase = 0;
+var currentLine = 0;
+var lines = new Array(35);
+var fullText;
 function updateTimer() {
 	--time;
 	document.getElementById("text").innerHTML = "time remaining: " + time;
+	if(time <= 0) {
+		clearInterval(timer);
+		lines[0] = "time remaining: " + time;
+		++currentLine;
+		mainFunction();
+	}
 }
 var timer = setInterval(updateTimer, 1000);
-
-if(time <= 0) {
-	clearInterval(timer);
+function runPhase() {
+	if(currentLine == 35) {
+		for(var a = 1; a < 35; ++a) {
+			lines[a-1] = lines[a];
+		}
+		--currentLine;
+	}
+	if(phase == 0) {
+		lines[currentLine] = myName + " encounters a goblin!";
+		++phase;
+		enemyPoints = Math.floor((Math.random() * 6) + 1) * floor;
+		enemyStr = 1;
+		enemyCon = 1;
+		enemyAgi = 1;
+		enemyAcc = 1;
+		enemySpd = 1;
+		enemyLck = 1;
+		for(var a = 0; a < enemyPoints; ++a) {
+			var randomNum = Math.floor((Math.random() * 6) + 1) * floor;
+			if(randomNum == 1) {
+				++enemyStr;
+			}
+			else if(randomNum == 2) {
+				++enemyCon;
+			}
+			else if(randomNum == 3) {
+				++enemyAgi;
+			}
+			else if(randomNum == 4) {
+				++enemyAcc;
+			}
+			else if(randomNum == 5) {
+				++enemySpd;
+			}
+			else {
+				++enemyLck;
+			}
+		}
+		enemyHp = enemyCon * 5;
+		enemyGold = Math.floor((Math.random() * 5) + 1) * floor;
+		enemyExp = Math.floor((Math.random() * 6) + 1) * floor;
+		numRounds = 2;
+	}
+	else if(phase == 1) {
+		if(enemySpd > spd) {
+			initative = 0;
+			numAttacks = 1 + (enemySpd / 10);
+		}
+		else {
+			initative = 1;
+			numAttacls = 1 + (spd / 10);
+		}
+		++phase;
+	}
+	else if(phase == 2) {
+		if(initiative == 0) {
+			if(numAttacks >= 0) {
+				var toHit = enemyAcc + (Math.floor((Math.random() * 6) + 1) * (enemyAcc/5));
+				var toResist = agi + (Math.floor((Math.random() * 6) + 1) * (agi/5));
+				if(toHit > toResist) {
+					var damage = (Math.floor(Math.random() * 6) + 1) * (enemyStr / 5);
+					lines[currentLine] = "goblin deals " + damage + " to " + myName;
+					hp -= damage;
+					document.getElementById("hitpoints").innerHTML = "Hit Points: " + hp;
+				}
+				else {
+					lines[currentLine] = "goblin misses " + myName;
+				}
+				--numAttacks;
+			}
+			else {
+				initiative = 1;
+				numAttacks = numAttacls = 1 + (spd / 10);
+				--numRounds
+			}
+		}
+		else if(initiative == 1) {
+			if(numAttacks >= 0) {
+				var toHit = acc + (Math.floor((Math.random() * 6) + 1) * (acc/5));
+				var toResist = enemyAgi + (Math.floor((Math.random() * 6) + 1) * (enemyAgi/5));
+				if(toHit > toResist) {
+					var damage = (Math.floor(Math.random() * 6) + 1) * (str / 5);
+					lines[currentLine] = myName + " deals " + damage + " to goblin";
+					enemyHp -= damage;
+				}
+				else {
+					lines[currentLine] = myName + " misses the goblin";
+				}
+				--numAttacks;
+			}
+			else {
+				initiative = 0;
+				numAttacks = 1 + (enemySpd / 10);
+				--numRounds;
+			}
+		}
+		if(numRounds == 0) {
+			--phase;
+		}
+	}						
+	--healTime;
+	if(enemyHp <= 0) {
+		exp += enemyExp;
+		document.getElementById("playerExp").innerHTML = "Experience Points: " + exp;
+		gold += enemyGold;
+		document.getElementById("charGold").innerHTML = "Gold: " + gold;
+		lines[currentLine] = myName + " kills goblin";
+		phase = 0;
+	}
+	++currentLine;
+	for(var a = 0; a < currentLine; ++a) {
+		if(a==0) {
+			fullText = lines[a] + "<br>";
+		}
+		else {
+			fullText += (lines[a] + "<br>");
+		}
+	}
+	document.getElementById("text").innerHTML = fullText;
+	if(hp <= 0) {
+		gameOver = true;
+		clearInterval(gameTimer);
+		document.getElementById("text").innerHTML = "game over!";
+	}
+	if(healTime == 0) {
+		hp += (Math.floor(Math.random() * 5) + 1) * (con / 5);
+		if(hp > maxHp) {
+			hp = maxHp;
+		}
+		healTime = 50;
+		document.getElementById("hitpoints").innerHTML = "Hit Points: " + hp;
+	}
+	if(exp >= (level * 150)) {
+		++level;
+		document.getElementById("charLevel").innerHTML = "Level: " + level;
+		++pointsVar;
+		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsVar;
+	}
+	--floorTime;
+	if(floorTime == 0) {
+		++floor;
+		document.getElementById("floorNum").innerHTML = "FloorNumber: " + floor;
+		floorTime = 600;
+	}
+}
+function mainFunction() {
+	gameTimer = setInterval(runPhase, 100);
 }
 </script>
 </body>
