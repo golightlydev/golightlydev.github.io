@@ -117,6 +117,16 @@ function incrementLck() {
 		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsVar;
 	}
 }
+var time = 30;
+function updateTimer() {
+	--time;
+	document.getElementById("text").innerHTML = "time remaining: " + time;
+}
+var timer = setInterval(updateTimer, 1000);
+
+if(time <= 0) {
+	clearInterval(timer);
+}
 </script>
 </body>
 </html>
