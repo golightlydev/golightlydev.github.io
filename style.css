@@ -1,9 +1,9 @@
 #charData {
-	width: 60%;
+	width: 50%;
 }
 
 #mainArea {
-	width: 60%;
+	width: 50%;
 }
 
 #stats {
@@ -12,17 +12,24 @@
 	width: 25%;
 }
 
-#adNotification {
+#notification {
 	position: relative;
-	left:60%;
-	width: 20%;
-	text-align:right;
+	left:55%;
+	width: 45%;
+	text-align:center;
 }
 
-#adArea {
+#displayArea {
 	position: relative;
-	left:60%;
-	width:40%;
+	left:55%;
+	height:55%;
+	width:45%;
+}
+
+#displayArea img {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
 }
 
 #stats button {

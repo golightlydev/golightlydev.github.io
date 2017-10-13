@@ -30,10 +30,11 @@
 <div id="mainArea">
 	<p id="text">test</p>
 </div>
-<div id="adNotification">
-	<p id="adText">Click the ad for an exp boost</p>
+<div id="notification">
+	<p id="adText">Click below for an exp boost</p>
 </div>
-<div id="adArea">
+<div id="displayArea">
+	<img src="https://i.imgur.com/rcz86tZ.png" alt="couldn't be displayed">
 </div>
 
 <script>
@@ -63,6 +64,8 @@ var enemyExp = 0;
 var enemyHp = enemyCon * 5;
 var enemyMaxHp = enemyHp;
 var pointsVar = 5;
+var gameStart = false;
+var timerSet = false;
 function incrementStr() {
 	console.log("function activated!");
 	console.log(pointsVar);
@@ -116,6 +119,20 @@ function incrementLck() {
 		document.getElementById("pointsAvailable").innerHTML = "Points Available: " + pointsVar;
 	}
 }
+function setgameStart() {
+	gameStart = true;
+}
+function wait(time) {
+	timerSet = true;	
+	setTimeout(setgameStart, time);
+	return true;
+}
+if(!timerSet)
+	wait(3000);
+while(!gameStart) {
+}
+if(gameStart)
+	alert("should be 30 seconds...");
 </script>
 </body>
 </html>
