@@ -8,6 +8,34 @@ body {
 	padding: 10px;
 }
 
+#selectPortrait {
+	padding-left: 10%;
+}
+
+#prev[type=button] {
+	background:url('adventure2_1prev.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 5%;
+	height: 10%;
+	padding: 0px 0px;
+	border: 3px solid #750CCB;
+	border-radius: 10px;
+	cursor: hand;
+}
+
+#next[type=button] {
+	background:url('adventure2_1next.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 5%;
+	height: 10%;
+	padding: 0px 0px;
+	border: 3px solid #750CCB;
+	border-radius: 10px;
+	cursor: hand;
+}
+
 #form {
 }
 #form input[type=text] {

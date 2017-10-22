@@ -7,12 +7,71 @@
 <div id = "logo">
 <img src="adventure2_1_logo.png" alt="logo">
 </div>
+<div id="selectPortrait">
+<button id="prev" type="button" onclick="changePortrait(0);"></button>
+<img id="charPortrait" src="portrait1.png" alt="portrait1">
+<button id="next" type="button" onclick="changePortrait(1);"></button>
+</div>
 <div id = "prompt">
 <img src="adventure2_1_prompt.png" alt="prompt">
 </div>
 <div id="form">
-<form action="adventure2_2.html">
+<form>
 <input type="text" name="name"> <br>
-<input type="submit" value=""></form>
+<input type="button" onclick="advancePage(this.form.name.value);"></form>
 </body>
 </html>
+
+<script>
+var portrait = 1;
+
+function changePortrait (num) {
+	console.log("function called");
+	console.log("num=" + num);
+	if(num == 0 && portrait == 1) {
+		portrait = 5;
+		console.log("number decreased to " + portrait);
+	}
+	else if(num == 1 && portrait == 5) {
+		portrait = 1;
+		console.log("number is " + portrait);
+	}
+	else if(num == 0) {
+		--portrait;
+		console.log("number is " + portrait);
+	}
+	else if(num == 1) {
+		++portrait;
+		console.log("number increased to " + portrait);
+	}
+	console.log("portrait" + portrait + ".png");
+	document.getElementById("charPortrait").src = "portrait" + portrait + ".png";
+}
+
+function advancePage(name) {
+	console.log("ADVANCE PAGE FUNCTION HAS BEEN CALLED");
+	console.log("name = " + name);
+	if(name == "") {
+		return;
+	}
+	for(var a = 0; a < name.length; ++a) {
+		if(name[a] == '&') {
+			return;
+		}
+	}
+	var url = window.location.href;
+	url += "?" + name + "&" + portrait;
+	var url2 = new String();
+	for(var a = 0; a < url.length; ++a) {
+		if(url[a] == "_") {
+			url2 += "_2";
+			a+=1;
+		}
+		else {
+			url2 += url[a];
+		}
+	}
+	console.log("the url is " + url2);
+	document.location.href = url2;
+}
+</script>
