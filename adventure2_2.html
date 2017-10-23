@@ -28,3 +28,105 @@
 		
 	</span>
 </span>
+
+<script>
+var charName;
+var hp;
+var maxHP;
+var str;
+var con;
+var agi;
+var spd;
+var lck;
+var moveNum;
+var attackNum;
+var damageNum;
+var coords;
+var portraitNum;
+var playerNameList = [];
+var playerHPList = [];
+var playerMaxHPList = [];
+var playerStrList = [];
+var playerConList = [];
+var playerAgiList = [];
+var playerSpdList = [];
+var playerLckList = [];
+var playerPortraitList = [];
+var playerCoordsList = [];
+var playerNum;
+var targetHP;
+var targetStr;
+var targetCon;
+var targetAgi;
+var targetSpd;
+var targetLck;
+var enemyNameList = [];
+var enemyHPList = [];
+var enemyMaxHPList = [];
+var enemyStrList = [];
+var enemyConList = [];
+var enemyAgiList = [];
+var enemySpdList = [];
+var enemyLckList = [];
+var enemyPortraitList = [];
+var enemyNum;
+var turnList = [];
+var enemyCoordsList = [];
+var gold;
+var nameList = [];
+
+
+charName = location.search.split("?")[1];
+playerNameList[0] = new String();
+for(var a = 0; a < charName.length; ++a) {
+	if(charName[a] == '+') {
+		playerNameList[0] += ' ';
+	}
+	else if(charName[a] == '&') {
+		hp = a;
+		a = charName.length;
+	}
+	else {
+		playerNameList[0] += charName[a];
+	}
+}
+playerPortraitList[0] = charName[hp+1];
+charName = playerNameList[0];
+hp = 10;
+maxHP = 10;
+str = 5;
+con = 5;
+agi = 5;
+spd = 5;
+lck = 5;
+moveNum = spd;
+attackNum = spd/5;
+damageNum = str;
+playerNum = 1;
+coords = "0,0";
+portraitNum = playerPortraitList[0];
+playerHPList[0] = hp;
+playerMaxHPList[0] = maxHP;
+playerStrList[0] = str;
+playerConList[0] = con;
+playerAgiList[0] = agi;
+playerSpdList[0] = spd;
+playerLckList[0] = lck;
+playerCoordsList[0] = coords;
+enemyNameList[0] = "nick";
+enemyHPList[0] = 5;
+enemyMaxHPList[0] = 5;
+enemyStrList[0] = 4;
+enemyConList[0] = 4;
+enemyAgiList[0] = 4;
+enemySpdList[0] = 4;
+enemyLckList[0] = 4;
+enemyPortraitList[0] = 1;
+enemyCoordsList[0] = "5,5";
+enemyNum = 1;
+turnList[0] = "p,0";
+turnList[1] = "e,0";
+
+var url = "portrait" + portraitNum + ".png";
+document.getElementById("portrait").style.backgroundImage = "url('" + url + "')";
+</script>
