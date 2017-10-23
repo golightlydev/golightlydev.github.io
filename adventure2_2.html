@@ -126,7 +126,46 @@ enemyCoordsList[0] = "5,5";
 enemyNum = 1;
 turnList[0] = "p,0";
 turnList[1] = "e,0";
+gold = 0;
 
 var url = "portrait" + portraitNum + ".png";
 document.getElementById("portrait").style.backgroundImage = "url('" + url + "')";
+
+var breakNode1 = document.createElement("br");
+var basicDataNode = document.createElement("p");
+var nameText = document.createTextNode("name: " + charName);
+basicDataNode.appendChild(nameText);
+basicDataNode.appendChild(breakNode1);
+var breakNode2 = document.createElement("br");
+var hpText = document.createTextNode("hp: " + hp + "/" + maxHP);
+basicDataNode.appendChild(hpText);
+basicDataNode.appendChild(breakNode2);
+var goldText = document.createTextNode("gold: " + gold);
+basicDataNode.appendChild(goldText);
+var parent = document.getElementById("charBasicData");
+parent.appendChild(basicDataNode);
+
+var breakNode3 = document.createElement("br");
+var breakNode4 = document.createElement("br");
+var breakNode5 = document.createElement("br");
+var breakNode6 = document.createElement("br");
+var breakNode7 = document.createElement("br");
+var charStatsNode = document.createElement("p");
+var strText = document.createTextNode("str: " + str);
+charStatsNode.appendChild(strText);
+charStatsNode.appendChild(breakNode3);
+var conText = document.createTextNode("con: " + con);
+charStatsNode.appendChild(conText);
+charStatsNode.appendChild(breakNode4);
+var agiText = document.createTextNode("agi: " + agi);
+charStatsNode.appendChild(agiText);
+charStatsNode.appendChild(breakNode5);
+var spdText = document.createTextNode("spd: " + spd);
+charStatsNode.appendChild(spdText);
+charStatsNode.appendChild(breakNode6);
+var lckText = document.createTextNode("lck: " + lck);
+charStatsNode.appendChild(lckText);
+charStatsNode.appendChild(breakNode7);
+var parent2 = document.getElementById("charStats");
+parent2.appendChild(charStatsNode);
 </script>
