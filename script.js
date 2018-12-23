@@ -24,7 +24,6 @@ function program() {
 function createContext() {
 	context = canvas.getContext('2d');
 	setup = true;
-	alert("gets to here");
 }
 
 function createCanvas() {
