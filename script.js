@@ -4,7 +4,7 @@ var imgStart = [0];
 var canvas = undefined;
 var context = undefined;
 var img = undefined;
-window.setInterval(program, 1000);
+window.setInterval(program, 16);
 
 function program() {
 	if(setup) {
