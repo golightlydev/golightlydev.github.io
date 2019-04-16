@@ -1,28 +1,27 @@
 body {
     margin: 0;
     padding: 0;
-    width: 3000px;
     overflow-x: hidden;
 }
 
 #container {
     margin: 0;
     padding: 0;
-    width: 3000px;
+    width: 400%;
     display: flex;
 }
 
 .subPage {
     flex-grow: 0;
     flex-shrink: 0;
-    width: 1000px;
     margin: 0;
     padding: 0;
+    width: 25%;
 }
 
 img {
     margin: 0;
     padding: 0;
-    width: inherit;
+    width: 100%;
     height: 500px;
 }

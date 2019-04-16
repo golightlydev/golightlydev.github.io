@@ -2,19 +2,23 @@ const left = () => {
     if(currentElement === 0)
         return;
     if(currentElement === 1)
-        container.style.transform = "translateX(0px)";
+        container.style.transform = "translateX(0%)";
     else if(currentElement === 2)
-        container.style.transform = "translateX(-1000px)";
+        container.style.transform = "translateX(-25%)";
+    else if(currentElement === 3)
+        container.style.transform = "translateX(-50%)";
     --currentElement;
 }
 
 const right = () => {
-    if(currentElement === 2)
+    if(currentElement === 3)
         return;
     if(currentElement === 0)
-        container.style.transform = "translateX(-1000px)";
+        container.style.transform = "translateX(-25%)";
     else if(currentElement === 1)
-        container.style.transform = "translateX(-2000px)";
+        container.style.transform = "translateX(-50%)";
+    else if(currentElement === 2)
+        container.style.transform = "translateX(-75%)";
     ++currentElement;
 }
 
