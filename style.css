@@ -4,14 +4,18 @@ body {
     overflow-x: hidden;
 }
 
+#menuArea, #menuSpace {
+    width: 100%;
+    height: 100px;
+}
+
 #menuArea {
     margin: 0;
     padding: 0;
-    width: 100%;
     display: flex;
     position: fixed;
-    height: 100px;
     z-index: 2;
+    background-color: black;
 }
 
 .menuElement {
@@ -23,8 +27,12 @@ body {
     flex-grow: 6;
 }
 
-#logoArea img {
+.menuElement img, button {
     height: inherit;
+}
+
+.menuElement button {
+    width: 100%;
 }
 
 #pageContainer {
