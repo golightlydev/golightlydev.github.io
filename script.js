@@ -23,7 +23,7 @@ const right = () => {
 }
 
 var currentElement = 0;
-const container = document.getElementById("container");
+const container = document.getElementById("pageContainer");
 container.style.transition = "transform 1s";
 const buttonLeft = document.getElementById("left");
 buttonLeft.addEventListener("click", left);
