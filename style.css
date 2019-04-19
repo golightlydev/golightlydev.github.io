@@ -7,11 +7,11 @@ body {
 #menuArea, #menuSpace {
     width: 100%;
     height: 100px;
+    margin: 0;
+    padding: 0;
 }
 
 #menuArea {
-    margin: 0;
-    padding: 0;
     display: flex;
     position: fixed;
     z-index: 2;
@@ -55,5 +55,5 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    /*height: 500px;*/
+    display: block;
 }
