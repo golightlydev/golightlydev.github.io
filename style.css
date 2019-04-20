@@ -1,14 +1,20 @@
-body {
+body, #menuArea, #menuSpace, .pageContainer, .page, .page img, #menuElement button {
     margin: 0;
     padding: 0;
+}
+
+body {
     overflow-x: hidden;
 }
 
 #menuArea, #menuSpace {
-    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+    width: 90%;
+}
+
+#menuArea, #menuSpace {
     height: 100px;
-    margin: 0;
-    padding: 0;
 }
 
 #menuArea {
@@ -19,13 +25,27 @@ body {
 }
 
 .menuElement {
-    flex-grow: 1;
+    flex-grow: 1.25;
     height: inherit;
 }
 
-#logoArea {
-    flex-grow: 6;
+.menuElement button, #logoArea img {
+    cursor: pointer;
 }
+
+.menuElement button {
+    background-color: black;
+    border-color: black;
+    color: white;
+    border-width: 0px;
+    border-style: none;
+    outline: none;
+    transition: color 0.5s;
+}
+
+/*.menuElement button:hover {
+    color: #8b99af;
+}*/
 
 .menuElement img, button {
     height: inherit;
@@ -35,25 +55,26 @@ body {
     width: 100%;
 }
 
+#logoArea {
+    flex-grow: 6.25;
+}
+
 #pageContainer {
-    margin: 0;
-    padding: 0;
     width: 400%;
     display: flex;
     z-index: 1;
+    transition: transform 1s;
 }
 
 .page {
     flex-grow: 0;
     flex-shrink: 0;
-    margin: 0;
-    padding: 0;
-    width: 25%;
+    padding-left: 1.25%;
+    padding-right: 1.25%;
+    width: 22.5%;
 }
 
 .page img {
-    margin: 0;
-    padding: 0;
     width: 100%;
     display: block;
 }
