@@ -7,22 +7,21 @@ body {
     overflow-x: hidden;
 }
 
-#menuArea, #menuSpace {
-    padding-left: 5%;
-    padding-right: 5%;
-    width: 90%;
-    left: 0;
-}
-
-#menuArea, #menuSpace {
-    height: 8%;
-}
-
 #menuArea {
     display: flex;
     position: fixed;
     z-index: 2;
     background-color: black;
+}
+
+#menuArea, #menuSpace {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    width: 90vw;
+}
+
+#menuArea, #menuSpace {
+    height: 8vh;
 }
 
 .menuElement {
