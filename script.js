@@ -1,3 +1,15 @@
+const onScroll = () => {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+        console.log("it worked");
+        console.log((window.innerHeight + window.scrollY));
+    }
+    console.log("height of content: " + (document.getElementById("menuSpace").clientHeight + container.clientHeight));
+    console.log("height of window: " + window.innerHeight);
+    console.log("scroll: " + window.scrollY + window.innerHeight);
+    console.log("measured against: " + document.body.scrollHeight);
+    console.log("height of screen: " + screen.height);
+}
+
 const revertColor = (exclude) => {
     switch(exclude) {
         case "home":
@@ -72,6 +84,12 @@ const aboutMouseout = () => {
 }
 
 var currentPage = 0;
+/*window.addEventListener("scroll", onScroll);*/
+window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) > document.body.offsetHeight) {
+        console.log("this worked");
+    }
+};
 const container = document.getElementById("pageContainer");
 const homeButton = document.getElementById("logo");
 homeButton.addEventListener("click", home);

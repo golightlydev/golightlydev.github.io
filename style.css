@@ -11,10 +11,11 @@ body {
     padding-left: 5%;
     padding-right: 5%;
     width: 90%;
+    left: 0;
 }
 
 #menuArea, #menuSpace {
-    height: 100px;
+    height: 8%;
 }
 
 #menuArea {
@@ -26,7 +27,7 @@ body {
 
 .menuElement {
     flex-grow: 1.25;
-    height: inherit;
+    height: 100%;
 }
 
 .menuElement button, #logoArea img {
@@ -43,12 +44,8 @@ body {
     transition: color 0.5s;
 }
 
-/*.menuElement button:hover {
-    color: #8b99af;
-}*/
-
 .menuElement img, button {
-    height: inherit;
+    height: 100%;
 }
 
 .menuElement button {
@@ -67,8 +64,6 @@ body {
 }
 
 .page {
-    flex-grow: 0;
-    flex-shrink: 0;
     padding-left: 1.25%;
     padding-right: 1.25%;
     width: 22.5%;
