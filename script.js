@@ -84,10 +84,7 @@ const aboutMouseout = () => {
 }
 
 var currentPage = 0;
-/*window.addEventListener("scroll", onScroll);*/
-window.onscroll = function(ev) {
-    aboutButton.innerHTML="test";
-}; //fix this next, for mobile.  and get rid of menu altogether on mobile
+
 const container = document.getElementById("pageContainer");
 const homeButton = document.getElementById("logo");
 homeButton.addEventListener("click", home);
