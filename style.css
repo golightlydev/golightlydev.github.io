@@ -12,6 +12,7 @@ body {
     position: fixed;
     z-index: 2;
     background-color: black;
+    top: 0%;
 }
 
 #menuArea, #menuSpace {
@@ -27,6 +28,7 @@ body {
 .menuElement {
     flex-grow: 1.25;
     height: 100%;
+    position: block;
 }
 
 .menuElement button, #logoArea img {
