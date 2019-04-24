@@ -83,7 +83,14 @@ const aboutMouseout = () => {
         aboutButton.style.color = "white";
 }
 
+const detectTouchend = (event) => {
+    if(event.changedTouches.length === 2)
+        console.log("this runs");
+        aboutButton.innerHTML = `${event.changedTouches.length}`;
+}
+
 var currentPage = 0;
+var debugMode = 0;
 
 const container = document.getElementById("pageContainer");
 const homeButton = document.getElementById("logo");
@@ -100,3 +107,49 @@ const aboutButton = document.getElementById("aboutButton");
 aboutButton.addEventListener("click", about);
 aboutButton.addEventListener("mouseover", aboutMouseover);
 aboutButton.addEventListener("mouseout", aboutMouseout);
+
+if(debugMode === 1) {
+    const detectShiftDown = (event) => {
+        if(shift === 0) {
+            if(event.code === "ShiftLeft") {
+                shift = 1;
+                shiftKey = "left";
+                console.log("shift key left currently down");
+            }
+            else if(event.code === "ShiftRight") {
+                shift = 1;
+                shiftKey  = "right";
+                console.log("shift key right currently down");
+            }
+        }
+    };
+
+    const detectShiftUp = (event) => {
+        if(event.code === "ShiftLeft" && shiftKey === "left") {
+            shift = 0;
+            shiftKey = "none";
+            console.log("shift key left ended");
+        }
+        else if(event.code === "ShiftRight" && shiftKey === "right") {
+            shift = 0;
+            shiftKey = "none";
+            console.log("shift key right ended");
+        }
+    };
+
+    const detectTouchendDebug = () => {
+        if(shift === 1) {
+            console.log("pinch zoom just ended");
+        }
+    };
+    var shift = 0;
+    var shiftKey = "none";
+    window.addEventListener("keydown", detectShiftDown);
+    window.addEventListener("keyup", detectShiftUp);
+    window.addEventListener("touchend", detectTouchendDebug);
+}
+else if(debugMode === 0) {
+    window.addEventListener("touchend", detectTouchend);
+}
+
+//window.removeEventListener("touchend", test);
