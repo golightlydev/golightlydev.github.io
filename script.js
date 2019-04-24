@@ -83,14 +83,28 @@ const aboutMouseout = () => {
         aboutButton.style.color = "white";
 }
 
-const detectTouchend = (event) => {
-    if(event.changedTouches.length === 2)
-        console.log("this runs");
-        aboutButton.innerHTML = `${event.changedTouches.length}`;
+const detectPointerdown = (event) => {
+    ++pointerNum;
+    console.log("pointerdown runs: " + pointerNum);
+}
+
+const detectPointerup = (event) => {
+    if(pointerNum == 2)
+        aboutButton.innerHTML = `${pointerNum}`;
+    --pointerNum;
+    console.log("this runs: " + pointerNum);
+}
+
+const detectPointercancel = (event) => {
+    if(pointerNum == 2)
+        aboutButton.innerHTML = `${pointerNum}`;
+    --pointerNum;
+    console.log("pointer cancel fired");
 }
 
 var currentPage = 0;
 var debugMode = 0;
+var pointerNum = 0;
 
 const container = document.getElementById("pageContainer");
 const homeButton = document.getElementById("logo");
@@ -149,7 +163,9 @@ if(debugMode === 1) {
     window.addEventListener("touchend", detectTouchendDebug);
 }
 else if(debugMode === 0) {
-    window.addEventListener("touchend", detectTouchend);
+    window.addEventListener("pointerdown", detectPointerdown);
+    window.addEventListener("pointerup", detectPointerup);
+    window.addEventListener("pointercancel", detectPointercancel);
 }
 
 //window.removeEventListener("touchend", test);
