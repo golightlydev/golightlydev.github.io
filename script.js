@@ -109,6 +109,7 @@ const detectPointercancel = (event) => {
 }
 
 const onResize = (event) => {
+    menuArea.style.display = "none";
     menuArea.style.position = "absolute";
     menuArea.style.top = viewport.offsetTop + "px";
     menuArea.style.left = viewport.offsetLeft + "px";
@@ -121,6 +122,7 @@ const onResize = (event) => {
     fontSize = (100 / viewport.width) * fontSize;
     fontSize = (viewport.width / 50);
     menuArea.style.fontSize = fontSize + "px";
+    menuArea.style.display = "flex";
 }
 
 var currentPage = 0;
