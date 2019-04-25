@@ -94,7 +94,6 @@ const detectPointerup = (event) => {
         updatesButton.innerHTML = `${document.documentElement.clientWidth}`;
         portfolioButton.innerHTML = "detectPointerup";
     }
-    //aboutButton.innerHTML = `${pointerNum}`;
     --pointerNum;
     console.log("this runs: " + pointerNum);
 }
@@ -105,7 +104,6 @@ const detectPointercancel = (event) => {
         updatesButton.innerHTML = `${document.documentElement.clientWidth}`;
         portfolioButton.innerHTML = "detectPointercancel";
     }
-    //aboutButton.innerHTML = `${pointerNum}`;
     --pointerNum;
     console.log("pointer cancel fired");
 }
@@ -114,16 +112,11 @@ const onResize = (event) => {
     menuArea.style.position = "absolute";
     menuArea.style.top = viewport.offsetTop + "px";
     menuArea.style.left = viewport.offsetLeft + "px";
-    console.log("viewport left: " + viewport.offsetLeft);
-    console.log("viewport width: " + viewport.width);
-    console.log("viewport height: " + viewport.height);
-    console.log("viewport top offset: " + viewport.offsetTop);
     menuArea.style.width = viewport.width + "px";
     menuArea.style.height = viewport.height / 10 + "px";
     menuSpace.style.width = viewport.width + "px";
     menuSpace.style.height = viewport.height / 10 + "px";
     let fontSize = window.getComputedStyle(menuArea, null).getPropertyValue("font-size");
-    console.log(fontSize);
     fontSize = fontSize.substring(0, fontSize.length - 2);
     fontSize = (100 / viewport.width) * fontSize;
     fontSize = (viewport.width / 50);
@@ -131,10 +124,13 @@ const onResize = (event) => {
 }
 
 var currentPage = 0;
-var debugMode = 2;
+var mode = "chrome";
 var pointerNum = 0;
 
 const viewport = window.visualViewport;
+if(viewport === undefined)
+    mode = "otherBrowser";
+
 const menuArea = document.getElementById("menuArea");
 const menuSpace = document.getElementById("menuSpace");
 
@@ -154,7 +150,7 @@ aboutButton.addEventListener("click", about);
 aboutButton.addEventListener("mouseover", aboutMouseover);
 aboutButton.addEventListener("mouseout", aboutMouseout);
 
-if(debugMode === 1) {
+if(mode === "debug") {
     const detectShiftDown = (event) => {
         if(shift === 0) {
             if(event.code === "ShiftLeft") {
@@ -197,14 +193,12 @@ if(debugMode === 1) {
     window.addEventListener("keyup", detectShiftUp);
     window.addEventListener("touchend", detectTouchendDebug);
 }
-else if(debugMode === 0) {
+else if(mode === "otherBrowser") {
     window.addEventListener("pointerdown", detectPointerdown);
     window.addEventListener("pointerup", detectPointerup);
     window.addEventListener("pointercancel", detectPointercancel);
 }
-else if(debugMode === 2) {
+else if(mode === "chrome") {
     console.log("debugmode=2");
     viewport.addEventListener("resize", onResize);
 }
-
-//window.removeEventListener("touchend", test);
