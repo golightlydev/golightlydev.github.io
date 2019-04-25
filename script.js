@@ -89,15 +89,23 @@ const detectPointerdown = (event) => {
 }
 
 const detectPointerup = (event) => {
-    if(pointerNum == 2)
-        aboutButton.innerHTML = `${pointerNum}`;
+    if(pointerNum == 2) {
+        aboutButton.innerHTML = `${window.innerWidth}`;
+        updatesButton.innerHTML = `${window.clientWidth}`;
+        portfolioButton.innerHTML = "detectPointerup";
+    }
+    //aboutButton.innerHTML = `${pointerNum}`;
     --pointerNum;
     console.log("this runs: " + pointerNum);
 }
 
 const detectPointercancel = (event) => {
-    if(pointerNum == 2)
-        aboutButton.innerHTML = `${pointerNum}`;
+    if(pointerNum == 2) {
+        aboutButton.innerHTML = `${window.innerWidth}`;
+        updatesButton.innerHTML = `${window.clientWidth}`;
+        portfolioButton.innerHTML = "detectPointercancel";
+    }
+    //aboutButton.innerHTML = `${pointerNum}`;
     --pointerNum;
     console.log("pointer cancel fired");
 }
