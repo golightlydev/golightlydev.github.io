@@ -12,13 +12,13 @@ body {
     position: fixed;
     z-index: 2;
     background-color: black;
+    flex-basis: 0;
     top: 0%;
+    font-size: 2vw;
 }
 
 #menuArea, #menuSpace {
-    padding-left: 5vw;
-    padding-right: 5vw;
-    width: 90vw;
+    width: 100%;
 }
 
 #menuArea, #menuSpace {
@@ -26,13 +26,22 @@ body {
 }
 
 .menuElement {
-    flex-grow: 1.25;
+    flex-grow: 1;
+    flex-shrink: 1;
     height: 100%;
-    position: block;
+    display: flex;
+    flex-basis: 0;
+    font-size: inherit;
+    text-align: center;
 }
 
 .menuElement button, #logoArea img {
     cursor: pointer;
+    flex-grow: 1;
+}
+
+#logoPadding {
+    flex-grow: 3;
 }
 
 .menuElement button {
@@ -43,18 +52,27 @@ body {
     border-style: none;
     outline: none;
     transition: color 0.5s;
+    font-size: inherit;
+    text-align: inherit;
+    text-indent: auto;
 }
 
 .menuElement img, button {
     height: 100%;
 }
 
-.menuElement button {
+/*.menuElement button {
     width: 100%;
-}
+}*/
 
 #logoArea {
-    flex-grow: 6.25;
+    flex-grow: 6;
+    flex-shrink: 6;
+}
+
+.menuPadding {
+    flex-grow: 0.5;
+    flex-shrink: 0.5;
 }
 
 #pageContainer {
@@ -77,4 +95,14 @@ body {
 
 #overflowWrapper {
     overflow-x: hidden;
+}
+
+.fontNormal {
+    font-family: "Times New Roman";
+    font-size: 1em;
+}
+
+.fontSmall {
+    font-family: "Times New Roman";
+    font-size: 0.5em;
 }
