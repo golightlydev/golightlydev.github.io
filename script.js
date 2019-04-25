@@ -91,7 +91,7 @@ const detectPointerdown = (event) => {
 const detectPointerup = (event) => {
     if(pointerNum == 2) {
         aboutButton.innerHTML = `${window.innerWidth}`;
-        updatesButton.innerHTML = `${window.clientWidth}`;
+        updatesButton.innerHTML = `${document.documentElement.clientWidth}`;
         portfolioButton.innerHTML = "detectPointerup";
     }
     //aboutButton.innerHTML = `${pointerNum}`;
@@ -102,7 +102,7 @@ const detectPointerup = (event) => {
 const detectPointercancel = (event) => {
     if(pointerNum == 2) {
         aboutButton.innerHTML = `${window.innerWidth}`;
-        updatesButton.innerHTML = `${window.clientWidth}`;
+        updatesButton.innerHTML = `${document.documentElement.clientWidth}`;
         portfolioButton.innerHTML = "detectPointercancel";
     }
     //aboutButton.innerHTML = `${pointerNum}`;
@@ -162,6 +162,9 @@ if(debugMode === 1) {
     const detectTouchendDebug = () => {
         if(shift === 1) {
             console.log("pinch zoom just ended");
+            aboutButton.innerHTML = `${window.innerWidth}`;
+            updatesButton.innerHTML = `${document.documentElement.clientWidth}`;
+            portfolioButton.innerHTML = "detectPointercancel";
         }
     };
     var shift = 0;
