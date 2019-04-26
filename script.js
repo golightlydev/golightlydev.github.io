@@ -109,7 +109,34 @@ const detectPointercancel = (event) => {
 }
 
 const onResize = (event) => {
-    menuArea.style.display = "none";
+    if(chromeUpdate)
+        return;
+    chromeUpdate = true;
+    requestAnimationFrame(() => {
+        chromeUpdate = false;
+        menuSpace.style.height = viewport.height / 10 + "px";
+        let fontSize = window.getComputedStyle(menuArea, null).getPropertyValue("font-size");
+        fontSize = fontSize.substring(0, fontSize.length - 2);
+        fontSize = (100 / viewport.width) * fontSize;
+        fontSize = (viewport.width / 50);
+        menuArea.style.fontSize = fontSize + "px";
+        menuSpace.style.width = viewport.width + "px";
+        menuArea.style.height = viewport.height / 10 + "px";
+        menuArea.style.top = viewport.offsetTop + "px";
+        menuArea.style.left = viewport.offsetLeft + "px";
+        menuArea.style.width = viewport.width + "px";
+    }); 
+}
+
+var currentPage = 0;
+var mode = "chrome";
+var pointerNum = 0;
+var chromeUpdate = false;
+
+const viewport = window.visualViewport;
+if(viewport === undefined)
+    mode = "otherBrowser";
+/*else {
     menuArea.style.position = "absolute";
     menuArea.style.top = viewport.offsetTop + "px";
     menuArea.style.left = viewport.offsetLeft + "px";
@@ -122,16 +149,7 @@ const onResize = (event) => {
     fontSize = (100 / viewport.width) * fontSize;
     fontSize = (viewport.width / 50);
     menuArea.style.fontSize = fontSize + "px";
-    menuArea.style.display = "flex";
-}
-
-var currentPage = 0;
-var mode = "chrome";
-var pointerNum = 0;
-
-const viewport = window.visualViewport;
-if(viewport === undefined)
-    mode = "otherBrowser";
+}*/
 
 const menuArea = document.getElementById("menuArea");
 const menuSpace = document.getElementById("menuSpace");
