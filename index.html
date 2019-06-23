@@ -9,25 +9,29 @@
     <h1>Auto Crawler</h1>
     <div id="content">
         <div id="content1">
-            <form id="createCharacter">
+            <div id="createCharacter">
                 name:<br>
                 <input type="text" name="name"><br><br>
                 appearance:<br>
-                <label>
-                    <input type="radio" name="portrait1">
-                    <img src="autoCrawlerAssets/portrait1.png">
-                </label>
-                <label>
-                        <input type="radio" name="portrait2">
-                        <img src="autoCrawlerAssets/portrait2.png">
-                </label>
-                <label>
-                        <input type="radio" name="portrait3">
-                        <img src="autoCrawlerAssets/portrait3.png">
-                </label><br><br>
-                <input type="submit" value="submit">
-            </form>
+                <form>
+                    <label>
+                        <input type="radio" name="portrait">
+                        <img src="autoCrawlerAssets/portrait1.png">
+                    </label>
+                    <label>
+                            <input type="radio" name="portrait">
+                            <img src="autoCrawlerAssets/portrait2.png">
+                    </label>
+                    <label>
+                            <input type="radio" name="portrait">
+                            <img src="autoCrawlerAssets/portrait3.png">
+                    </label>
+                </form>
+                <br><br>
+                <button id="button">submit</button>
+            </div>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
