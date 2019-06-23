@@ -94,8 +94,56 @@ function formSubmit(event) {
         const intelligenceButton = document.createElement('button');
         intelligenceButton.setAttribute('id', 'intelligenceButton');
         intelligenceButton.innerHTML = "+";
-        intelligenceContainer.appendChild(speed);
-        intelligenceContainer.appendChild(speedButton);
+        intelligenceContainer.appendChild(intelligence);
+        intelligenceContainer.appendChild(intelligenceButton);
+
+        const weaponContainer = document.createElement('div');
+        weaponContainer.setAttribute('id', 'weaponContainer');
+        weaponContainer.style.display = "flex";
+        const weapon = document.createElement('p');
+        weapon.setAttribute('id', 'weapon');
+        const weaponButton = document.createElement('button');
+        weaponButton.setAttribute('id', 'weaponButton');
+        weaponButton.innerHTML = "+";
+        weaponContainer.appendChild(weapon);
+        weaponContainer.appendChild(weaponButton);
+
+        const armourContainer = document.createElement('div');
+        armourContainer.setAttribute('id', 'armourContainer');
+        armourContainer.style.display = "flex";
+        const armour = document.createElement('p');
+        armour.setAttribute('id', 'armour');
+        const armourButton = document.createElement('button');
+        armourButton.setAttribute('id', 'armourButton');
+        armourButton.innerHTML = "+";
+        armourContainer.appendChild(armour);
+        armourContainer.appendChild(armourButton);
+
+        const shoesContainer = document.createElement('div');
+        shoesContainer.setAttribute('id', 'shoesContainer');
+        shoesContainer.style.display = "flex";
+        const shoes = document.createElement('p');
+        shoes.setAttribute('id', 'shoes');
+        const shoesButton = document.createElement('button');
+        shoesButton.setAttribute('id', 'shoesButton');
+        shoesButton.innerHTML = "+";
+        shoesContainer.appendChild(shoes);
+        shoesContainer.appendChild(shoesButton);
+
+        const potionContainer = document.createElement('div');
+        potionContainer.setAttribute('id', 'shoesContainer');
+        potionContainer.style.display = "flex";
+        const potion = document.createElement('p');
+        shoes.setAttribute('id', 'potion');
+        const potionButton = document.createElement('button');
+        potionButton.setAttribute('id', 'potionButton');
+        potionButton.innerHTML = "+";
+        const potionDrinkButton = document.createElement('button');
+        potionDrinkButton.setAttribute('id', 'potionDrinkButton');
+        potionDrinkButton.innerHTML = "drink";
+        potionContainer.appendChild(potion);
+        potionContainer.appendChild(potionButton);
+        potionContainer.appendChild(potionDrinkButton);
     }
 }
 
