@@ -6,7 +6,8 @@ function formSubmit(event) {
     }
     if(name !== null && portrait !== null) {
         content.children[0].children[0].children[8].removeEventListener("click", formSubmit);
-        console.log("this triggers");
+        content.removeChild(content.children[0]);
+        console.log("test");
     }
 }
 
