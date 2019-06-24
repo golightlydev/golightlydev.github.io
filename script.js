@@ -1,3 +1,80 @@
+class Data {
+    constructor() {
+        this.enemyNum = 1; //increment by 1 each time enemy defeated, reset when dungeonLevel incremented
+        this.enemyName = "goblin " + 1;
+        this.dungeonLevel = 1; //increment when enemyNum === 0
+        this.status = "";
+        this.enemyHP = (Math.floor(Math.random() * 6) + 1) * 1;
+        this.enemyStrength = (Math.floor(Math.random() * 6) + 1) * 1;
+        this.enemyAgility = (Math.floor(Math.random() * 6) + 1) * 1;
+        this.enemyToughness = (Math.floor(Math.random() * 6) + 1) * 1;
+        this.enemySpeed = (Math.floor(Math.random() * 6) + 1) * 1;
+        this.enemyEXP = (Math.floor(Math.random() * 6) + 1) * 1;
+        this.enemyGold = (Math.floor(Math.random() * 6) + 1) * 1;
+        this.enemyNum = (Math.floor(Math.random() * 6) + 1) * 4; //decrement by 1 when enemy defeated
+        
+        this.playerLevel = 1;
+        this.playerHP = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1;
+        this.playerGold = 0;
+        this.strength = 1;
+        this.agility = 1;
+        this.toughness = 1;
+        this.speed = 1;
+        this.intelligence = 1;
+        this.weapon = 1;
+        this.armour = 1;
+        this.shoes = 1;
+        this.potionLevel = 1;
+        this.potionAmount = 5;
+        this.playerEXP = 0;
+        this.levelUpAmount = 10; //increment by 10 every level, then add to next level
+        this.nextLevel = 10;
+
+        this.enemyNameHandle = document.getElementById("enemyName");
+        this.dungeonLevelHandle = document.getElementById("dungeonLevel");
+        this.statusHandle = document.getElementById("status");
+        this.playerLevelHandle = document.getElementById("playerLevel");
+        this.playerHPHandle = document.getElementById("playerHP");
+        this.playerGoldHandle = document.getElementById("playerGold");
+        this.strengthHandle = document.getElementById("strength");
+        this.strengthButtonHandle = document.getElementById("strengthButton");
+        this.agilityHandle = document.getElementById("agility");
+        this.agilityButtonHandle = document.getElementById("agilityButton");
+        this.toughnessHandle = document.getElementById("toughness");
+        this.toughnessButtonHandle = document.getElementById("toughnessButton");
+        this.speedHandle = document.getElementById("speed");
+        this.speedButtonHandle = document.getElementById("speedButton");
+        this.intelligenceHandle = document.getElementById("intelligence");
+        this.intelligenceButtonHandle = document.getElementById("intelligenceButton");
+        this.weaponHandle = document.getElementById("weapon");
+        this.weaponButtonHandle = document.getElementById("weaponButton");
+        this.armourHandle = document.getElementById("armour");
+        this.armourButtonHandle = document.getElementById("armourButton");
+        this.shoesHandle = document.getElementById("shoes");
+        this.shoesButtonHandle = document.getElementById("shoesButton");
+        this.potionHandle = document.getElementById("potion");
+        this.potionButtonHandle = document.getElementById("potionButton");
+        this.potionDrinkButtonHandle = document.getElementById("potionDrinkButton");
+    }
+
+    start() {
+        this.enemyNameHandle.innerText = "Enemy: " + this.enemyName;
+        this.dungeonLevelHandle.innerText = "Dungeon Level: " + this.dungeonLevel;
+        this.playerLevelHandle.innerText = "Level: " + this.playerLevel;
+        this.playerHPHandle.innerText = "HP: " + this.playerHP;
+        this.playerGoldHandle.innerText = "Currency: " + this.playerGold;
+        this.strengthHandle.innerText = "Strength: " + this.strength;
+        this.agilityHandle.innerText = "Agility: " + this.agility;
+        this.toughnessHandle.innerText = "Toughness: " + this.toughness;
+        this.speedHandle.innerText = "Speed: " + this.speed;
+        this.intelligenceHandle.innerText = "Intelligence: " + this.intelligence;
+        this.weaponHandle.innerText = "Weapon: " + this.weapon;
+        this.armourHandle.innerText = "Armour: " + this.armour;
+        this.shoesHandle.innerText = "Shoes: " + this.shoes;
+        this.potionHandle.innerText = "Potion lvl: " + this.potionLevel + ", Remaining: " + this.potionAmount;
+    }
+};
+
 function formSubmit(event) {
     name = content.children[0].children[0].children[1].value;
     for(let a = 0; a < 3; ++a) {
@@ -131,10 +208,10 @@ function formSubmit(event) {
         shoesContainer.appendChild(shoesButton);
 
         const potionContainer = document.createElement('div');
-        potionContainer.setAttribute('id', 'shoesContainer');
+        potionContainer.setAttribute('id', 'potionContainer');
         potionContainer.style.display = "flex";
         const potion = document.createElement('p');
-        shoes.setAttribute('id', 'potion');
+        potion.setAttribute('id', 'potion');
         const potionButton = document.createElement('button');
         potionButton.setAttribute('id', 'potionButton');
         potionButton.innerHTML = "+";
@@ -163,6 +240,9 @@ function formSubmit(event) {
         container.appendChild(subContainerA);
         container.appendChild(subContainerB);
         content.appendChild(container);
+
+        data = new Data();
+        data.start();
     }
 }
 
@@ -170,3 +250,5 @@ const content = document.getElementById("content");
 content.children[0].children[0].children[8].addEventListener("click", formSubmit);
 var name = null;
 var portrait = null;
+var data = null;
+
