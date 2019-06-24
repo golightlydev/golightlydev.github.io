@@ -14,7 +14,9 @@ class Data {
         this.enemyNum = (Math.floor(Math.random() * 6) + 1) * 4; //decrement by 1 when enemy defeated
         
         this.playerLevel = 1;
-        this.playerHP = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1;
+        this.playerPoints = 0;
+        this.playerMaxHP = Math.floor(Math.random() * 6) + 1 + Math.floor(Math.random() * 6) + 1;
+        this.playerCurrentHP = 0;
         this.playerGold = 0;
         this.strength = 1;
         this.agility = 1;
@@ -34,6 +36,7 @@ class Data {
         this.dungeonLevelHandle = document.getElementById("dungeonLevel");
         this.statusHandle = document.getElementById("status");
         this.playerLevelHandle = document.getElementById("playerLevel");
+        this.playerPointsHandle = document.getElementById("playerPoints");
         this.playerHPHandle = document.getElementById("playerHP");
         this.playerGoldHandle = document.getElementById("playerGold");
         this.strengthHandle = document.getElementById("strength");
@@ -55,13 +58,115 @@ class Data {
         this.potionHandle = document.getElementById("potion");
         this.potionButtonHandle = document.getElementById("potionButton");
         this.potionDrinkButtonHandle = document.getElementById("potionDrinkButton");
+
+        this.timer = null;
+    }
+
+    update() {
+        console.log("test");
+    }
+
+    updateAttribute(attribute) {
+        if(this.playerPoints > 0) {
+            --this.playerPoints;
+            this.playerPointsHandle.innerText = "Points: " + this.playerPoints;
+            switch(attribute) {
+                case 'strength':
+                    ++this.strength;
+                    if(this.strength % 10 === 0)
+                        this.playerMaxHP += (Math.floor(Math.random() * 6) + 1);
+                    this.strengthHandle.innerText = "Strength: " + this.strength;
+                    break;
+                case 'agility':
+                    ++this.agility;
+                    this.agilityHandle.innerText = "Agility: " + this.agility;
+                    break;
+                case 'toughness':
+                    ++this.toughness;
+                    if(this.toughness % 10 === 0)
+                        this.playerMaxHP += (Math.floor(Math.random() * 6) + 1);
+                    this.toughnessHandle.innerText = "Toughness: " + this.toughness;
+                    break;
+                case 'speed':
+                    ++this.speed;
+                    this.speedHandle.innerText = "Speed: " + this.speed;
+                    break;
+                case 'intelligence':
+                    ++this.intelligence;
+                    this.intelligenceHandle.innerText = "Intelligence: " + this.intelligence;
+                    break;
+            }
+        }
+        else {
+            statusHandle.innerText = "not enough points to increase " + attribute;
+        }
+    }
+
+    updateItem(item) {
+        switch(item) {
+            case 'weapon':
+                if(this.playerGold >= (this.weapon * 20)) {
+                    this.playerGold -= (this.weapon * 20);
+                    this.playerGoldHandle.innerText = "Gold: " + this.playerGold;
+                    ++this.weapon;
+                    this.weaponHandle.innerText = "Weapon: " + this.weapon;
+                }
+                else
+                    this.statusHandle.innerText = "not enough gold to increase " + item;
+                break;
+            case 'armour':
+                if(this.playerGold >= (this.armour * 20)) {
+                    this.playerGold -= (this.armour * 20);
+                    this.playerGoldHandle.innerText = "Gold: " + this.playerGold;
+                    ++this.armour;
+                    this.armourHandle.innerText = "Armour: " + this.armour;
+                }
+                else
+                    this.statusHandle.innerText = "not enough gold to increase " + item;
+                break;
+            case 'shoes':
+                if(this.playerGold >= (this.shoes * 20)) {
+                    this.playerGold -= (this.shoes * 20);
+                    this.playerGoldHandle.innerText = "Gold: " + this.playerGold;
+                    ++this.shoes;
+                    this.shoesHandle.innerText = "Shoes: " + this.shoes;
+                }
+                else
+                    this.statusHandle.innerText = "not enough gold to increase " + item;
+                break;
+            case 'potion':
+                if(this.playerGold >= (this.potionLevel * 20)) {
+                    this.playerGold -= (this.potionLevel * 20);
+                    this.playerGoldHandle.innerText = "Gold: " + this.playerGold;
+                    ++this.potionLevel;
+                    this.potionAmount = 5;
+                    this.potionHandle.innerText = "Potion lvl: " + this.potionLevel + ", Remaining: " + this.potionAmount;
+                }
+                else
+                    this.statusHandle.innerText = "not enough gold to increase " + item;
+                break;
+        }
+    }
+
+    drinkPotion() {
+        if(this.potionAmount > 0) {
+            --this.potionAmount;
+            this.playerCurrentHP += (Math.floor(Math.random() * 6) + 1) * this.potionLevel;
+            if(this.playerCurrentHP > this.playerMaxHP)
+                this.playerCurrentHP = this.playerMaxHP;
+            this.potionHandle.innerText = "Potion lvl: " + this.potionLevel + ", Remaining: " + this.potionAmount;
+            this.statusHandle.innerText = "you took a swig of healing potion";
+        }
     }
 
     start() {
+        this.playerCurrentHP = this.playerMaxHP;
+
         this.enemyNameHandle.innerText = "Enemy: " + this.enemyName;
         this.dungeonLevelHandle.innerText = "Dungeon Level: " + this.dungeonLevel;
         this.playerLevelHandle.innerText = "Level: " + this.playerLevel;
-        this.playerHPHandle.innerText = "HP: " + this.playerHP;
+        this.playerPointsHandle.innerText = "Points: " + this.playerPoints;
+        this.playerHPHandle.innerText = "HP: " + this.playerCurrentHP + "/" + this.playerMaxHP;
         this.playerGoldHandle.innerText = "Currency: " + this.playerGold;
         this.strengthHandle.innerText = "Strength: " + this.strength;
         this.agilityHandle.innerText = "Agility: " + this.agility;
@@ -72,6 +177,8 @@ class Data {
         this.armourHandle.innerText = "Armour: " + this.armour;
         this.shoesHandle.innerText = "Shoes: " + this.shoes;
         this.potionHandle.innerText = "Potion lvl: " + this.potionLevel + ", Remaining: " + this.potionAmount;
+
+        this.timer = setInterval(this.update, 3000);
     }
 };
 
@@ -114,6 +221,8 @@ function formSubmit(event) {
         playerImage.setAttribute('id', 'playerImage');
         const playerLevel = document.createElement('p');
         playerLevel.setAttribute('id', 'playerLevel');
+        const playerPoints = document.createElement('p');
+        playerPoints.setAttribute('id', 'playerPoints');
         const playerHP = document.createElement('p');
         playerHP.setAttribute('id', 'playerHP');
         const playerGold = document.createElement('p');
@@ -225,6 +334,7 @@ function formSubmit(event) {
         subContainerB.appendChild(playerName);
         subContainerB.appendChild(playerImage);
         subContainerB.appendChild(playerLevel);
+        subContainerB.appendChild(playerPoints);
         subContainerB.appendChild(playerHP);
         subContainerB.appendChild(playerGold);
         subContainerB.appendChild(strengthContainer);
