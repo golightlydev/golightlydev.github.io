@@ -144,6 +144,25 @@ function formSubmit(event) {
         potionContainer.appendChild(potion);
         potionContainer.appendChild(potionButton);
         potionContainer.appendChild(potionDrinkButton);
+
+        subContainerB.appendChild(playerName);
+        subContainerB.appendChild(playerImage);
+        subContainerB.appendChild(playerLevel);
+        subContainerB.appendChild(playerHP);
+        subContainerB.appendChild(playerGold);
+        subContainerB.appendChild(strengthContainer);
+        subContainerB.appendChild(agilityContainer);
+        subContainerB.appendChild(toughnessContainer);
+        subContainerB.appendChild(speedContainer);
+        subContainerB.appendChild(intelligenceContainer);
+        subContainerB.appendChild(weaponContainer);
+        subContainerB.appendChild(armourContainer);
+        subContainerB.appendChild(shoesContainer);
+        subContainerB.appendChild(potionContainer);
+        
+        container.appendChild(subContainerA);
+        container.appendChild(subContainerB);
+        content.appendChild(container);
     }
 }
 
