@@ -63,7 +63,7 @@ class Data {
     }
 
     update() {
-        console.log("test");
+        console.log("test update main");
     }
 
     updateAttribute(attribute) {
@@ -98,7 +98,7 @@ class Data {
             }
         }
         else {
-            statusHandle.innerText = "not enough points to increase " + attribute;
+            this.statusHandle.innerText = "not enough points to increase " + attribute;
         }
     }
 
@@ -157,6 +157,8 @@ class Data {
             this.potionHandle.innerText = "Potion lvl: " + this.potionLevel + ", Remaining: " + this.potionAmount;
             this.statusHandle.innerText = "you took a swig of healing potion";
         }
+        else
+            this.statusHandle.innerText = "your potion bottle is empty";
     }
 
     start() {
@@ -177,6 +179,37 @@ class Data {
         this.armourHandle.innerText = "Armour: " + this.armour;
         this.shoesHandle.innerText = "Shoes: " + this.shoes;
         this.potionHandle.innerText = "Potion lvl: " + this.potionLevel + ", Remaining: " + this.potionAmount;
+
+        this.strengthButtonHandle.addEventListener("click", function() {
+            data.updateAttribute("strength");
+        });
+        this.agilityButtonHandle.addEventListener("click", function() {
+            data.updateAttribute("agility");
+        });
+        this.toughnessButtonHandle.addEventListener("click", function() {
+            data.updateAttribute("toughness");
+        });
+        this.speedButtonHandle.addEventListener("click", function() {
+            data.updateAttribute("speed");
+        });
+        this.intelligenceButtonHandle.addEventListener("click", function() {
+            data.updateAttribute("strength");
+        });
+        this.weaponButtonHandle.addEventListener("click", function() {
+            data.updateItem("weapon");
+        });
+        this.armourButtonHandle.addEventListener("click", function() {
+            data.updateItem("armour");
+        });
+        this.shoesButtonHandle.addEventListener("click", function() {
+            data.updateItem("shoes");
+        });
+        this.potionButtonHandle.addEventListener("click", function() {
+            data.updateItem("potion");
+        });
+        this.potionDrinkButtonHandle.addEventListener("click", function() {
+            data.drinkPotion();
+        });
 
         this.timer = setInterval(this.update, 3000);
     }
