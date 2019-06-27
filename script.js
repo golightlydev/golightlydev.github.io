@@ -96,7 +96,7 @@ class Data {
                 damage += Math.floor(Math.random() * 6) + 1;
             }
             damage += ((Math.floor(Math.random() * 3) + 1) * 2) * this.weapon;
-            this.statusMessage += "your attack did " + damage +  "damage <br />";
+            this.statusMessage += "your attack did " + damage + " damage <br />";
             this.enemyHP -= damage;
             if(this.enemyHP <= 0)
                 return 1;
@@ -127,9 +127,9 @@ class Data {
                 damage += Math.floor(Math.random() * 6) + 1;
             }
             this.statusMessage += "enemy attack did " + damage + " damage <br />";
-            this.playerHP -= damage;
-            this.playerHPHandle.innerText = "HP: " + this.playerHP + "/" + this.playerMaxHP;
-            if(this.playerHP <= 0)
+            this.playerCurrentHP -= damage;
+            this.playerHPHandle.innerText = "HP: " + this.playerCurrentHP + "/" + this.playerMaxHP;
+            if(this.playerCurrentHP <= 0)
                 return 2;
         }
         else
@@ -151,7 +151,7 @@ class Data {
 
     levelUp() {
         ++this.playerLevel;
-        this.playerLevelHandle = "Level: " + this.playerLevel;
+        this.playerLevelHandle.innerText = "Level: " + this.playerLevel;
         this.nextLevel += this.levelUpAmount;
         this.levelUpAmount += 10;
         let pointsGain = Math.floor(this.playerIntelligence / 10);
@@ -163,17 +163,21 @@ class Data {
         this.playerMaxHP += Math.floor(Math.random() * 6) + 1;
         let playerMaxHPNum = Math.floor(this.toughness / 10);
         for(let a = 0; a < playerMaxHPNum; ++a) {
-            playerMaxHP += Math.floor(Math.random() * 6) + 1;
+            this.playerMaxHP += Math.floor(Math.random() * 6) + 1;
         }
-        this.playerHP = this.playerMaxHP;
+        playerMaxHPNum = Math.floor(this.strength / 10);
+        for(let a = 0; a < playerMaxHPNum; ++a) {
+            this.playerMaxHP += Math.floor(Math.random() * 6) + 1;
+        }
+        this.playerCurrentHP = this.playerMaxHP;
         this.playerHPHandle.innerText = "HP: " + this.playerCurrentHP + "/" + this.playerMaxHP;
     }
 
     calculateReward() {
         this.playerGold += this.enemyGold;
         this.playerGoldHandle.innerText = "Gold: " + this.playerGold;
-        let expModifier = ((Math.floor(this.playerIntelligence / 10)) * 5) * 0.01;
-        let expGain = this.enemyEXP + Math.floor(this.enemyEXP * expModifier)
+        let expModifier = ((Math.floor(this.intelligence / 10)) * 5) * 0.01;
+        let expGain = this.enemyEXP + Math.floor(this.enemyEXP * expModifier);
         this.playerEXP += expGain;
         if(this.playerEXP >= this.nextLevel) {
             this.statusMessage += "levelled up! defeated enemy. got " + this.enemyGold + " gold, " + expGain + " exp";
@@ -198,7 +202,6 @@ class Data {
     }
 
     update() {
-        console.log(this);
         let status = 0; //0 continue, 1 player won, 2 player dead
         this.statusMessage = "";
         //calculate attack numbers
@@ -222,26 +225,26 @@ class Data {
         for(let a = 0; (a < playerAttackNum || a < enemyAttackNum) && status === 0; ++a) {
             if(a < playerAttackNum) {
                 if(playerInitiative > enemyInitiative) {
-                    status = this.playerTurn();
+                    status = this.playerTurn(status);
                     if(a < enemyAttackNum)
-                        status = this.enemyTurn();
+                        status = this.enemyTurn(status);
                 }
                 else if(enemyInitiative > playerInitiative) {
                     if(a < enemyAttackNum)
-                        status = this.enemyTurn();
-                    status = this.playerTurn();
+                        status = this.enemyTurn(status);
+                    status = this.playerTurn(status);
                 }
             }
             else if(a < enemyAttackNum) {
                 if(enemyInitiative > playerInitiative) {
-                    status = this.enemyTurn();
+                    status = this.enemyTurn(status);
                     if(a < playerAttackNum)
-                        status = this.playerTurn();
+                        status = this.playerTurn(status);
                 }
                 else if(playerInitiative > enemyInitiative) {
                     if(a < playerAttackNum)
-                        status = this.playerTurn();
-                    status = this.enemyTurn();
+                        status = this.playerTurn(status);
+                    status = this.enemyTurn(status);
                 }
             }
         }
@@ -254,7 +257,7 @@ class Data {
         }
         else if(status === 2)
             this.gameOver();
-        this.statusHandle.innerText = this.statusMessage;
+        this.statusHandle.innerHTML = this.statusMessage;
     }
 
     updateAttribute(attribute) {
@@ -264,8 +267,6 @@ class Data {
             switch(attribute) {
                 case 'strength':
                     ++this.strength;
-                    if(this.strength % 10 === 0)
-                        this.playerMaxHP += (Math.floor(Math.random() * 6) + 1);
                     this.strengthHandle.innerText = "Strength: " + this.strength;
                     break;
                 case 'agility':
@@ -274,8 +275,6 @@ class Data {
                     break;
                 case 'toughness':
                     ++this.toughness;
-                    if(this.toughness % 10 === 0)
-                        this.playerMaxHP += (Math.floor(Math.random() * 6) + 1);
                     this.toughnessHandle.innerText = "Toughness: " + this.toughness;
                     break;
                 case 'speed':
@@ -347,6 +346,7 @@ class Data {
                 this.playerCurrentHP = this.playerMaxHP;
             this.potionHandle.innerText = "Potion lvl: " + this.potionLevel + ", Remaining: " + this.potionAmount;
             this.statusHandle.innerText = "you took a swig of healing potion";
+            this.playerHPHandle.innerText = "HP: " + this.playerCurrentHP + "/" + this.playerMaxHP;
         }
         else
             this.statusHandle.innerText = "your potion bottle is empty";
@@ -385,7 +385,7 @@ class Data {
             data.updateAttribute("speed");
         });
         this.intelligenceButtonHandle.addEventListener("click", function() {
-            data.updateAttribute("strength");
+            data.updateAttribute("intelligence");
         });
         this.weaponButtonHandle.addEventListener("click", function() {
             data.updateItem("weapon");
