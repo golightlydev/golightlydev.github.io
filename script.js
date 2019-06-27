@@ -102,7 +102,7 @@ class Data {
                 return 1;
         }
         else
-            this.statusMessage += "your attack missed <br />";
+            this.statusMessage += "your attack missed: " + toHit + " vs " + enemyResist + "<br />";
         return 0;
     }
 
@@ -133,7 +133,7 @@ class Data {
                 return 2;
         }
         else
-            this.statusMessage += "enemy attack missed <br />";
+        this.statusMessage += "enemy attack missed: " + toHit + " vs " + playerResist + "<br />";
         return 0;
     }
 
@@ -159,6 +159,10 @@ class Data {
             this.playerPoints += Math.floor(Math.random() * 6) + 1;
         }
         this.playerPoints += 5;
+        let playerPointsNum = Math.floor(this.intelligence / 10);
+        for(let a = 0; a < playerPointsNum; ++a) {
+            playerPoints += Math.floor(Math.random() * 6) + 1;
+        }
         this.playerPointsHandle.innerText = "Points: " + this.playerPoints;
         this.playerMaxHP += Math.floor(Math.random() * 6) + 1;
         let playerMaxHPNum = Math.floor(this.toughness / 10);
@@ -358,19 +362,31 @@ class Data {
 
         this.enemyNameHandle.innerText = "Enemy: " + this.enemyName;
         this.dungeonLevelHandle.innerText = "Dungeon Level: " + this.dungeonLevel;
+        this.dungeonLevelHandle.title = "enemies drop more gold depending on dungeon level, which is the level of all the enemies on that level also.  there are 4d6 enemies per level";
         this.playerLevelHandle.innerText = "Level: " + this.playerLevel;
+        this.playerLevelHandle.title = "level up at ie. 10, 30, 60, 100, 150, 210, add 10 to previous level up amount";
         this.playerPointsHandle.innerText = "Points: " + this.playerPoints;
         this.playerHPHandle.innerText = "HP: " + this.playerCurrentHP + "/" + this.playerMaxHP;
         this.playerGoldHandle.innerText = "Currency: " + this.playerGold;
+        this.playerGoldHandle.title = "gold = 1d10 * level, level up item cost = 20 * level of item";
         this.strengthHandle.innerText = "Strength: " + this.strength;
+        this.strengthHandle.title = "strength (+1d6 dmg every 5 lvl, 1d6 to hp every 10 lvl)";
         this.agilityHandle.innerText = "Agility: " + this.agility;
+        this.agilityHandle.title = "agility (+1d6 to hit every 5 lvl, 1d6 to initiative every 5 lvl)";
         this.toughnessHandle.innerText = "Toughness: " + this.toughness;
+        this.toughnessHandle.title = "toughness (+1d6 to resist every 5 lvl, 1d6 to hp every 10 lvl)";
         this.speedHandle.innerText = "Speed: " + this.speed;
+        this.speedHandle.title = "speed (+1 attack every 10 lvl, 1d6 to initiative every 5 lvl)";
         this.intelligenceHandle.innerText = "Intelligence: " + this.intelligence;
+        this.intelligenceHandle.title = "intelligence (+1d6 points per levelup every 10 lvl, +5% exp gain every 10 lvl)";
         this.weaponHandle.innerText = "Weapon: " + this.weapon;
+        this.weaponHandle.title = "weapon: +2d3 to attack, per level";
         this.armourHandle.innerText = "Armour: " + this.armour;
+        this.armourHandle.title = "armour: +2d3 to resist, per level";
         this.shoesHandle.innerText = "Shoes: " + this.shoes;
+        this.shoesHandle.title = "shoes: +2d3 to initiative per level, +1 attack every 5 levels";
         this.potionHandle.innerText = "Potion lvl: " + this.potionLevel + ", Remaining: " + this.potionAmount;
+        this.potionHandle.title = "level up potion cost = 10 * item level, potion: +1d6 heal, per level";
 
         this.strengthButtonHandle.addEventListener("click", function() {
             data.updateAttribute("strength");
