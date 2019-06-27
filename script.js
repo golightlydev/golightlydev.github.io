@@ -1,9 +1,23 @@
+"use strict";
+
+var data = null;
+var timer = null;
+
+function startTimer() {
+    timer = setInterval(function() {
+        data.update();
+    }, 3000);
+}
+
+function endTimer() {
+    clearInterval(timer);
+}
+
 class Data {
     constructor() {
         this.enemyNum = (Math.floor(Math.random() * 6) + 1) * 4; //decrement by 1 each time enemy defeated, reset when dungeonLevel incremented
         this.enemyName = "";
         this.dungeonLevel = 1; //increment when enemyNum === 0
-        this.status = "";
         this.enemyHP = (Math.floor(Math.random() * 6) + 1) * 1;
         this.enemyStrength = (Math.floor(Math.random() * 6) + 1) * 1;
         this.enemyAgility = (Math.floor(Math.random() * 6) + 1) * 1;
@@ -59,7 +73,6 @@ class Data {
         this.potionButtonHandle = document.getElementById("potionButton");
         this.potionDrinkButtonHandle = document.getElementById("potionDrinkButton");
 
-        this.timer = null;
         this.statusMessage = "";
     }
 
@@ -83,7 +96,7 @@ class Data {
                 damage += Math.floor(Math.random() * 6) + 1;
             }
             damage += ((Math.floor(Math.random() * 3) + 1) * 2) * this.weapon;
-            this.statusMessage += "your attack did " + damage + " damage <br />";
+            this.statusMessage += "your attack did " + damage +  "damage <br />";
             this.enemyHP -= damage;
             if(this.enemyHP <= 0)
                 return 1;
@@ -171,7 +184,7 @@ class Data {
     }
 
     gameOver() {
-        clearInterval(this.timer);
+        endTimer();
         this.statusMessage += "game over";
     }
 
@@ -185,11 +198,12 @@ class Data {
     }
 
     update() {
+        console.log(this);
         let status = 0; //0 continue, 1 player won, 2 player dead
         this.statusMessage = "";
         //calculate attack numbers
         let playerAttackNum = (Math.floor(data.speed / 10)) + (Math.floor(data.shoes / 5)) + 1;
-        let enemyAttackNum = (Math.floor(data.enemySpeed / 10)) + 1; 
+        let enemyAttackNum = (Math.floor(data.enemySpeed / 10)) + 1;
 
         //calculate initiatives
         let playerInitiative = 0;
@@ -207,7 +221,7 @@ class Data {
         //perform turns
         for(let a = 0; (a < playerAttackNum || a < enemyAttackNum) && status === 0; ++a) {
             if(a < playerAttackNum) {
-                if(playerInitative > enemyInitiative) {
+                if(playerInitiative > enemyInitiative) {
                     status = this.playerTurn();
                     if(a < enemyAttackNum)
                         status = this.enemyTurn();
@@ -240,7 +254,7 @@ class Data {
         }
         else if(status === 2)
             this.gameOver();
-        this.statusHandle.innerHTML = this.statusMessage;
+        this.statusHandle.innerText = this.statusMessage;
     }
 
     updateAttribute(attribute) {
@@ -388,8 +402,7 @@ class Data {
         this.potionDrinkButtonHandle.addEventListener("click", function() {
             data.drinkPotion();
         });
-
-        this.timer = setInterval(this.update, 3000);
+        startTimer();
     }
 };
 
@@ -571,5 +584,4 @@ const content = document.getElementById("content");
 content.children[0].children[0].children[8].addEventListener("click", formSubmit);
 var name = null;
 var portrait = null;
-var data = null;
 
