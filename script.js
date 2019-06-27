@@ -161,7 +161,7 @@ class Data {
         this.playerPoints += 5;
         let playerPointsNum = Math.floor(this.intelligence / 10);
         for(let a = 0; a < playerPointsNum; ++a) {
-            playerPoints += Math.floor(Math.random() * 6) + 1;
+            this.playerPoints += Math.floor(Math.random() * 6) + 1;
         }
         this.playerPointsHandle.innerText = "Points: " + this.playerPoints;
         this.playerMaxHP += Math.floor(Math.random() * 6) + 1;
@@ -456,6 +456,7 @@ function formSubmit(event) {
         subContainerB.setAttribute('id', 'subContainerB');
         const playerName = document.createElement('p');
         playerName.setAttribute('id', 'playerName');
+        playerName.innerText = "Name: " + name;
         const playerImage = document.createElement('img');
         playerImage.src = "autoCrawlerAssets/portrait" + portrait + ".png";
         playerImage.setAttribute('id', 'playerImage');
