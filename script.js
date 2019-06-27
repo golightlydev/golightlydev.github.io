@@ -62,8 +62,73 @@ class Data {
         this.timer = null;
     }
 
+    playerTurn(status) {
+        if(status != 0)
+            return status; 
+    }
+
+    enemyTurn(status) {
+        if(status != 0)
+            return status;
+    }
+
+    calculateReward() {
+
+    }
+
+    gameOver() {
+        clearInterval(this.timer);
+    }
+
     update() {
-        console.log("test update main");
+        let status = 0; //0 continue, 1 player won, 2 player dead
+        //calculate attack numbers
+        let playerAttackNum = (data.speed / 10) + (data.shoes / 5) + 1;
+        let enemyAttackNum = (data.enemySpeed / 10) + 1; 
+
+        //calculate initiatives
+        let playerInitiative = 0;
+        for(let a = 0; a < (data.speed / 5); ++a) {
+            playerInitiative += (Math.floor(Math.random() * 6) + 1)
+        }
+        let enemyInitiative = 0;
+        for(let a = 0; a < (data.enemySpeed / 5); ++a) {
+            enemyInitiative += (Math.floor(Math.random() * 6) + 1)
+        }
+        if(enemyInitiative === playerInitiative)
+            ++enemyInitiative;
+        
+        //perform turns
+        for(let a = 0; (a < playerAttackNum || a < enemyAttackNum) && status === 0; ++a) {
+            if(a < playerAttackNum) {
+                if(playerInitative > enemyInitiative) {
+                    status = this.playerTurn();
+                    if(a < enemyAttackNum)
+                        status = this.enemyTurn();
+                }
+                else if(enemyInitiative > playerInitiative) {
+                    if(a < enemyAttackNum)
+                        status = this.enemyTurn();
+                    status = this.playerTurn();
+                }
+            }
+            else if(a < enemyAttackNum) {
+                if(enemyInitiative > playerInitiative) {
+                    status = this.enemyTurn();
+                    if(a < playerAttackNum)
+                        status = this.playerTurn();
+                }
+                else if(playerInitiative > enemyInitiative) {
+                    if(a < playerAttackNum)
+                        status = this.playerTurn();
+                    status = this.enemyTurn();
+                }
+            }
+        }
+        if(status === 1)
+            this.calculateReward();
+        else if(status === 2)
+            this.gameOver();
     }
 
     updateAttribute(attribute) {
