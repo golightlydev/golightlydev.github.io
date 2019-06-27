@@ -60,6 +60,7 @@ class Data {
         this.potionDrinkButtonHandle = document.getElementById("potionDrinkButton");
 
         this.timer = null;
+        this.statusMessage = "";
     }
 
     playerTurn(status) {
@@ -72,27 +73,46 @@ class Data {
             return status;
     }
 
-    calculateReward() {
+    createEnemy() {
 
+    }
+
+    levelUp() {
+        
+    }
+
+    calculateReward() {
+        this.playerGold += this.enemyGold;
+        let expModifier = ((Math.floor(this.playerIntelligence / 10)) * 5) * 0.01;
+        let expGain = this.enemyEXP + Math.floor(this.enemyEXP * expModifier)
+        this.playerEXP += expGain;
+        if(this.playerEXP >= this.nextLevel) {
+            this.statusMessage += "levelled up! defeated enemy. got " + this.enemyGold + " gold, " + expGain + " exp";
+            this.levelUp();
+        }
+        else
+            this.statusMessage += "defeated enemy. got " + this.enemyGold + " gold, " + expGain + " exp";
     }
 
     gameOver() {
         clearInterval(this.timer);
+        this.statusMessage += "game over";
     }
 
     update() {
         let status = 0; //0 continue, 1 player won, 2 player dead
+        this.statusMessage = "";
         //calculate attack numbers
-        let playerAttackNum = (data.speed / 10) + (data.shoes / 5) + 1;
-        let enemyAttackNum = (data.enemySpeed / 10) + 1; 
+        let playerAttackNum = (Math.floor(data.speed / 10)) + (Math.floor(data.shoes / 5)) + 1;
+        let enemyAttackNum = (Math.floor(data.enemySpeed / 10)) + 1; 
 
         //calculate initiatives
         let playerInitiative = 0;
-        for(let a = 0; a < (data.speed / 5); ++a) {
+        for(let a = 0; a < (Math.floor(data.speed / 5)); ++a) {
             playerInitiative += (Math.floor(Math.random() * 6) + 1)
         }
         let enemyInitiative = 0;
-        for(let a = 0; a < (data.enemySpeed / 5); ++a) {
+        for(let a = 0; a < (Math.floor(data.enemySpeed / 5)); ++a) {
             enemyInitiative += (Math.floor(Math.random() * 6) + 1)
         }
         if(enemyInitiative === playerInitiative)
@@ -125,10 +145,13 @@ class Data {
                 }
             }
         }
-        if(status === 1)
+        if(status === 1) {
             this.calculateReward();
+            this.createEnemy();
+        }
         else if(status === 2)
             this.gameOver();
+        this.statusHandle.innerHTML = this.statusMessage;
     }
 
     updateAttribute(attribute) {
