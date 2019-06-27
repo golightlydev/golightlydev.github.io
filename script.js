@@ -1,7 +1,7 @@
 class Data {
     constructor() {
-        this.enemyNum = 1; //increment by 1 each time enemy defeated, reset when dungeonLevel incremented
-        this.enemyName = "goblin " + 1;
+        this.enemyNum = (Math.floor(Math.random() * 6) + 1) * 4; //decrement by 1 each time enemy defeated, reset when dungeonLevel incremented
+        this.enemyName = "";
         this.dungeonLevel = 1; //increment when enemyNum === 0
         this.status = "";
         this.enemyHP = (Math.floor(Math.random() * 6) + 1) * 1;
@@ -74,15 +74,31 @@ class Data {
     }
 
     createEnemy() {
-
+        this.enemyName = "goblin " + this.enemyNum;
+        this.enemyNameHandle.innerText = "Enemy: " + this.enemyName;
+        this.enemyHP = (Math.floor(Math.random() * 6) + 1) * this.dungeonLevel;
+        this.enemyStrength = (Math.floor(Math.random() * 6) + 1) * this.dungeonLevel;
+        this.enemyAgility = (Math.floor(Math.random() * 6) + 1) * this.dungeonLevel;
+        this.enemyToughness = (Math.floor(Math.random() * 6) + 1) * this.dungeonLevel;
+        this.enemySpeed = (Math.floor(Math.random() * 6) + 1) * this.dungeonLevel;
+        this.enemyEXP = (Math.floor(Math.random() * 6) + 1) * this.dungeonLevel;
+        this.enemyGold = (Math.floor(Math.random() * 6) + 1) * this.dungeonLevel;
     }
 
     levelUp() {
-        
+        ++this.playerLevel;
+        this.playerLevlHandle = "Level: " + this.playerLevel;
+        let pointsGain = Math.floor(this.playerIntelligence / 10);
+        for(let a = 0; a < pointsGain; ++a) {
+            this.playerPoints += Math.floor(Math.random() * 6) + 1;
+        }
+        this.playerPoints += 5;
+        this.playerPointsHandle.innerText = "Points: " + this.playerPoints;
     }
 
     calculateReward() {
         this.playerGold += this.enemyGold;
+        this.playerGoldHandle.innerText = "Gold: " + this.playerGold;
         let expModifier = ((Math.floor(this.playerIntelligence / 10)) * 5) * 0.01;
         let expGain = this.enemyEXP + Math.floor(this.enemyEXP * expModifier)
         this.playerEXP += expGain;
@@ -97,6 +113,15 @@ class Data {
     gameOver() {
         clearInterval(this.timer);
         this.statusMessage += "game over";
+    }
+
+    adjustEnemyLevel() {
+        --this.enemyNum;
+        if(this.enemyNum === 0) {
+            ++this.dungeonLevel;
+            this.dungeonLevelHandle.innerText = "Dungeon Level: " + this.dungeonLevel;
+            this.enemyNum = (Math.floor(Math.random() * 6) + 1) * 4;
+        }
     }
 
     update() {
@@ -145,8 +170,11 @@ class Data {
                 }
             }
         }
+
+        //post-combat
         if(status === 1) {
             this.calculateReward();
+            this.adjustEnemyLevel();
             this.createEnemy();
         }
         else if(status === 2)
@@ -250,6 +278,7 @@ class Data {
     }
 
     start() {
+        this.enemyName = "goblin " + this.enemyNum;
         this.playerCurrentHP = this.playerMaxHP;
 
         this.enemyNameHandle.innerText = "Enemy: " + this.enemyName;
