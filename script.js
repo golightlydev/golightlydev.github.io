@@ -66,11 +66,62 @@ class Data {
     playerTurn(status) {
         if(status != 0)
             return status; 
+        let toHit = Math.floor(Math.random() * 6) + 1;
+        let toHitNum = Math.floor(this.agility / 5);
+        for(let a = 0; a < toHitNum; ++a) {
+            toHit += Math.floor(Math.random() * 6) + 1;
+        }
+        let enemyResist = 0;
+        let enemyResistNum = Math.floor(this.enemyToughness / 5);
+        for(let a = 0; a < enemyResistNum; ++a) {
+            enemyResist += Math.floor(Math.random() * 6) + 1;
+        }
+        if(toHit > enemyResist) {
+            let damage = 0;
+            let damageNum = Math.floor(this.strength / 5);
+            for(let a = 0; a < damageNum; ++a) {
+                damage += Math.floor(Math.random() * 6) + 1;
+            }
+            damage += ((Math.floor(Math.random() * 3) + 1) * 2) * this.weapon;
+            this.statusMessage += "your attack did " + damage + " damage <br />";
+            this.enemyHP -= damage;
+            if(this.enemyHP <= 0)
+                return 1;
+        }
+        else
+            this.statusMessage += "your attack missed <br />";
+        return 0;
     }
 
     enemyTurn(status) {
         if(status != 0)
             return status;
+        let toHit = Math.floor(Math.random() * 6) + 1;
+        let toHitNum = Math.floor(this.enemyAgility / 5);
+        for(let a = 0; a < toHitNum; ++a) {
+            toHit += Math.floor(Math.random() * 6) + 1;
+        }
+        let playerResist = 0;
+        let playerResistNum = Math.floor(this.toughness / 5);
+        for(let a = 0; a < playerResistNum; ++a) {
+            playerResist += Math.floor(Math.random() * 6) + 1;
+        }
+        playerResist += ((Math.floor(Math.random() * 3) + 1) * 2) * this.armour;
+        if(toHit > playerResist) {
+            let damage = 0;
+            let damageNum = Math.floor(this.enemyStrength / 5);
+            for(let a = 0; a < damageNum; ++a) {
+                damage += Math.floor(Math.random() * 6) + 1;
+            }
+            this.statusMessage += "enemy attack did " + damage + " damage <br />";
+            this.playerHP -= damage;
+            this.playerHPHandle.innerText = "HP: " + this.playerHP + "/" + this.playerMaxHP;
+            if(this.playerHP <= 0)
+                return 2;
+        }
+        else
+            this.statusMessage += "enemy attack missed <br />";
+        return 0;
     }
 
     createEnemy() {
@@ -87,13 +138,22 @@ class Data {
 
     levelUp() {
         ++this.playerLevel;
-        this.playerLevlHandle = "Level: " + this.playerLevel;
+        this.playerLevelHandle = "Level: " + this.playerLevel;
+        this.nextLevel += this.levelUpAmount;
+        this.levelUpAmount += 10;
         let pointsGain = Math.floor(this.playerIntelligence / 10);
         for(let a = 0; a < pointsGain; ++a) {
             this.playerPoints += Math.floor(Math.random() * 6) + 1;
         }
         this.playerPoints += 5;
         this.playerPointsHandle.innerText = "Points: " + this.playerPoints;
+        this.playerMaxHP += Math.floor(Math.random() * 6) + 1;
+        let playerMaxHPNum = Math.floor(this.toughness / 10);
+        for(let a = 0; a < playerMaxHPNum; ++a) {
+            playerMaxHP += Math.floor(Math.random() * 6) + 1;
+        }
+        this.playerHP = this.playerMaxHP;
+        this.playerHPHandle.innerText = "HP: " + this.playerCurrentHP + "/" + this.playerMaxHP;
     }
 
     calculateReward() {
@@ -136,6 +196,7 @@ class Data {
         for(let a = 0; a < (Math.floor(data.speed / 5)); ++a) {
             playerInitiative += (Math.floor(Math.random() * 6) + 1)
         }
+        playerInitiative += ((Math.floor(Math.random() * 3) + 1) * 2) * this.shoes;
         let enemyInitiative = 0;
         for(let a = 0; a < (Math.floor(data.enemySpeed / 5)); ++a) {
             enemyInitiative += (Math.floor(Math.random() * 6) + 1)
