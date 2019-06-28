@@ -1,0 +1,109 @@
+body, #menuArea, #menuSpace, .pageContainer, .page, .page img, #menuElement button {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+#menuArea {
+    display: flex;
+    position: fixed;
+    z-index: 2;
+    background-color: black;
+    flex-basis: 0;
+    top: 0%;
+    font-size: 2vw;
+}
+
+#menuArea, #menuSpace {
+    width: 100%;
+}
+
+#menuArea, #menuSpace {
+    height: 8vh;
+}
+
+.menuElement {
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 100%;
+    display: flex;
+    flex-basis: 0;
+    font-size: inherit;
+}
+
+.menuElement button, #logoArea img {
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+#logoPadding {
+    flex-grow: 3;
+}
+
+.menuElement button {
+    background-color: black;
+    border-color: black;
+    color: white;
+    border-width: 0px;
+    border-style: none;
+    outline: none;
+    transition: color 0.5s;
+    font-size: inherit;
+    text-align: center;
+    text-indent: auto;
+}
+
+.menuElement img, button {
+    height: 100%;
+}
+
+#logoArea {
+    flex-grow: 6;
+    flex-shrink: 6;
+}
+
+.menuPadding {
+    flex-grow: 0.5;
+    flex-shrink: 0.5;
+}
+
+#pageContainer {
+    width: 400%;
+    display: flex;
+    z-index: 1;
+    transition: transform 1s;
+}
+
+.page {
+    padding-left: 1.25%;
+    padding-right: 1.25%;
+    width: 22.5%;
+}
+
+.page img {
+    width: 100%;
+    display: block;
+}
+
+#overflowWrapper {
+    overflow-x: hidden;
+}
+
+#content3 a {
+    text-decoration: none;
+}
+
+#content3 a:link, a:visited {
+    color:grey;
+}
+
+#content3 a:hover, a:visited:hover {
+    color:hotpink;
+}
+
+a:-webkit-any-link {
+    text-decoration: none;
+}
