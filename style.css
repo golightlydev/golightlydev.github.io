@@ -106,4 +106,9 @@ body {
 
 a:-webkit-any-link {
     text-decoration: none;
+    color:grey;
+}
+
+a:hover:-webkit-any-link {
+    color:hotpink
 }
