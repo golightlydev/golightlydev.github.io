@@ -100,7 +100,7 @@ body {
     color:grey;
 }
 
-#content3 a:hover, a:visited:hover {
+#content3 a:link:hover, a:visited:hover {
     color:hotpink;
 }
 
