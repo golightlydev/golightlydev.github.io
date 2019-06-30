@@ -10,10 +10,9 @@ loadFile = () => {
         ++a;
     }
     ++index;
-    for(let a = 0; index < text.length || text[index] == '\n'; ++index) {
+    for(let a = 0; index < text.length && text[index] != '\n'; ++index) {
         testString2[a] = text[index];
         ++a;
     }
     console.log(testString1);
     console.log(testString2);
-}
