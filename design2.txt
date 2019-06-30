@@ -1,0 +1,8 @@
+1) run test to check if file access possible
+
+2) run tests of canvas
+
+
+etc.
+generate map:
+
