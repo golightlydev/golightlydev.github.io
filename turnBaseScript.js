@@ -5,7 +5,7 @@ loadFile = () => {
     let index = 0;
     let testString1 = [];
     let testString2 = [];
-    for(let a = 0; index < text.length || text[index] == '\n'; ++index) {
+    for(let a = 0; index < text.length && text[index] != '\n'; ++index) {
         testString1[a] = text[index];
         ++a;
     }
@@ -16,3 +16,4 @@ loadFile = () => {
     }
     console.log(testString1);
     console.log(testString2);
+}
