@@ -14,6 +14,6 @@ loadFile = () => {
         testString2[a] = text[index];
         ++a;
     }
-    console(testString1);
-    console(testString2);
+    console.log(testString1);
+    console.log(testString2);
 }
