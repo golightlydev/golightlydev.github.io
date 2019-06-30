@@ -1,5 +1,5 @@
-getLine = (text, array, index) => {
-    for(let a = 0; index < text.length && text[index] != '\n'; ++index) {
+getString = (text, array, index, endChar) => {
+    for(let a = 0; index < text.length && text[index] != endChar; ++index) {
         array[a] = text[index];
         ++a;
     }
@@ -13,8 +13,8 @@ loadFile = () => {
     let index = 0;
     let testString1 = [];
     let testString2 = [];
-    index = getLine(text, testString1, index);
-    index = getLine(text, testString2, index);
+    index = getString(text, testString1, index, '\n');
+    index = getString(text, testString2, index, '\n');
     console.log(testString1);
     console.log(testString2);
 }
