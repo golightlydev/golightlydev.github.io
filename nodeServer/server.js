@@ -9,8 +9,8 @@ const fs = require('fs');
 const Filter = require('bad-words');
 var filter = new Filter();
 
-var fileGate = [];
-fileGate.push(false); //gates access to file to one user at a time to prevent data loss
+//gates access to file to one user at a time to prevent data loss
+var fileGate = false;
 
 if(!fs.existsSync("data.txt")) {
     fs.writeFile("data.txt", "0", error => {
@@ -34,7 +34,6 @@ var data = {
     length: 0,
 };
 
-var dataNumberTemp = 0;
 var dataNameTemp = null;
 
 function mainGet() {
@@ -69,7 +68,7 @@ function processPost(fileContent, request) {
     }
 }
 
-function writePost(fileContent, response, fileGate) {
+function writePost(fileContent, response) {
     fileContent = data.length.toString();
     for(let a = 0; a < data.length; ++a) {
         fileContent += '\n';
@@ -77,15 +76,16 @@ function writePost(fileContent, response, fileGate) {
         fileContent += '\n';
         fileContent += data.array[a].number;
     }
-    fs.writeFile("data.txt", fileContent, (error, response, fileGate) => {
+    //element 0 of arguments is fileContent for some reason
+    fs.writeFile("data.txt", fileContent, (error, response) => {
         if(error) {
             console.log(error);
-            arguments[0].json("0: error writing to file");
-            arguments[1][0] = false;
+            arguments[1].json("0: error writing to file");
+            fileGate = false;
         }
         else {
-            arguments[0].json("1: successful post");
-            arguments[1][0] = false;
+            arguments[1].json("1: successful post");
+            fileGate = false;
         }
     });
 }
@@ -95,31 +95,31 @@ function mainPost(request, response) {
         response.json("0: not a valid number");
         return;
     }
-    fileGate[0] = true;
+    fileGate = true;
     data.length = null;
     data.array = [];
-    fs.readFile('data.txt', (error, readData, request, response, fileGate) => {
+    fs.readFile('data.txt', (error, readData, request, response) => {
         if(error) {
             console.log(error);
             arguments[1].json("0: error reading file");
-            arguments[2][0] = false;
+            fileGate = false;
         }
         else {
             let fileContent = readData.toString().split('\n');
-            processPost(fileContent, arguments[0]); //turns fileContent into data, and uses request
-            writePost(fileContent, arguments[1], arguments[2]); //also sends response
+            processPost(fileContent, arguments[0]); //fileContent into data, uses request
+            writePost(fileContent, arguments[1]); //also sends response
         }
     });
 }
 
 function gate(executionType, request, response) {
-    if(!fileGate[0]) {
+    if(!fileGate) {
         if(executionType === "post")
             mainPost(request, response);
         else if(executionType === "get")
             mainGet();
     }
-    else if(fileGate[0]) {
+    else if(fileGate) {
         setTimeout(gate, 10, executionType);
     }
 }

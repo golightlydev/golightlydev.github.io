@@ -13,7 +13,8 @@ var data = new Data("nick5", 3);
 
 fetch('http://localhost:3000/autoCrawlerHighScores').then(response => response.json())
     .then(data => {
-        console.log("get: " + data);
+        console.log("get: ");
+        console.log(data);
     });
     
 fetch('http://localhost:3000/autoCrawlerHighScores', {
@@ -21,4 +22,7 @@ fetch('http://localhost:3000/autoCrawlerHighScores', {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({data}),
 }).then(response => response.json())
-    .then(data => {console.log("post: " + data);});
+    .then(data => {
+        console.log("post: ");
+        console.log(data);
+    });
