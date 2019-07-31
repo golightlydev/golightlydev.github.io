@@ -9,7 +9,7 @@ class Data {
     setNumber(number) { this.number = number; }
 };
 
-var data = new Data("nick5", 3);
+var data = new Data("nick7", "120");
 
 fetch('http://localhost:3000/autoCrawlerHighScores').then(response => response.json())
     .then(data => {

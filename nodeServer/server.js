@@ -36,8 +36,33 @@ var data = {
 
 var dataNameTemp = null;
 
-function mainGet() {
+function processGet(fileContent, response) {
+    data.length = fileContent[0];
+    dataNameTemp = null;
+    //populate data with data from file
+    for(let a = 1; a < (data.length * 2); a+=2) {
+        dataNameTemp = fileContent[a];
+        data.array.push(new Data(dataNameTemp, fileContent[a+1]));
+    }
+    response.json({data});
+    fileGate = false;
+}
 
+function mainGet(response) {
+    fileGate = true;
+    data.length = null;
+    data.array = [];
+    fs.readFile('data.txt', (error, readData, response) => {
+        if(error) {
+            console.log(error);
+            arguments[0].json("0: error reading file");
+            fileGate = false;
+        }
+        else {
+            let fileContent = readData.toString().split('\n');
+            processGet(fileContent, arguments[0]); //fileContent into data, sends
+        }
+    });
 }
 
 function processPost(fileContent, request) {
@@ -54,7 +79,7 @@ function processPost(fileContent, request) {
         data.array.push(new Data(null, 0));
     }
     for(let a = 0; a < data.length; ++a) {
-        if(request.body.data.number > data.array[a].number) {
+        if(Number(request.body.data.number) > Number(data.array[a].number)) {
             //moves Data towards the end in data.array starting from the end moving forward
             //last element is overwritten, either blank or unneeded now
             for(let b = (data.length - 1); b > a; --b) {
@@ -64,6 +89,7 @@ function processPost(fileContent, request) {
             //place data in request into data.array, filter name for offensive language
             data.array[a].name = filter.clean(request.body.data.name);
             data.array[a].number = request.body.data.number;
+            break;
         }
     }
 }
@@ -117,10 +143,10 @@ function gate(executionType, request, response) {
         if(executionType === "post")
             mainPost(request, response);
         else if(executionType === "get")
-            mainGet();
+            mainGet(response);
     }
     else if(fileGate) {
-        setTimeout(gate, 10, executionType);
+        setTimeout(gate, 10, executionType, request, response);
     }
 }
 
@@ -130,7 +156,7 @@ app.post('/autoCrawlerHighScores', (request, response) => {
 
 app.get('/autoCrawlerHighScores', (request, response) => {
     //get data from file
-    response.json({data});
+    gate("get", request, response);
 });
 
 app.listen(3000);
