@@ -449,7 +449,7 @@ function formSubmit(event) {
         if(content.children[0].children[0].children[5].children[a].children[0].checked)
             portrait = a;
     }
-    if(name !== null && (str.length < 17) &&  portrait !== null) {
+    if(name !== null && (name.length < 17) &&  portrait !== null) {
         content.children[0].children[0].children[8].removeEventListener("click", formSubmit);
         content.removeChild(content.children[0]);
 
