@@ -3,6 +3,14 @@
 var data = null;
 var timer = null;
 
+var hasQuit = false;
+
+var quitGame = document.getElementById("quitGame");
+quitGame.addEventListener("click", function() {
+    hasQuit = true;
+});
+
+
 function startTimer() {
     timer = setInterval(function() {
         data.update();
@@ -273,7 +281,8 @@ class Data {
                 }
             }
         }
-
+        if(hasQuit)
+            status = 2;
         //post-combat
         if(status === 1) {
             this.calculateReward();
@@ -622,4 +631,3 @@ const content = document.getElementById("content");
 content.children[0].children[0].children[8].addEventListener("click", formSubmit);
 var name = null;
 var portrait = null;
-
