@@ -7,6 +7,7 @@ var hasQuit = false;
 
 var quitGame = document.getElementById("quitGame");
 quitGame.addEventListener("click", function() {
+    console.log("quit button triggered!");
     hasQuit = true;
 });
 
