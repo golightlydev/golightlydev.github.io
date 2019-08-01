@@ -33,7 +33,7 @@ class HighScoreBoard {
 
 var highScoreBoard = null;
 
-fetch('http://localhost:3000/autoCrawlerHighScores').then(response => response.json())
+fetch('https://damp-brook-48872.herokuapp.com/autoCrawlerHighScores').then(response => response.json())
     .then(data => {
         highScoreBoard = new HighScoreBoard();
         for(let a = 0; a < data.data.length; ++a) {

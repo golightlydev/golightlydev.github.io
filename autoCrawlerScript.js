@@ -206,7 +206,7 @@ class Data {
         endTimer();
         this.statusMessage += "game over";
         data = new SendData(name, (data.dungeonLevel));
-        fetch('http://localhost:3000/autoCrawlerHighScores', {
+        fetch('https://damp-brook-48872.herokuapp.com/autoCrawlerHighScores', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({data}),
