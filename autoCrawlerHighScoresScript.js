@@ -35,8 +35,6 @@ var highScoreBoard = null;
 
 fetch('http://localhost:3000/autoCrawlerHighScores').then(response => response.json())
     .then(data => {
-        console.log("get: ");
-        console.log(data.data);
         highScoreBoard = new HighScoreBoard();
         for(let a = 0; a < data.data.length; ++a) {
             highScoreBoard.populateElement(data.data.array[a].name, data.data.array[a].number, a);
