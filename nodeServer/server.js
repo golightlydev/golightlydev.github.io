@@ -151,11 +151,21 @@ function gate(executionType, request, response) {
 }
 
 app.post('/autoCrawlerHighScores', (request, response) => {
+    if(typeof request.body.data === 'undefined') {
+        response.json("0: improper request type");
+        return;
+    }
+    else if(typeof request.body.data.name === 'undefined') {
+        response.json("0: improper request type");
+    }
+    else if(typeof request.body.data.number === 'undefined') {
+        response.json("0: improper request type");
+        return;
+    }
     gate("post", request, response);
 });
 
 app.get('/autoCrawlerHighScores', (request, response) => {
-    //get data from file
     gate("get", request, response);
 });
 

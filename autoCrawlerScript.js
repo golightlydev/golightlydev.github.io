@@ -13,6 +13,17 @@ function endTimer() {
     clearInterval(timer);
 }
 
+class SendData {
+    constructor(name, number) {
+        this.name = name;
+        this.number = number;
+    }
+    getName() { return this.name; }
+    setName(name) { this.name = name; }
+    getNumber() { return this.number; }
+    setNumber(number) { this.number = number; }
+};
+
 class Data {
     constructor() {
         this.enemyNum = (Math.floor(Math.random() * 6) + 1) * 4; //decrement by 1 each time enemy defeated, reset when dungeonLevel incremented
@@ -194,6 +205,16 @@ class Data {
     gameOver() {
         endTimer();
         this.statusMessage += "game over";
+        data = new SendData(name, (data.dungeonLevel));
+        fetch('http://localhost:3000/autoCrawlerHighScores', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({data}),
+        }).then(response => response.json())
+            .then(data => {
+                console.log("post: ");
+                console.log(data);
+            });
     }
 
     adjustEnemyLevel() {

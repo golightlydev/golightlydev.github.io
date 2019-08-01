@@ -16,13 +16,3 @@ fetch('http://localhost:3000/autoCrawlerHighScores').then(response => response.j
         console.log("get: ");
         console.log(data);
     });
-    
-fetch('http://localhost:3000/autoCrawlerHighScores', {
-    method: 'post',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({data}),
-}).then(response => response.json())
-    .then(data => {
-        console.log("post: ");
-        console.log(data);
-    });
