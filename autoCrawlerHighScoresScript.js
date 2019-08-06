@@ -35,8 +35,9 @@ var highScoreBoard = null;
 
 fetch('https://damp-brook-48872.herokuapp.com/autoCrawlerHighScores').then(response => response.json())
     .then(data => {
-        highScoreBoard = new HighScoreBoard();
+        /*highScoreBoard = new HighScoreBoard();
         for(let a = 0; a < data.data.length; ++a) {
             highScoreBoard.populateElement(data.data.array[a].name, data.data.array[a].number, a);
-        }
+        }*/
+        console.log(data);
     });
