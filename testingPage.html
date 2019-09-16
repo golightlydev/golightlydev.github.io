@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Page</title>
+</head>
+<body>
+    name:<br>
+    <input type="text" name="name" id="nameInput">
+    <br>password:<br>
+    <input type="text" name="password" id="passwordInput">
+    <br>lobby maximum client number(host only):<br>
+    <input type="text" name="lobbyMax" id="lobbyMaxInput">
+    <form>
+        <label>
+            <input id="hostRadio" type="radio" name="role" checked>
+            host
+        </label>
+        <label>
+            <input id="clientRadio" type="radio" name="role">
+            client
+        </label>
+    </form>
+    hosts:<br>
+    <form id="hostsForm">
+        <label id="hostNoneLabel">
+            <input id="hostNone" type="radio" name="host" checked>
+            none
+        </label>
+    </form>
+    <button id="submitRole">Submit Role</button>
+    <br><br>
+    disconnect from lobby (closed automatically after 1hr)<br>
+    <button id="leaveLobby">Leave Lobby</button>
+    <br><br>
+    <input type="text" name="sendField">
+    <p id="responseField"></p>
+    <button id="send Submit">Send Message</button>
+    <script src="testingPageScript.js"></script>
+</body>
+</html>
