@@ -2,14 +2,15 @@ console.log("hello world");
 
 const socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
 
+sock.on('connect', () => {
+    console.log('socket connected');
+});
+
 socket.on('connection', (sock) => {
-    sock.on('connect', () => {
-        console.log('socket connected');
-    });
     //try changing this to disconnectReply
     sock.on('disconnect', () => {
         console.log("disconnected");
-        sock = null;
+        sock.disconnect();
     });
 });
 
