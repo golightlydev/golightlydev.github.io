@@ -1,6 +1,6 @@
 console.log("hello world");
 
-const socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
+var socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
 
 socket.on('connect', () => {
     console.log('socket connected');
@@ -8,6 +8,7 @@ socket.on('connect', () => {
 
 socket.on('disconnect', () => {
     console.log("disconnected");
+    socket = null;
 });
 
 
@@ -21,13 +22,14 @@ disconnectButton.addEventListener('click', () => {
     if(socket) {
         console.log("firing disconnect message");
         socket.emit('disconnectMessage', {msg1: 'hello message', msg2: 'good bye message'});
+        socket.disconnect();
     }
 });
 
 connectButton.addEventListener('click', () => {
     if(!socket) {
         console.log("firing connection messsage");
-        //socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
+        socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
     }
 });
 
