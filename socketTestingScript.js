@@ -7,10 +7,8 @@ socket.on('connect', () => {
 });
 
 socket.on('connection', (sock) => {
-    //try changing this to disconnectReply
     sock.on('disconnect', () => {
         console.log("disconnected");
-        sock.disconnect();
     });
 });
 
@@ -26,7 +24,7 @@ disconnectButton.addEventListener('click', () => {
 connectButton.addEventListener('click', () => {
     if(!socket) {
         console.log("firing connection messsage");
-        socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
+        //socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
     }
 });
 
