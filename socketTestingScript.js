@@ -20,3 +20,10 @@ disconnectButton.addEventListener('click', () => {
     }
 });
 
+connectButton.addEventListener('click', () => {
+    if(!socket) {
+        console.log("firing connection messsage");
+        socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
+    }
+});
+
