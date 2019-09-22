@@ -15,6 +15,7 @@ var connectButton = document.getElementById("connectButton");
 var disconnectButton = document.getElementById("disconnectButton");
 disconnectButton.addEventListener('click', () => {
     if(socket) {
+        console.log("firing disconnect message");
         socket.emit('disconnectMessage', {msg1: 'hello message', msg2: 'good bye message'});
     }
 });
