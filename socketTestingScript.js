@@ -10,6 +10,9 @@ socket.on('connection', (sock) => {
     sock.on('disconnect', () => {
         console.log("disconnected");
     });
+    sock.on('serverResponse', (message) => {
+        console.log("message: " + message.msg);
+    });
 });
 
 var connectButton = document.getElementById("connectButton");
