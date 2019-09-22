@@ -6,16 +6,13 @@ socket.on('connect', () => {
     console.log('socket connected');
 });
 
-socket.on('connection', (sock) => {
-    sock.on('disconnect', () => {
-        console.log("disconnected");
-    });
+socket.on('disconnect', () => {
+    console.log("disconnected");
 });
 
-socket.on('connection', (sock) => {
-    sock.on('serverResponse', (message) => {
-        console.log("message: " + message.msg);
-    });
+
+socket.on('serverResponse', (message) => {
+    console.log("message: " + message.msg);
 });
 
 var connectButton = document.getElementById("connectButton");
