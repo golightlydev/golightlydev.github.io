@@ -12,7 +12,7 @@ socket.on('connection', (sock) => {
     });
 });
 
-sock.on('connection', (sock) => {
+socket.on('connection', (sock) => {
     sock.on('serverResponse', (message) => {
         console.log("message: " + message.msg);
     });
