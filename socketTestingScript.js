@@ -18,8 +18,5 @@ disconnectButton.addEventListener('click', () => {
         console.log("firing disconnect message");
         socket.emit('disconnectMessage', {msg1: 'hello message', msg2: 'good bye message'});
     }
-    else {
-        console.log("socket invalid for some reason");
-    }
 });
 
