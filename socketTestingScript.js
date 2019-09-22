@@ -2,7 +2,7 @@ console.log("hello world");
 
 const socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
 
-sock.on('connect', () => {
+socket.on('connect', () => {
     console.log('socket connected');
 });
 
