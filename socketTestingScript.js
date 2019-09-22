@@ -6,6 +6,7 @@ socket.on('connection', (sock) => {
     sock.on('connect', () => {
         console.log('socket connected');
     });
+    //try changing this to disconnectReply
     sock.on('disconnect', () => {
         console.log("disconnected");
         sock = null;
