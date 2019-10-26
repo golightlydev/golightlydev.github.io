@@ -1,20 +1,8 @@
 console.log("hello world");
 
 var socket = null;
-
-socket.on('connect', () => {
-    console.log('socket connected');
-});
-
-socket.on('disconnect', () => {
-    console.log("disconnected");
-    socket = null;
-});
-
-
-socket.on('serverResponse', (message) => {
-    console.log("message: " + message.msg);
-});
+var disconnected = true;
+var init = false;
 
 var connectButton = document.getElementById("connectButton");
 var disconnectButton = document.getElementById("disconnectButton");
@@ -27,9 +15,30 @@ disconnectButton.addEventListener('click', () => {
 });
 
 connectButton.addEventListener('click', () => {
-    if(!socket) {
+    if(!init) {
         console.log("firing connection messsage");
         socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
+        
+        socket.on('connect', () => {
+            console.log('socket connected');
+            disconnected = false;
+            if(!init)
+                init = true;
+        });
+        
+        socket.on('disconnect', () => {
+            console.log("disconnected");
+            disconnected = true;
+        });
+
+        socket.on('serverResponse', (message) => {
+            console.log("message: " + message.msg);
+        });
+        init = true;
+    }
+    else if(init && disconnected) {
+        console.log("firing reconnection message");
+        socket.socket.reconnect();
     }
 });
 
