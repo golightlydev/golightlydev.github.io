@@ -1,6 +1,6 @@
 console.log("hello world");
 
-var socket = io('https://damp-brook-48872.herokuapp.com', {path: '/socketTest'});
+var socket = null;
 
 socket.on('connect', () => {
     console.log('socket connected');
