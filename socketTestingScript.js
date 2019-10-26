@@ -10,7 +10,8 @@ disconnectButton.addEventListener('click', () => {
     if(socket) {
         console.log("firing disconnect message");
         socket.emit('disconnectMessage', {msg1: 'hello message', msg2: 'good bye message'});
-        socket.disconnect();
+        socket.close();
+        console.log("disconnected");
     }
 });
 
@@ -27,7 +28,7 @@ connectButton.addEventListener('click', () => {
         });
         
         socket.on('disconnect', () => {
-            console.log("disconnected");
+            console.log("disconnect event fired");
             disconnected = true;
         });
 
@@ -38,7 +39,7 @@ connectButton.addEventListener('click', () => {
     }
     else if(init && disconnected) {
         console.log("firing reconnection message");
-        socket.socket.reconnect();
+        socket.open();
     }
 });
 
