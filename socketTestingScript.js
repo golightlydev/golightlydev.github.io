@@ -28,7 +28,7 @@ connectButton.addEventListener('click', () => {
             disconnected = false;
             if(!init)
                 init = true;
-            roomName = roomNameInput.value;
+            roomName = roomNameInput.nodeValue;
             socket.emit('join', {msg:roomName});
         });
         
