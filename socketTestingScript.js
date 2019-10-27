@@ -6,6 +6,9 @@ var init = false;
 
 var connectButton = document.getElementById("connectButton");
 var disconnectButton = document.getElementById("disconnectButton");
+var roomNameInput = document.getElementById('roomNameInput');
+var roomName = null;
+
 disconnectButton.addEventListener('click', () => {
     if(socket) {
         console.log("firing disconnect message");
@@ -25,6 +28,8 @@ connectButton.addEventListener('click', () => {
             disconnected = false;
             if(!init)
                 init = true;
+            roomName = roomNameInput.value;
+            socket.emit('join', {msg:roomName});
         });
         
         socket.on('disconnect', () => {
