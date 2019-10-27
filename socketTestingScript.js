@@ -35,6 +35,10 @@ connectButton.addEventListener('click', () => {
         socket.on('serverResponse', (message) => {
             console.log("message: " + message.msg);
         });
+
+        socket.on('broadcast', (message) => {
+            console.log("message: " + message.msg);
+        });
         init = true;
     }
     else if(init && disconnected) {
