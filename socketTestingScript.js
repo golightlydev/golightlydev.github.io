@@ -8,6 +8,11 @@ var connectButton = document.getElementById("connectButton");
 var disconnectButton = document.getElementById("disconnectButton");
 var roomNameInput = document.getElementById('roomNameInput');
 var roomName = null;
+var testButton = document.getElementById('testButton');
+
+testButton.addEventListener('click', () => {
+    socket.emit('testMessage', {msg:"testMessage"});
+});
 
 disconnectButton.addEventListener('click', () => {
     if(socket && !disconnected) {
@@ -44,6 +49,10 @@ connectButton.addEventListener('click', () => {
         });
 
         socket.on('broadcast', (message) => {
+            console.log("message: " + message.msg);
+        });
+
+        socket.on('roomMessage', (message) => {
             console.log("message: " + message.msg);
         });
         init = true;
