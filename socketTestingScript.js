@@ -10,7 +10,7 @@ var roomNameInput = document.getElementById('roomNameInput');
 var roomName = null;
 
 disconnectButton.addEventListener('click', () => {
-    if(socket) {
+    if(socket && !disconnected) {
         console.log("firing disconnect message");
         socket.emit('disconnectMessage', {msg1: 'hello message', msg2: 'good bye message'});
         socket.close();
