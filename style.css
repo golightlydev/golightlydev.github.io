@@ -84,7 +84,8 @@ body {
     padding-left: 1.25%;
     padding-right: 1.25%;
     width: 22.5%;
-    overflow-y: overlay; /*scroll*/
+    overflow-y: scroll; /*should account for overlay not working in firefox*/
+    overflow-y: overlay;
 }
 
 .page img {
