@@ -77,13 +77,14 @@ body {
     display: flex;
     z-index: 1;
     transition: transform 1s;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 .page {
     padding-left: 1.25%;
     padding-right: 1.25%;
     width: 22.5%;
+    overflow-y: scroll;
 }
 
 .page img {
