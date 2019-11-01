@@ -62,18 +62,13 @@ body {
 }
 
 #logoArea {
-    flex-grow: 5.5;
-    flex-shrink: 5.5;
+    flex-grow: 6;
+    flex-shrink: 6;
 }
 
 .menuPadding {
     flex-grow: 0.5;
     flex-shrink: 0.5;
-}
-
-#rightPadding {
-    flex-grow: 1;
-    flex-shrink: 1;
 }
 
 #pageContainer {
@@ -89,7 +84,7 @@ body {
     padding-left: 1.25%;
     padding-right: 1.25%;
     width: 22.5%;
-    overflow-y: scroll;
+    overflow-y: overlay; /*scroll*/
 }
 
 .page img {
