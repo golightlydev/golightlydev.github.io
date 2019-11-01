@@ -72,6 +72,7 @@ body {
 
 #pageContainer {
     width: 400%;
+    height: 92vh;
     display: flex;
     z-index: 1;
     transition: transform 1s;
