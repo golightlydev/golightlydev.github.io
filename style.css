@@ -97,15 +97,15 @@ body {
     overflow-x: hidden;
 }
 
-#content3 a {
+.portfolioLink a {
     text-decoration: none;
 }
 
-#content3 a:link, a:visited {
+.portfolioLink a:link, a:visited {
     color:grey;
 }
 
-#content3 a:link:hover, a:visited:hover {
+.portfolioLink a:link:hover, a:visited:hover {
     color:hotpink;
 }
 
