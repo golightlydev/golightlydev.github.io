@@ -1,15 +1,3 @@
-/*const onScroll = () => {
-    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-        console.log("it worked");
-        console.log((window.innerHeight + window.scrollY));
-    }
-    console.log("height of content: " + (document.getElementById("menuSpace").clientHeight + container.clientHeight));
-    console.log("height of window: " + window.innerHeight);
-    console.log("scroll: " + window.scrollY + window.innerHeight);
-    console.log("measured against: " + document.body.scrollHeight);
-    console.log("height of screen: " + screen.height);
-}*/
-
 const revertColor = (exclude) => {
     switch(exclude) {
         case "home":
@@ -83,73 +71,7 @@ const aboutMouseout = () => {
         aboutButton.style.color = "white";
 }
 
-/*const detectPointerdown = (event) => {
-    ++pointerNum;
-    console.log("pointerdown runs: " + pointerNum);
-}
-
-const detectPointerup = (event) => {
-    if(pointerNum == 2) {
-        aboutButton.innerHTML = `${window.innerWidth}`;
-        updatesButton.innerHTML = `${document.documentElement.clientWidth}`;
-        portfolioButton.innerHTML = "detectPointerup";
-    }
-    --pointerNum;
-    console.log("this runs: " + pointerNum);
-}
-
-const detectPointercancel = (event) => {
-    if(pointerNum == 2) {
-        aboutButton.innerHTML = `${window.innerWidth}`;
-        updatesButton.innerHTML = `${document.documentElement.clientWidth}`;
-        portfolioButton.innerHTML = "detectPointercancel";
-    }
-    --pointerNum;
-    console.log("pointer cancel fired");
-}
-
-const onResize = (event) => {
-    if(chromeUpdate)
-        return;
-    chromeUpdate = true;
-    requestAnimationFrame(() => {
-        chromeUpdate = false;
-        menuSpace.style.height = viewport.height / 10 + "px";
-        let fontSize = window.getComputedStyle(menuArea, null).getPropertyValue("font-size");
-        fontSize = fontSize.substring(0, fontSize.length - 2);
-        fontSize = (100 / viewport.width) * fontSize;
-        fontSize = (viewport.width / 50);
-        menuArea.style.fontSize = fontSize + "px";
-        menuSpace.style.width = viewport.width + "px";
-        menuArea.style.height = viewport.height / 10 + "px";
-        menuArea.style.top = viewport.offsetTop + "px";
-        menuArea.style.left = viewport.offsetLeft + "px";
-        menuArea.style.width = viewport.width + "px";
-    }); 
-}*/
-
 var currentPage = 0;
-/*var mode = "chrome";
-var pointerNum = 0;
-var chromeUpdate = false;
-
-const viewport = window.visualViewport;
-if(viewport === undefined)
-    mode = "otherBrowser";
-else {
-    menuArea.style.position = "absolute";
-    menuArea.style.top = viewport.offsetTop + "px";
-    menuArea.style.left = viewport.offsetLeft + "px";
-    menuArea.style.width = viewport.width + "px";
-    menuArea.style.height = viewport.height / 10 + "px";
-    menuSpace.style.width = viewport.width + "px";
-    menuSpace.style.height = viewport.height / 10 + "px";
-    let fontSize = window.getComputedStyle(menuArea, null).getPropertyValue("font-size");
-    fontSize = fontSize.substring(0, fontSize.length - 2);
-    fontSize = (100 / viewport.width) * fontSize;
-    fontSize = (viewport.width / 50);
-    menuArea.style.fontSize = fontSize + "px";
-}*/
 
 const menuArea = document.getElementById("menuArea");
 const menuSpace = document.getElementById("menuSpace");
@@ -169,58 +91,3 @@ const aboutButton = document.getElementById("aboutButton");
 aboutButton.addEventListener("click", about);
 aboutButton.addEventListener("mouseover", aboutMouseover);
 aboutButton.addEventListener("mouseout", aboutMouseout);
-
-/*
-if(mode === "debug") {
-    const detectShiftDown = (event) => {
-        if(shift === 0) {
-            if(event.code === "ShiftLeft") {
-                shift = 1;
-                shiftKey = "left";
-                console.log("shift key left currently down");
-            }
-            else if(event.code === "ShiftRight") {
-                shift = 1;
-                shiftKey  = "right";
-                console.log("shift key right currently down");
-            }
-        }
-    };
-
-    const detectShiftUp = (event) => {
-        if(event.code === "ShiftLeft" && shiftKey === "left") {
-            shift = 0;
-            shiftKey = "none";
-            console.log("shift key left ended");
-        }
-        else if(event.code === "ShiftRight" && shiftKey === "right") {
-            shift = 0;
-            shiftKey = "none";
-            console.log("shift key right ended");
-        }
-    };
-
-    const detectTouchendDebug = () => {
-        if(shift === 1) {
-            console.log("pinch zoom just ended");
-            aboutButton.innerHTML = `${window.innerWidth}`;
-            updatesButton.innerHTML = `${document.documentElement.clientWidth}`;
-            portfolioButton.innerHTML = "detectPointercancel";
-        }
-    };
-    var shift = 0;
-    var shiftKey = "none";
-    window.addEventListener("keydown", detectShiftDown);
-    window.addEventListener("keyup", detectShiftUp);
-    window.addEventListener("touchend", detectTouchendDebug);
-}
-else if(mode === "otherBrowser") {
-    window.addEventListener("pointerdown", detectPointerdown);
-    window.addEventListener("pointerup", detectPointerup);
-    window.addEventListener("pointercancel", detectPointercancel);
-}
-else if(mode === "chrome") {
-    console.log("debugmode=2");
-    viewport.addEventListener("resize", onResize);
-}
-*/
