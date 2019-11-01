@@ -1,4 +1,4 @@
-const onScroll = () => {
+/*const onScroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
         console.log("it worked");
         console.log((window.innerHeight + window.scrollY));
@@ -8,7 +8,7 @@ const onScroll = () => {
     console.log("scroll: " + window.scrollY + window.innerHeight);
     console.log("measured against: " + document.body.scrollHeight);
     console.log("height of screen: " + screen.height);
-}
+}*/
 
 const revertColor = (exclude) => {
     switch(exclude) {
@@ -83,7 +83,7 @@ const aboutMouseout = () => {
         aboutButton.style.color = "white";
 }
 
-const detectPointerdown = (event) => {
+/*const detectPointerdown = (event) => {
     ++pointerNum;
     console.log("pointerdown runs: " + pointerNum);
 }
@@ -126,17 +126,17 @@ const onResize = (event) => {
         menuArea.style.left = viewport.offsetLeft + "px";
         menuArea.style.width = viewport.width + "px";
     }); 
-}
+}*/
 
 var currentPage = 0;
-var mode = "chrome";
+/*var mode = "chrome";
 var pointerNum = 0;
 var chromeUpdate = false;
 
 const viewport = window.visualViewport;
 if(viewport === undefined)
     mode = "otherBrowser";
-/*else {
+else {
     menuArea.style.position = "absolute";
     menuArea.style.top = viewport.offsetTop + "px";
     menuArea.style.left = viewport.offsetLeft + "px";
@@ -170,6 +170,7 @@ aboutButton.addEventListener("click", about);
 aboutButton.addEventListener("mouseover", aboutMouseover);
 aboutButton.addEventListener("mouseout", aboutMouseout);
 
+/*
 if(mode === "debug") {
     const detectShiftDown = (event) => {
         if(shift === 0) {
@@ -222,3 +223,4 @@ else if(mode === "chrome") {
     console.log("debugmode=2");
     viewport.addEventListener("resize", onResize);
 }
+*/
