@@ -62,13 +62,18 @@ body {
 }
 
 #logoArea {
-    flex-grow: 6;
-    flex-shrink: 6;
+    flex-grow: 5.5;
+    flex-shrink: 5.5;
 }
 
 .menuPadding {
     flex-grow: 0.5;
     flex-shrink: 0.5;
+}
+
+#rightPadding {
+    flex-grow: 1;
+    flex-shrink: 1;
 }
 
 #pageContainer {
