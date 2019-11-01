@@ -5,6 +5,7 @@ body, #menuArea, #menuSpace, .pageContainer, .page, .page img, #menuElement butt
 
 body {
     overflow-x: hidden;
+    height: 100%;
 }
 
 #menuArea {
