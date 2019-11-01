@@ -41,7 +41,7 @@ body {
 }
 
 #logoPadding {
-    flex-grow: 3;
+    flex-grow: 2; /*3*/
 }
 
 .menuElement button {
