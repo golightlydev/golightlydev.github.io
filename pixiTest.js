@@ -1,3 +1,6 @@
+document.getElementById("body").style.margin = "0px";
+document.getElementById("body").style.padding = "0px";
+
 let app = new PIXI.Application({
     width: 256,
     height: 256,
@@ -33,3 +36,7 @@ app.renderer.view.style.position = "absolute";
 app.renderer.view.style.display = "block";
 app.renderer.autoResize = true;
 app.renderer.resize(window.innerWidth, window.innerHeight);
+
+window.addEventListener('resize', function(event) {
+    app.renderer.resize(window.innerWidth, window.innerHeight);
+}
