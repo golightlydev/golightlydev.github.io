@@ -55,7 +55,7 @@ function setup() {
     */
     sprite.anchor.x = 0.5;
     sprite.anchor.y = 0.5;
-    sprite.rotation(0.5);
+    sprite.rotation = 0.5;
     app.stage.addChild(sprite);
 }
 
