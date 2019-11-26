@@ -34,7 +34,7 @@ app.renderer.resize(512, 512);*/
 
 app.renderer.view.style.position = "absolute";
 app.renderer.view.style.display = "block";
-app.renderer.autoResize = true;
+app.renderer.autoDensity = true;
 app.renderer.resize(window.innerWidth, window.innerHeight);
 
 window.addEventListener('resize', function(event) {
@@ -44,7 +44,7 @@ window.addEventListener('resize', function(event) {
 PIXI.loader.add('pixiAssets/img/Untitled.png').load(setup);
 
 function setup() {
-    let sprite = new PIXI.Sprite(PIXI.loader.resources["pixiAssets/img/Untitled.png"].texture);
+    let sprite = new PIXI.Sprite(PIXI.loader.shared.resources["pixiAssets/img/Untitled.png"].texture);
     sprite.x = 96;
     sprite.y = 96;
     sprite.width = 80;
