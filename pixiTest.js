@@ -44,7 +44,7 @@ window.addEventListener('resize', function(event) {
 PIXI.loader.add('pixiAssets/img/Untitled.png').load(setup);
 
 function setup() {
-    let sprite = new PIXI.Sprite(PIXI.loader.shared.resources["pixiAssets/img/Untitled.png"].texture);
+    let sprite = new PIXI.Sprite(PIXI.loader.shared["pixiAssets/img/Untitled.png"].texture);
     sprite.x = 96;
     sprite.y = 96;
     sprite.width = 80;
