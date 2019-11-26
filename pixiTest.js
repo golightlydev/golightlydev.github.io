@@ -23,8 +23,13 @@ But, if you do that, make sure you also set the default padding and margins to 0
 
 document.body.appendChild(app.view);
 
-app.renderer.view.style.border = '1px dashed black';
+/*app.renderer.view.style.border = '1px dashed black';
 
 app.renderer.autoResize = true;
 
-app.renderer.resize(512, 512);
+app.renderer.resize(512, 512);*/
+
+app.renderer.view.style.position = "absolute";
+app.renderer.view.style.display = "block";
+app.renderer.autoResize = true;
+app.renderer.resize(window.innerWidth, window.innerHeight);
