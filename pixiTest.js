@@ -39,4 +39,4 @@ app.renderer.resize(window.innerWidth, window.innerHeight);
 
 window.addEventListener('resize', function(event) {
     app.renderer.resize(window.innerWidth, window.innerHeight);
-}
+});
