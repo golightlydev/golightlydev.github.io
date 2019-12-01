@@ -64,13 +64,13 @@ function setup() {
   app.stage.addChild(sprite[0]);
   rectangle = new PIXI.Rectangle(200, 0, 150, 200);
   texture.frame = rectangle;
-  sprite[1] = new Sprite(texture);
+  sprite[1] = new PIXI.Sprite(texture);
   sprite[1].x = 500;
   sprite[1].y = 0;
   app.stage.addChild(sprite[1]);
   rectangle = new PIXI.Rectangle(200, 200, 200, 250);
   texture.frame = rectangle;
-  sprite[2] = new Sprite(texture);
+  sprite[2] = new PIXI.Sprite(texture);
   sprite[2].x = 0;
   sprite[2].y = 500;
   app.stage.addChild(sprite[2]);
