@@ -79,6 +79,7 @@ function setup() {
   sprite[2].x = 0;
   sprite[2].y = 500;
   app.stage.addChild(sprite[2]);
+  app.renderer.render(app.stage);
 }
 
 /*Better yet, just list all the files you want to load in an array inside a single add method, like this:
