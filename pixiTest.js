@@ -44,15 +44,12 @@ window.addEventListener('resize', function(event) {
 PIXI.Loader.shared.add('pixiAssets/img/tileset.png').load(setup);
 
 function setup() {
-  let texture = new Array(
-    PIXI.utils.TextureCache["pixiAssets/img/tileset.png"], 
-    PIXI.utils.TextureCache["pixiAssets/img/tileset.png"], 
-    PIXI.utils.TextureCache["pixiAssets/img/tileset.png"]
-  );
+  let texture = PIXI.utils.TextureCache["pixiAssets/img/tileset.png"];
   let sprite = new Array(null, null, null);
-  let rectangle = new PIXI.Rectangle(0, 0, 200, 150);
-  texture[0].frame = rectangle;
-  sprite[0] = new PIXI.Sprite(texture[0]);
+  let rectangle = new Array(null, null, null);
+  rectangle[0] = new PIXI.Rectangle(0, 0, 200, 150);
+  texture.frame = rectangle[0];
+  sprite[0] = new PIXI.Sprite(texture);
   //sprite[0] = new PIXI.Sprite(PIXI.Loader.shared.resources["pixiAssets/img/Untitled.png"].texture);
   sprite[0].x = 96;
   sprite[0].y = 96;
@@ -66,15 +63,15 @@ function setup() {
   sprite[0].anchor.y = 0.5;
   sprite[0].rotation = 0.5;
   app.stage.addChild(sprite[0]);
-  rectangle = new PIXI.Rectangle(200, 0, 150, 200);
-  texture[1].frame = rectangle;
-  sprite[1] = new PIXI.Sprite(texture[1]);
+  rectangle[1] = new PIXI.Rectangle(200, 0, 150, 200);
+  texture.frame = rectangle[1];
+  sprite[1] = new PIXI.Sprite(texture);
   sprite[1].x = 500;
   sprite[1].y = 0;
   app.stage.addChild(sprite[1]);
-  rectangle = new PIXI.Rectangle(200, 200, 200, 250);
-  texture[2].frame = rectangle;
-  sprite[2] = new PIXI.Sprite(texture[2]);
+  rectangle[2] = new PIXI.Rectangle(200, 200, 200, 250);
+  texture.frame = rectangle[2];
+  sprite[2] = new PIXI.Sprite(texture);
   sprite[2].x = 0;
   sprite[2].y = 500;
   app.stage.addChild(sprite[2]);
