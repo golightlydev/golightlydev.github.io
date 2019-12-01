@@ -65,8 +65,8 @@ function setup() {
   rectangle = new PIXI.Rectangle(200, 0, 150, 200);
   texture.frame = rectangle;
   sprite[1] = new Sprite(texture);
-  sprite[0].x = 500;
-  sprite[0].y = 0;
+  sprite[1].x = 500;
+  sprite[1].y = 0;
   app.stage.addChild(sprite[1]);
   rectangle = new PIXI.Rectangle(200, 200, 200, 250);
   texture.frame = rectangle;
