@@ -46,7 +46,7 @@ PIXI.Loader.shared.add('pixiAssets/img/tileset.png').load(setup);
 function setup() {
   let texture = PIXI.utils.TextureCache["pixiAssets/img/tileset.png"];
   let sprite = new Array(null, null, null);
-  let rectangle = new Rectangle(0, 0, 200, 150);
+  let rectangle = new PIXI.Rectangle(0, 0, 200, 150);
   texture.frame = rectangle;
   sprite[0] = new PIXI.Sprite(texture);
   //sprite[0] = new PIXI.Sprite(PIXI.Loader.shared.resources["pixiAssets/img/Untitled.png"].texture);
@@ -62,13 +62,13 @@ function setup() {
   sprite[0].anchor.y = 0.5;
   sprite[0].rotation = 0.5;
   app.stage.addChild(sprite[0]);
-  rectangle = new Rectangle(200, 0, 150, 200);
+  rectangle = new PIXI.Rectangle(200, 0, 150, 200);
   texture.frame = rectangle;
   sprite[1] = new Sprite(texture);
   sprite[0].x = 500;
   sprite[0].y = 0;
   app.stage.addChild(sprite[1]);
-  rectangle = new Rectangle(200, 200, 200, 250);
+  rectangle = new PIXI.Rectangle(200, 200, 200, 250);
   texture.frame = rectangle;
   sprite[2] = new Sprite(texture);
   sprite[2].x = 0;
