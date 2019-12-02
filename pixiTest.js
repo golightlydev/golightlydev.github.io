@@ -41,20 +41,17 @@ window.addEventListener('resize', function(event) {
     app.renderer.resize(window.innerWidth, window.innerHeight);
 });
 
-PIXI.Loader.shared.add('pixiAssets/img/tileset.png').load(setup);
+//PIXI.Loader.shared.add('pixiAssets/img/tileset.png').load(setup);
 
 function setup() {
+  let baseTexture = PIXI.BaseTexture.fromImage('pixiAssets/img/tileset.png');
   let texture = new Array(
-    PIXI.utils.TextureCache["pixiAssets/img/tileset.png"],
-    PIXI.utils.TextureCache["pixiAssets/img/tileset.png"],
-    PIXI.utils.TextureCache["pixiAssets/img/tileset.png"]
+    new PIXI.Texture(baseTexture, new PIXI.Rectangle(0, 0, 200, 150)), 
+    new PIXI.Texture(baseTexture, new PIXI.Rectangle(200, 0, 150, 200)),
+    new PIXI.Texture(baseTexture, new PIXI.Rectangle(200, 200, 200, 250))
   );
   let sprite = new Array(null, null, null);
-  let rectangle = new Array(null, null, null);
-  rectangle[0] = new PIXI.Rectangle(0, 0, 200, 150);
-  texture[0].frame = rectangle[0];
   sprite[0] = new PIXI.Sprite(texture[0]);
-  //sprite[0] = new PIXI.Sprite(PIXI.Loader.shared.resources["pixiAssets/img/Untitled.png"].texture);
   sprite[0].x = 96;
   sprite[0].y = 96;
   //sprite.width = 80;
@@ -67,20 +64,18 @@ function setup() {
   sprite[0].anchor.y = 0.5;
   sprite[0].rotation = 0.5;
   app.stage.addChild(sprite[0]);
-  rectangle[1] = new PIXI.Rectangle(200, 0, 150, 200);
-  texture[1].frame = rectangle[1];
   sprite[1] = new PIXI.Sprite(texture[1]);
   sprite[1].x = 500;
   sprite[1].y = 0;
   app.stage.addChild(sprite[1]);
-  rectangle[2] = new PIXI.Rectangle(200, 200, 200, 250);
-  texture[2].frame = rectangle[2];
   sprite[2] = new PIXI.Sprite(texture[2]);
   sprite[2].x = 0;
   sprite[2].y = 500;
   app.stage.addChild(sprite[2]);
   app.renderer.render(app.stage);
 }
+
+setup();
 
 /*Better yet, just list all the files you want to load in an array inside a single add method, like this:
 
