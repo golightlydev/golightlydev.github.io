@@ -77,10 +77,14 @@ function setupOld() {
 
 function setupNew() {
   let loader = new PIXI.Loader();
-
+  loader.add('testData','pixiAssets/img/test.data');
+  loader.load((loader, resources) => {
+    console.log(resources.testData.data);
+  });
 }
 
 setupOld();
+setupNew();
 
 /*Better yet, just list all the files you want to load in an array inside a single add method, like this:
 
