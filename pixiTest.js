@@ -43,8 +43,8 @@ window.addEventListener('resize', function(event) {
 
 //PIXI.Loader.shared.add('pixiAssets/img/tileset.png').load(setup);
 
-function setup() {
-  let baseTexture = PIXI.BaseTexture.fromImage('pixiAssets/img/tileset.png');
+function setupOld() {
+  let baseTexture = PIXI.BaseTexture.from('pixiAssets/img/tileset.png');
   let texture = new Array(
     new PIXI.Texture(baseTexture, new PIXI.Rectangle(0, 0, 200, 150)), 
     new PIXI.Texture(baseTexture, new PIXI.Rectangle(200, 0, 150, 200)),
@@ -75,7 +75,12 @@ function setup() {
   app.renderer.render(app.stage);
 }
 
-setup();
+function setupNew() {
+  let loader = new PIXI.Loader();
+
+}
+
+setupOld();
 
 /*Better yet, just list all the files you want to load in an array inside a single add method, like this:
 
