@@ -80,6 +80,16 @@ function setupNew() {
   loader.add('testData','pixiAssets/img/test.data');
   loader.load((loader, resources) => {
     console.log(resources.testData.data);
+    let test1 = '';
+    let test2 = '';
+    for(let a = 0; a < resources.testData.data.length; ++a) {
+      if(a < 5)
+        test1 += resources.testData.data[a];
+      else
+        test2 += resources.testData.data[a];
+    }
+    console.log("test1: " + test1);
+    console.log("test2: " + test2);
   });
 }
 
