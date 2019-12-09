@@ -92,6 +92,7 @@ function setupNew() {
     console.log("test2: " + test2);
     */
     console.log("first part of data: " + String(resources.tilesetData.data[0]));
+    console.log("second part of data: " + String(resources.tilesetData.data[1]));
     let bytesArray = new Uint8Array([resources.tilesetData.data[0], resources.tilesetData.data[1], resources.tilesetData.data[2], resources.tilesetData.data[3]]);
     let bytesView = new DataView(bytesArray.buffer);
     let width = bytesView.getInt32();
