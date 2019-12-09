@@ -92,11 +92,11 @@ function setupNew() {
     console.log("test2: " + test2);
     */
     let bytesArray = new Uint8Array([resources.testData.data[0], resources.testData.data[1], resources.testData.data[2], resources.testData.data[3]]);
-    let bytesData = bytesArray.buffer.slice(0, 4);
-    let width = new Uint32Array(bytesData)[0];
+    let bytesView = new DataView(bytesArray.buffer);
+    let width = bytesView.getInt32();
     bytesArray = new Uint8Array([resources.testData.data[4], resources.testData.data[5], resources.testData.data[6], resources.testData.data[7]]);
-    bytesData = bytesArray.buffer.slice(0, 4);
-    let height = new Uint32Array(bytesData)[0];
+    bytesView = new DataView(bytesArray.buffer);
+    let height = bytesView.getInt32();
     console.log("width: " + width);
     console.log("height: " + height);
   });
