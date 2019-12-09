@@ -77,7 +77,7 @@ function setupOld() {
 
 function setupNew() {
   let loader = new PIXI.Loader();
-  loader.add('testData','pixiAssets/img/tileset.data');
+  loader.add('tilesetData','pixiAssets/img/tileset.data');
   loader.load((loader, resources) => {
     /*console.log(resources.testData.data);
     let test1 = '';
