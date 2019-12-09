@@ -77,9 +77,9 @@ function setupOld() {
 
 function setupNew() {
   let loader = new PIXI.Loader();
-  loader.add('testData','pixiAssets/img/test.data');
+  loader.add('testData','pixiAssets/img/tileset.data');
   loader.load((loader, resources) => {
-    console.log(resources.testData.data);
+    /*console.log(resources.testData.data);
     let test1 = '';
     let test2 = '';
     for(let a = 0; a < resources.testData.data.length; ++a) {
@@ -90,6 +90,15 @@ function setupNew() {
     }
     console.log("test1: " + test1);
     console.log("test2: " + test2);
+    */
+    let bytesArray = new Uint8Array([resources.testData.data[0], resources.testData.data[1], resources.testData.data[2], resources.testData.data[3]]);
+    let bytesData = bytesArray.data.buffer.slice(0, 4);
+    let width = new Uint32Array(bytesData)[0];
+    bytesArray = new Uint8Array([resources.testData.data[4], resources.testData.data[5], resources.testData.data[6], resources.testData.data[7]]);
+    bytesData = bytesArray.data.buffer.slice(0, 4);
+    let height = new Uint32Array(bytesData)[0];
+    console.log("width: " + width);
+    console.log("height: " + height);
   });
 }
 
