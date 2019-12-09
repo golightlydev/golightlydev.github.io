@@ -91,6 +91,7 @@ function setupNew() {
     console.log("test1: " + test1);
     console.log("test2: " + test2);
     */
+    console.log("first part of data: " + resources.testData.data[0]);
     let bytesArray = new Uint8Array([resources.testData.data[0], resources.testData.data[1], resources.testData.data[2], resources.testData.data[3]]);
     let bytesView = new DataView(bytesArray.buffer);
     let width = bytesView.getInt32();
