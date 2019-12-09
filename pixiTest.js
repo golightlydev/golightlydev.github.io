@@ -91,11 +91,11 @@ function setupNew() {
     console.log("test1: " + test1);
     console.log("test2: " + test2);
     */
-    console.log("first part of data: " + Number(resources.testData.data[0]));
-    let bytesArray = new Uint8Array([resources.testData.data[0], resources.testData.data[1], resources.testData.data[2], resources.testData.data[3]]);
+    console.log("first part of data: " + String(resources.tilesetData.data[0]));
+    let bytesArray = new Uint8Array([resources.tilesetData.data[0], resources.tilesetData.data[1], resources.tilesetData.data[2], resources.tilesetData.data[3]]);
     let bytesView = new DataView(bytesArray.buffer);
     let width = bytesView.getInt32();
-    bytesArray = new Uint8Array([resources.testData.data[4], resources.testData.data[5], resources.testData.data[6], resources.testData.data[7]]);
+    bytesArray = new Uint8Array([resources.tilesetData.data[4], resources.tilesetData.data[5], resources.tilesetData.data[6], resources.tilesetData.data[7]]);
     bytesView = new DataView(bytesArray.buffer);
     let height = bytesView.getInt32();
     console.log("width: " + width);
