@@ -91,6 +91,7 @@ function setupNew() {
     console.log("test1: " + test1);
     console.log("test2: " + test2);
     */
+   console.log("length of data: " + resources.tilesetData.data.length);
     console.log("first part of data: " + resources.tilesetData.data[0].toString('hex'));
     console.log("second part of data: " + resources.tilesetData.data[1].toString('hex'));
     console.log("third part of data: " + resources.tilesetData.data[2].toString('hex'));
