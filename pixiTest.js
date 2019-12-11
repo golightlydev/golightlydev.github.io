@@ -91,11 +91,13 @@ function setupNew() {
     console.log("test1: " + test1);
     console.log("test2: " + test2);
     */
+   let bytesArrayTest = new Uint8Array.from(PIXI.ViewableBuffer.view('uint8'));
+   console.log("length of test data: " + bytesArrayTest.length);
    console.log("length of data: " + resources.tilesetData.data.length);
-    console.log("first part of data: " + resources.tilesetData.data[0].toString('hex'));
-    console.log("second part of data: " + resources.tilesetData.data[1].toString('hex'));
-    console.log("third part of data: " + resources.tilesetData.data[2].toString('hex'));
-    console.log("fourth part of data: " + resources.tilesetData.data[3].toString('hex'));
+    console.log("first part of data: " + resources.tilesetData.data[0].toString());
+    console.log("second part of data: " + resources.tilesetData.data[1].toString());
+    console.log("third part of data: " + resources.tilesetData.data[2].toString());
+    console.log("fourth part of data: " + resources.tilesetData.data[3].toString());
     let bytesArray = new Uint8Array([resources.tilesetData.data[0], resources.tilesetData.data[1], resources.tilesetData.data[2], resources.tilesetData.data[3]]);
     let bytesView = new DataView(bytesArray.buffer);
     let width = bytesView.getInt32();
