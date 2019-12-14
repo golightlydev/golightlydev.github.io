@@ -89,8 +89,6 @@ class Sprite {
         this.text.x = attributeSet.x;
         this.text.y = attributeSet.y;
        }
-       this.text.w = attributeSet.w;
-       this.text.h = attributeSet.h;
     }
     else { //is sprite
       for(let a = 0; a < texture.length; ++a) {
@@ -131,8 +129,6 @@ class Sprite {
         this.text.x = attributeSet.x;
         this.text.y = attributeSet.y;
       }
-      this.text.w = attributeSet.w;
-      this.text.h = attributeSet.h;
     }
     else { //is sprite
       if(this.hasParent) {
@@ -206,13 +202,13 @@ class Sprite {
   }
   setW(w) {
     if(this.isText)
-      this.text.w = w;
+      return; //invalid for text
     else
       this.sprite.w = w;
   }
   setH(h) {
     if(this.isText)
-      this.text.h = h;
+      return; //invalid for text
     else
       this.sprite.h = h;
   }
@@ -366,6 +362,8 @@ change w and h code for text to reflect that that's automatically
 remove setW and setH for text
 create worldBackground.png
 create 50 area#.png files
+for selected area, also create outlines for every individual area
+create a circle for selected worldPlayer and a square for selected local player, etc.
 example for tinting those images 
 http://scottmcdonnell.github.io/pixi-examples/index.html?s=demos&f=tinting.js&title=Tinting
 create a number of sets of worldPlayer.png
