@@ -322,8 +322,9 @@ class Sprite {
   }
 }
 
-function setup() {
-  /*
+
+
+/*function setup() {
   let baseTexture = PIXI.BaseTexture.from('pixiAssets/img/tileset.png');
   let texture = new Array(
     new PIXI.Texture(baseTexture, new PIXI.Rectangle(0, 0, 200, 150)), 
@@ -350,7 +351,71 @@ function setup() {
   sprite[2].x = 0;
   sprite[2].y = 500;
   app.stage.addChild(sprite[2]);
-  app.renderer.render(app.stage);*/
+  app.renderer.render(app.stage);
+}*/
+
+function setup() {
+
 }
 
 setup();
+
+/*changing message of text shouldn't need me to change anything
+change w and h code for text to reflect that that's automatically
+  determined by program
+remove setW and setH for text
+create worldBackground.png
+create 50 area#.png files
+example for tinting those images 
+http://scottmcdonnell.github.io/pixi-examples/index.html?s=demos&f=tinting.js&title=Tinting
+create a number of sets of worldPlayer.png
+create a number of sets for local (different colours as well as types)
+create a number of flags
+
+work on animations
+  time per frame
+  default/idle frame
+  movement
+
+pick fonts
+  main menu text
+  main menu button text
+  main menu name text
+  other menu heading text
+  other menu normal text
+  event text
+
+options menu ui
+  hamburger open
+  hamburger closed
+  menu background
+  quit button
+  retire button (may be greyed out)
+
+starting ui
+  background image that's pretty
+  title
+  create character heading
+  character first name sub heading
+  character name text box
+  character last name sub heading
+  character last name text box
+  character image sub heading
+  character image box
+  character select up arrow
+  character select down arrow
+  character flag sub heading
+  reuse box and arrows
+  back button
+  continue button
+
+world ui (check notes)
+
+local ui (check notes)
+
+4 different spritesheets
+  main menu
+  world
+  local
+  options menu (loaded at all times)
+*/
