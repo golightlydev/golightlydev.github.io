@@ -11,26 +11,7 @@ let app = new PIXI.Application({
 
 app.renderer.backgroundColor = 0x061639;
 
-/*
-If you want to make the canvas fill the entire window, you can apply this CSS styling and resize the renderer to the size of the browser window.
-
-app.renderer.view.style.position = "absolute";
-app.renderer.view.style.display = "block";
-app.renderer.autoResize = true;
-app.renderer.resize(window.innerWidth, window.innerHeight);
-
-But, if you do that, make sure you also set the default padding and margins to 0 on all your HTML elements with this bit of CSS code:
-
-<style>* {padding: 0; margin: 0}</style>
-*/
-
 document.body.appendChild(app.view);
-
-/*app.renderer.view.style.border = '1px dashed black';
-
-app.renderer.autoResize = true;
-
-app.renderer.resize(512, 512);*/
 
 app.renderer.view.style.position = "absolute";
 app.renderer.view.style.display = "block";
@@ -41,9 +22,308 @@ window.addEventListener('resize', function(event) {
     app.renderer.resize(window.innerWidth, window.innerHeight);
 });
 
-//PIXI.Loader.shared.add('pixiAssets/img/tileset.png').load(setup);
+let baseTexture = null;
+let texture = null;
+let sprite = null;
 
-function setupOld() {
+class BaseTexture {
+  constructor(fileName, baseTextureID) {
+    this.baseTexture = new PIXI.BaseTexture.from(fileName);
+    this.baseTextureID = baseTextureID;
+  }
+};
+
+class AttributeSet {
+  constructor(attributeSet) {
+    this.x = attributeSet.x;
+    this.y = attributeSet.y;
+    this.w = attributeSet.w;
+    this.h = attributeSet.h;
+  }
+  setAttributeSet(attributeSet) {
+    this.x = attributeSet.x;
+    this.y = attributeSet.y;
+    this.w = attributeSet.w;
+    this.h = attributeSet.h;
+  }
+};
+
+class Texture {
+  constructor(baseTextureID, attributeSet) {
+    this.baseTextureID = baseTextureID;
+    this.attributeSet = new AttributeSet(attributeSet);
+    this.texture = null;
+    for(let a = 0; a < texture.length; ++a) {
+      if(baseTextureID == baseTexture[a].baseTextureID) {
+        this.texture = new PIXI.Texture(baseTexture[a], new PIXI.Rectangle(attributeSet.x, attributeSet.y, attributeSet.w, attributeSet.h));
+        break;
+      }
+    }
+  }
+  clear() {
+    this.texture.destroy(false);
+  }
+};
+
+class Sprite {
+  constructor(textureID, attributeSet, hasParent, spriteID, parentSpriteID, isText, textMessage, textStyle, isUI, isHidden) {
+    this.sprite = null;
+    this.text = null;
+    this.spriteID = spriteID;
+    this.hasParent = hasParent;
+    this.parentSpriteID = parentSpriteID;
+    this.isText = isText;
+    this.isUI = isUI;
+    this.isHidden = isHidden;
+    if(this.isText) {
+       text = new PIXI.Text(textMessage, textStyle);
+       if(this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            this.text.x = sprite[a].getX(true) + attributeSet.x;
+            this.text.y = sprite[a].getY(true) + attributeSet.y;
+          }
+        }
+       }
+       else { //has no parent sprite
+        this.text.x = attributeSet.x;
+        this.text.y = attributeSet.y;
+       }
+       this.text.w = attributeSet.w;
+       this.text.h = attributeSet.h;
+    }
+    else { //is sprite
+      for(let a = 0; a < texture.length; ++a) {
+        if(textureID == texture[a].textureID) {
+          this.sprte = new PIXI.Sprite(texture[a]);
+          break;
+        }
+      }
+      if(this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            this.sprite.x = sprite[a].getX(true) + attributeSet.x;
+            this.sprite.y = sprite[a].getY(true) + attributeSet.y;
+            break;
+          }
+        }
+      }
+      else{ //no parent sprite
+        this.sprite.x = attributeSet.x;
+        this.sprite.y = attributeSet.y;
+      }
+      this.sprite.w = attributeSet.w;
+      this.sprite.h = attributeSet.h;
+    }
+  }
+  setAttributeSet(attributeSet) {
+    if(this.isText) {
+      if(this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            this.text.x = sprite[a].getX(true) + attributeSet.x;
+            this.text.y = sprite[a].getY(true) + attributeSet.y;
+            break;
+          }
+        }
+      }
+      else { //has no parent
+        this.text.x = attributeSet.x;
+        this.text.y = attributeSet.y;
+      }
+      this.text.w = attributeSet.w;
+      this.text.h = attributeSet.h;
+    }
+    else { //is sprite
+      if(this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            this.sprite.x = sprite[a].getX(true) + attributeSet.x;
+            this.sprite.y = sprite[a].getY(true) + attributeSet.y;
+            break;
+          }
+        }
+      }
+      else { //no parent sprite
+        this.sprite.x = attributeSet.x;
+        this.sprite.y = attributeSet.y;
+      }
+      this.sprite.w = attributeSet.w;
+      this.sprite.h = attributeSet.h;
+    }
+  }
+  setX(x) {
+    if(this.isText) {
+      if(this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            this.text.x = sprite[a].getX(true) + x;
+            break;
+          }
+        }
+      }
+      else //has no parent
+        this.text.x = x;
+    }
+    else { //is sprite
+      if(this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            this.sprite.x = sprite[a].getX(true) + x;
+            break;
+          }
+        }
+      }
+      else //no parent sprite
+        this.sprite.x = x;
+    }
+  }
+  setY(y) {
+    if(this.isText) {
+      if(this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            this.text.y = sprite[a].getY(true) + y;
+            break;
+          }
+        }
+      }
+      else //has no parent
+        this.text.y = y;
+    }
+    else { //is sprite
+      if(this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            this.sprite.y = sprite[a].getY(true) + y;
+            break;
+          }
+        }
+      }
+      else //no parent sprite
+        this.sprite.y = y;
+    }
+  }
+  setW(w) {
+    if(this.isText)
+      this.text.w = w;
+    else
+      this.sprite.w = w;
+  }
+  setH(h) {
+    if(this.isText)
+      this.text.h = h;
+    else
+      this.sprite.h = h;
+  }
+  getX(getWorldCoordinate) {
+    if(this.isText) {
+      if(getWorldCoordinate && this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            return sprite[a].getX(true) + this.text.x;
+          }
+        }
+      }
+      else //has no parent
+        return this.text.x;
+    }
+    else { //is sprite
+      if(getWorldCoordinate && this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            return sprite[a].getX(true) + this.sprite.x;
+          }
+        }
+      }
+      else //no parent sprite
+        return this.sprite.x;
+    }
+  }
+  getY(getWorldCoordinate) {
+    if(this.isText) {
+      if(getWorldCoordinate && this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            return sprite[a].getY(true) + this.text.y;
+          }
+        }
+      }
+      else //has no parent
+        return this.text.y;
+    }
+    else { //is sprite
+      if(getWorldCoordinate && this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            return sprite[a].getY(true) + this.sprite.y;
+          }
+        }
+      }
+      else //no parent sprite
+        return this.sprite.y;
+    }
+  }
+  getW() {
+    if(this.isText)
+      return this.text.w;
+    else
+      return this.sprite.w;
+  }
+  getH() {
+    if(this.isText)
+      return this.text.h;
+    else
+      return this.sprite.h;
+  }
+  getAttributeSet(getWorldCoordinate) {
+    let returnValue = new AttributeSet();
+    if(this.isText) {
+      if(getWorldCoordinate && this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            returnValue.x = sprite[a].getX(true) + this.text.x;
+            returnValue.y = sprite[a].getY(true) + this.text.y;
+            break;
+          }
+        }
+      }
+      else { //has no parent
+        returnValue.x = this.text.x;
+        returnValue.y = this.text.y;
+      }
+      returnValue.w = this.text.w;
+      returnValue.h = this.text.h;
+    }
+    else { //is sprite
+      if(getWorldCoordinate && this.hasParent) {
+        for(let a = 0; a < sprite.length; ++a) {
+          if(this.parentSpriteID == sprite[a].spriteID) {
+            returnValue.x = sprite[a].getX(true) + this.sprite.x;
+            returnValue.y = sprite[a].getY(true) + this.sprite.y;
+            break;
+          }
+        }
+      }
+      else { //no parent sprite
+        returnValue.x = this.sprite.x;
+        returnValue.y = this.sprite.y;
+      }
+      returnValue.w = this.sprite.w;
+      returnValue.h = this.sprite.h;
+    }
+    return returnValue;
+  }
+  clear() {
+    if(this.isText)
+      this.text.destroy();
+    else
+      this.sprite.destroy(false);
+  }
+}
+
+function setup() {
+  /*
   let baseTexture = PIXI.BaseTexture.from('pixiAssets/img/tileset.png');
   let texture = new Array(
     new PIXI.Texture(baseTexture, new PIXI.Rectangle(0, 0, 200, 150)), 
@@ -52,14 +332,12 @@ function setupOld() {
   );
   let sprite = new Array(null, null, null);
   sprite[0] = new PIXI.Sprite(texture[0]);
-  sprite[0].x = 96;
-  sprite[0].y = 96;
+  //sprite[0].x = 96;
+  //sprite[0].y = 96;
   //sprite.width = 80;
   //sprite.height = 120;
-  /*
-  sprite.scale.x = 0.5;
-  sprite.scale.y = 0.5;
-  */
+  //sprite.scale.x = 0.5;
+  //sprite.scale.y = 0.5;
   sprite[0].anchor.x = 0.5;
   sprite[0].anchor.y = 0.5;
   sprite[0].rotation = 0.5;
@@ -72,126 +350,7 @@ function setupOld() {
   sprite[2].x = 0;
   sprite[2].y = 500;
   app.stage.addChild(sprite[2]);
-  app.renderer.render(app.stage);
+  app.renderer.render(app.stage);*/
 }
 
-function setupNew() {
-  let loader = new PIXI.Loader();
-  loader.add('tilesetData','pixiAssets/img/tileset.data');
-  loader.load((loader, resources) => {
-    /*console.log(resources.testData.data);
-    let test1 = '';
-    let test2 = '';
-    for(let a = 0; a < resources.testData.data.length; ++a) {
-      if(a < 5)
-        test1 += resources.testData.data[a];
-      else
-        test2 += resources.testData.data[a];
-    }
-    console.log("test1: " + test1);
-    console.log("test2: " + test2);
-    */
-   let bytesArrayTest = new Uint8Array.from(PIXI.ViewableBuffer.view('uint8'));
-   console.log("length of test data: " + bytesArrayTest.length);
-   console.log("length of data: " + resources.tilesetData.data.length);
-    console.log("first part of data: " + resources.tilesetData.data[0].toString());
-    console.log("second part of data: " + resources.tilesetData.data[1].toString());
-    console.log("third part of data: " + resources.tilesetData.data[2].toString());
-    console.log("fourth part of data: " + resources.tilesetData.data[3].toString());
-    let bytesArray = new Uint8Array([resources.tilesetData.data[0], resources.tilesetData.data[1], resources.tilesetData.data[2], resources.tilesetData.data[3]]);
-    let bytesView = new DataView(bytesArray.buffer);
-    let width = bytesView.getInt32();
-    bytesArray = new Uint8Array([resources.tilesetData.data[4], resources.tilesetData.data[5], resources.tilesetData.data[6], resources.tilesetData.data[7]]);
-    bytesView = new DataView(bytesArray.buffer);
-    let height = bytesView.getInt32();
-    console.log("width: " + width);
-    console.log("height: " + height);
-  });
-}
-
-setupOld();
-setupNew();
-
-/*Better yet, just list all the files you want to load in an array inside a single add method, like this:
-
-PIXI.loader
-  .add([
-    "images/imageOne.png",
-    "images/imageTwo.png",
-    "images/imageThree.png"
-  ])
-  .load(setup);
-
-  */
-
-/*
-let texture = PIXI.utils.TextureCache["pixiAsset/img/Untitled.png"];
-let sprite = new PIXI.Sprite(texture);
-*/
-
-/*
-If you ever need to remove a sprite from the stage, use the removeChild method:
-
-app.stage.removeChild(anySprite)
-But usually setting a sprite’s visible property to false will be a simpler and more efficient way of making sprites disappear.
-
-anySprite.visible = false;
-
-*/
-
-/*Monitoring load progress
-Pixi's loader has a special progress event that will call a customizable function that will run each time a file loads. progress events are called by the loader's on method, like this:
-
-PIXI.loader.on("progress", loadProgressHandler);
-Here's how to include the on method in the loading chain, and call a user-definable function called loadProgressHandler each time a file loads.
-
-PIXI.loader
-  .add([
-    "images/one.png",
-    "images/two.png",
-    "images/three.png"
-  ])
-  .on("progress", loadProgressHandler)
-  .load(setup);
-
-function loadProgressHandler() {
-  console.log("loading"); 
-}
-
-function setup() {
-  console.log("setup");
-}
-Each time one of the files loads, the progress event calls loadProgressHandler to display "loading" in the console. When all three files have loaded, the setup function will run. 
-
-That's neat, but it gets better. You can also find out exactly which file has loaded and what percentage of overall files are have currently loaded. You can do this by adding optional loader and resource parameters to the loadProgressHandler, like this:
-
-function loadProgressHandler(loader, resource) { name here }
-You can then use resource.url to find the file that's currently loaded. (Use resource.name if you want to find the optional name that you might have assigned to the file, as the first argument in the add method.) And you can use loader.progress to find what percentage of total resources have currently loaded. Here's some code that does just that.
-
-PIXI.loader
-  .add([
-    "images/one.png",
-    "images/two.png",
-    "images/three.png"
-  ])
-  .on("progress", loadProgressHandler)
-  .load(setup);
-
-function loadProgressHandler(loader, resource) {
-
-  //Display the file `url` currently being loaded
-  console.log("loading: " + resource.url); 
-
-  //Display the percentage of files currently loaded
-  console.log("progress: " + loader.progress + "%"); 
-
-  //If you gave your files names as the first argument 
-  //of the `add` method, you can access them like this
-  //console.log("loading: " + resource.name);
-}
-
-function setup() {
-  console.log("All files loaded");
-}
-*/
-
+setup();
