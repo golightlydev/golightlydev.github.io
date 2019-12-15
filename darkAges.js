@@ -9,7 +9,7 @@ let app = new PIXI.Application({
     resolution: 1,
 });
 
-app.renderer.backgroundColor = 0x061639;
+app.renderer.backgroundColor = "#000000";
 
 document.body.appendChild(app.view);
 
@@ -360,7 +360,7 @@ setup();
 change w and h code for text to reflect that that's automatically
   determined by program
 remove setW and setH for text
-create worldBackground.png
+create worldBackground.png (necessary because it can be replaced with something nicer later)
 create 50 area#.png files
 for selected area, also create outlines for every individual area
 create a circle for selected worldPlayer and a square for selected local player, etc.

@@ -1,0 +1,21 @@
+{
+    "short_name": "DarkAges",
+    "name": "Dark Ages",
+    "icons": [
+      {
+        "src": "/pixiAssets/img/icon.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/pixiAssets/img/icon512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/darkAges.html",
+    "background_color": "#000000",
+    "display": "browser",
+    "orientation": "landscape",
+    "scope": "/darkAges.html",
+  }
