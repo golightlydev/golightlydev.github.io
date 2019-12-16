@@ -9,7 +9,7 @@ let app = new PIXI.Application({
     resolution: 1,
 });
 
-app.renderer.backgroundColor = "#000000";
+app.renderer.backgroundColor = "#ffffff";
 
 document.body.appendChild(app.view);
 
@@ -25,6 +25,8 @@ window.addEventListener('resize', function(event) {
 let baseTexture = null;
 let texture = null;
 let sprite = null;
+
+let state = 'mainMenu';
 
 class BaseTexture {
   constructor(fileName, baseTextureID) {
@@ -351,18 +353,35 @@ class Sprite {
 }*/
 
 function setup() {
-
+  basetexture = new Array(
+    PIXI.BaseTexture.from('pixiAssets/img/optionsMenuTileset.png'), 
+    PIXI.BaseTexture.from('pixiAssets/img/mainMenuTileset.png'));
+  //create array of textures of maximum size that would be needed at one time
+  //create array of ui (make ui its own class containing a sprite, 
+  //strip that feature from sprite class)
+  //setup events for ui
+  //change sprite array to be a bunch of different more specialised arrays
 }
 
 setup();
 
-/*changing message of text shouldn't need me to change anything
+/*
+DONE
+
+changing message of text shouldn't need me to change anything
 change w and h code for text to reflect that that's automatically
   determined by program
 remove setW and setH for text
 create worldBackground.png (necessary because it can be replaced with something nicer later)
+
+NOT DONE
+
+create mockup for main menu (hamburger menu icons)
+semi-transparent background for option menu, use font for Retire option
+retire screen also has to be created
 create 50 area#.png files
 for selected area, also create outlines for every individual area
+for all areas, create an image with text
 create a circle for selected worldPlayer and a square for selected local player, etc.
 example for tinting those images 
 http://scottmcdonnell.github.io/pixi-examples/index.html?s=demos&f=tinting.js&title=Tinting
@@ -395,7 +414,7 @@ starting ui
   title
   create character heading
   character first name sub heading
-  character name text box
+  character first name text box
   character last name sub heading
   character last name text box
   character image sub heading
