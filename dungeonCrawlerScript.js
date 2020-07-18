@@ -140,7 +140,7 @@ class Program {
 
     setupVertexAttribColour(actorIndex) {
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].colourBuffer);
-        this.gl.vertexAttribPointer(this.vertexAttribColourLocation, 2, this.gl.FLOAT, false, 0, 0);
+        this.gl.vertexAttribPointer(this.vertexAttribColourLocation, 4, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(this.vertexAttribColourLocation);
     }
 
