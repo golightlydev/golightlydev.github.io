@@ -6,6 +6,7 @@ class ShapeColour {
             this.colour[a] = 1.0;
         }
     }
+
     setVertexColour(vertexIndex, r, g, b, a) {
         let start = vertexIndex * 4;
         this.colour[start] = r;
@@ -16,20 +17,9 @@ class ShapeColour {
 };
 
 class Actor {
-    constructor() {
-        this.positions = [
-            -1.0, 1.0,
-            1.0, 1.0,
-            -1.0, -1.0,
-            1.0, -1.0
-        ];
-        this.colours = [
-            1.0, 1.0, 1.0, 1.0, //white
-            1.0, 0.0, 0.0, 1.0, //red
-            0.0, 1.0, 0.0, 1.0, //green
-            0.0, 0.0, 1.0, 1.0 //blue
-        ];
-        this.colours = new ShapeColour(4);
+    constructor(verticesNum) {
+        this.positions = new Array(verticesNum * 2);
+        this.colours = new ShapeColour(verticesNum);
         this.colours.setVertexColour(0, 1.0, 1.0, 1.0, 1.0);
         this.colours.setVertexColour(1, 1.0, 0.0, 0.0, 1.0);
         this.colours.setVertexColour(2, 0.0, 1.0, 0.0, 1.0);
@@ -39,11 +29,17 @@ class Actor {
         this.projectionMatrix = null;
         this.modelViewMatrix = null;
         this.rotation = 0.0;
-        this.vertexCount = 4;
+        this.vertexCount = verticesNum;
     }
+
+    setPosition(vertexIndex, x, y) {
+        this.positions[vertexIndex * 2] = x;
+        this.positions[(vertexIndex * 2) + 1] = y;
+    }
+
     setVertexColour(vertexIndex, r, g, b, a) {
         this.colours.setVertexColour(vertexIndex, r, g, b, a);
-    } 
+    }
 };
 
 class Program {
@@ -64,11 +60,29 @@ class Program {
         this.actorNum = actorNum;
         this.actor = new Array(this.actorNum);
     }
+
     setupActors() {
+        let verticesNum = 4;
         for(let a = 0; a < this.actorNum; ++a) {
-            this.actor[a] = new Actor;
+            if(a == 0) {
+                //set verticesNum to something new here if necessary
+                this.actor[a] = new Actor(verticesNum);
+                this.actor[a].setPosition(0, -(this.gl.canvas.clientWidth / 2) + 100, 100);
+                this.actor[a].setPosition(1, -(this.gl.canvas.clientWidth / 2) + 300, 100);
+                this.actor[a].setPosition(2, -(this.gl.canvas.clientWidth / 2) + 100, -100);
+                this.actor[a].setPosition(3, -(this.gl.canvas.clientWidth / 2) + 300, -100);
+            }
+            else if(a == 1) {
+                //set verticesNum to something new here if necessary
+                this.actor[a] = new Actor(verticesNum);
+                this.actor[a].setPosition(0, (this.gl.canvas.clientWidth / 2) - 300, 100);
+                this.actor[a].setPosition(1, (this.gl.canvas.clientWidth / 2) - 100, 100);
+                this.actor[a].setPosition(2, (this.gl.canvas.clientWidth / 2) - 300, -100);
+                this.actor[a].setPosition(3, (this.gl.canvas.clientWidth / 2) - 100, -100);
+            }
         }
     }
+
     setupShaderProgram() {
         let vertexShaderSource = `
             attribute vec4 aVertexPosition;
@@ -118,6 +132,10 @@ class Program {
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.actor[actorIndex].colours.colour), this.gl.STATIC_DRAW);
     }
 
+    setPosition(actorIndex, vertexIndex, x, y) {
+        this.actor[actorIndex].setPosition(vertexIndex, x, y);
+    }
+
     setVertexColour(actorIndex, vertexIndex, r, g, b, a) {
         this.actor[actorIndex].setVertexColour(vertexIndex, r, g, b, a);
     }
@@ -134,7 +152,7 @@ class Program {
 
     setupVertexAttribPosition(actorIndex) {
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].positionBuffer);
-        this.gl.vertexAttribPointer(this.vertexAttribPositionLocation, 2, this.gl.FLOAT, false, 0, 0);
+        this.gl.vertexAttribPointer(this.vertexAttribPositionLocation, 2, this.gl.FLOAT, true, 0, 0);
         this.gl.enableVertexAttribArray(this.vertexAttribPositionLocation);
     }
 
@@ -146,15 +164,17 @@ class Program {
 
     setProjectionMatrix(actorIndex) {
         this.actor[actorIndex].projectionMatrix = glMatrix.mat4.create();
-        glMatrix.mat4.perspective(this.actor[actorIndex].projectionMatrix, (45 * Math.PI / 180), (this.gl.canvas.clientWidth / this.gl.canvas.clientHeight), 0.1, 100.0);
+        glMatrix.mat4.ortho(this.actor[actorIndex].projectionMatrix, -(this.gl.canvas.clientWidth / 2), this.gl.canvas.clientWidth / 2, -(this.gl.canvas.clientHeight / 2), this.gl.canvas.clientHeight / 2, 0.0, 100.0);
     }
 
     setModelViewMatrix(actorIndex) {
         this.actor[actorIndex].modelViewMatrix = glMatrix.mat4.create();
-        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [-0.0, 0.0, -6.0]);
+        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [-(this.gl.canvas.clientWidth / 2) + 100 + 100, 0, 0.0]);
         if(this.actor[actorIndex].rotation != 0.0) {
-            glMatrix.mat4.rotate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation, [0, 0, 1]);
+            glMatrix.mat4.rotateZ(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation);
+            //glMatrix.mat4.rotate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation, [0, 0, 1]);
         }
+        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [(this.gl. canvas.clientWidth / 2) - (100 + 100), 0, 0.0]);
     }
 
     render(deltaTime) {
@@ -174,6 +194,7 @@ class Program {
                 this.actor[a].modelViewMatrix
             );
             this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, this.actor[a].vertexCount);
+            console.log(this.actor[a].rotation);
             this.actor[a].rotation += deltaTime;
         }
     }
