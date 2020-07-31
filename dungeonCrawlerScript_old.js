@@ -1,3 +1,28 @@
+class Camera {
+    constructor(width, height, x, y) {
+        this.width = width;
+        this.height = height;
+        this.x = x;
+        this.y = y;
+        this.originX = this.x + (this.width / 2);
+        this.originY = this.y + (this.height / 2);
+    }
+
+    resetSize(width, height) { //in case of display change
+        this.width = width;
+        this.height = height;
+        this.originX = this.x + (this.width / 2);
+        this.originY = this.y + (this.height / 2);
+    }
+
+    setPosition(x, y) {
+        this.x = x;
+        this.y = y;
+        this.originX = this.x + (this.width / 2);
+        this.originY = this.y + (this.height / 2);
+    }
+};
+
 class ShapeColour {
     constructor(numVertices) {
         this.numVertices = numVertices;
@@ -17,7 +42,7 @@ class ShapeColour {
 };
 
 class Actor {
-    constructor(verticesNum) {
+    constructor(verticesNum, width, height, x, y) {
         this.positions = new Array(verticesNum * 2);
         this.colours = new ShapeColour(verticesNum);
         this.colours.setVertexColour(0, 1.0, 1.0, 1.0, 1.0);
@@ -30,11 +55,20 @@ class Actor {
         this.modelViewMatrix = null;
         this.rotation = 0.0;
         this.vertexCount = verticesNum;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
 
-    setPosition(vertexIndex, x, y) {
-        this.positions[vertexIndex * 2] = x;
-        this.positions[(vertexIndex * 2) + 1] = y;
+    setCameraPosition(vertexIndex, cameraX, cameraY) {
+        this.positions[vertexIndex * 2] = cameraX;
+        this.positions[(vertexIndex * 2) + 1] = cameraY;
+    }
+
+    setWorldPosition(x, y) {
+        this.x = x;
+        this.y = y;
     }
 
     setVertexColour(vertexIndex, r, g, b, a) {
@@ -59,27 +93,28 @@ class Program {
         this.modelViewMatrixUniformLocation = null;
         this.actorNum = actorNum;
         this.actor = new Array(this.actorNum);
+        this.camera = new Camera(0, 0, this.gl.canvas.clientWidth, this.gl.canvas.clientHeight);
     }
 
     setupActors() {
-        let verticesNum = 4;
+        let verticesNum = null;
+        let width = null;
+        let height = null;
+        let x = null;
+        let y = null;
         for(let a = 0; a < this.actorNum; ++a) {
             if(a == 0) {
-                //set verticesNum to something new here if necessary
-                this.actor[a] = new Actor(verticesNum);
-                this.actor[a].setPosition(0, -(this.gl.canvas.clientWidth / 2) + 100, 100);
-                this.actor[a].setPosition(1, -(this.gl.canvas.clientWidth / 2) + 300, 100);
-                this.actor[a].setPosition(2, -(this.gl.canvas.clientWidth / 2) + 100, -100);
-                this.actor[a].setPosition(3, -(this.gl.canvas.clientWidth / 2) + 300, -100);
+                verticesNum = 4;
+                width = 200;
+                height = 100;
+                x = 100;
+                y = (this.gl.canvas.clientHeight / 2) - 100;
             }
-            else if(a == 1) {
-                //set verticesNum to something new here if necessary
-                this.actor[a] = new Actor(verticesNum);
-                this.actor[a].setPosition(0, (this.gl.canvas.clientWidth / 2) - 300, 100);
-                this.actor[a].setPosition(1, (this.gl.canvas.clientWidth / 2) - 100, 100);
-                this.actor[a].setPosition(2, (this.gl.canvas.clientWidth / 2) - 300, -100);
-                this.actor[a].setPosition(3, (this.gl.canvas.clientWidth / 2) - 100, -100);
-            }
+            this.actor[a] = new Actor(verticesNum, width, height, x, y);
+            this.actor[a].setPosition(0, -(this.camera.originX - this.actor[a].x), -(this.actor[a].y - this.camera.originY));
+            this.actor[a].setPosition(1, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), -(this.actor[a].y - this.camera.originY));
+            this.actor[a].setPosition(2, -(this.camera.originX - this.actor[a].x), -((this.actor[a].y + this.actor[a].height) - this.camera.originY));
+            this.actor[a].setPosition(3, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), -((this.actor[a].y + this.actor[a].height) - this.camera.originY));
         }
     }
 
@@ -164,12 +199,12 @@ class Program {
 
     setProjectionMatrix(actorIndex) {
         this.actor[actorIndex].projectionMatrix = glMatrix.mat4.create();
-        glMatrix.mat4.ortho(this.actor[actorIndex].projectionMatrix, -(this.gl.canvas.clientWidth / 2), this.gl.canvas.clientWidth / 2, -(this.gl.canvas.clientHeight / 2), this.gl.canvas.clientHeight / 2, 0.0, 100.0);
+        glMatrix.mat4.ortho(this.actor[actorIndex].projectionMatrix, -(this.camera.width / 2), this.camera.width / 2, -(this.camera.height / 2), this.camera.height / 2, 0.0, 100.0);
     }
 
     setModelViewMatrix(actorIndex) {
         this.actor[actorIndex].modelViewMatrix = glMatrix.mat4.create();
-        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [-(this.gl.canvas.clientWidth / 2) + 100 + 100, 0, 0.0]);
+        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + this.actor[actorIndex].width / 2, this.actor[actorIndex].positions[1] + this.actor[actorIndex].height / 2, 0.0]);
         if(this.actor[actorIndex].rotation != 0.0) {
             glMatrix.mat4.rotateZ(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation);
             //glMatrix.mat4.rotate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation, [0, 0, 1]);
