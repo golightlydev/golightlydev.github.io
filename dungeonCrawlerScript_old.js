@@ -1,3 +1,5 @@
+var debugFirstRun = true;
+
 class Camera {
     constructor(width, height, x, y) {
         this.width = width;
@@ -20,6 +22,13 @@ class Camera {
         this.y = y;
         this.originX = this.x + (this.width / 2);
         this.originY = this.y + (this.height / 2);
+    }
+
+    debugGetPositions() {
+        console.log("camera originX: " + this.originX);
+        console.log("camera originY: " + this.originY);
+        console.log("camera width: " + this.width);
+        console.log("camera height: " + this.height);
     }
 };
 
@@ -54,7 +63,7 @@ class Actor {
         this.projectionMatrix = null;
         this.modelViewMatrix = null;
         this.rotation = 0.0;
-        this.vertexCount = verticesNum;
+        this.verticesNum = verticesNum;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -73,6 +82,15 @@ class Actor {
 
     setVertexColour(vertexIndex, r, g, b, a) {
         this.colours.setVertexColour(vertexIndex, r, g, b, a);
+    }
+
+    debugGetPositions() {
+        console.log("x: " + this.x);
+        console.log("y: " + this.y);
+        for(let a = 0; a < (this.verticesNum * 2); a+=2) {
+            console.log("vertex #" + a + ": x: " + this.positions[a]);
+            console.log("vertex #" + a + ": y: " + this.positions[a+1]);
+        }
     }
 };
 
@@ -93,7 +111,7 @@ class Program {
         this.modelViewMatrixUniformLocation = null;
         this.actorNum = actorNum;
         this.actor = new Array(this.actorNum);
-        this.camera = new Camera(0, 0, this.gl.canvas.clientWidth, this.gl.canvas.clientHeight);
+        this.camera = new Camera(this.gl.canvas.clientWidth, this.gl.canvas.clientHeight, 0, 0);
     }
 
     setupActors() {
@@ -106,16 +124,25 @@ class Program {
             if(a == 0) {
                 verticesNum = 4;
                 width = 200;
-                height = 100;
+                height = 200;
                 x = 100;
                 y = (this.gl.canvas.clientHeight / 2) - 100;
             }
+            else if(a == 1) {
+                verticesNum = 4;
+                width = 300;
+                height = 300;
+                x = this.gl.canvas.clientWidth - 100 - width;
+                y = (this.gl.canvas.clientHeight / 2) - (height / 2);
+            }
             this.actor[a] = new Actor(verticesNum, width, height, x, y);
-            this.actor[a].setPosition(0, -(this.camera.originX - this.actor[a].x), -(this.actor[a].y - this.camera.originY));
-            this.actor[a].setPosition(1, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), -(this.actor[a].y - this.camera.originY));
-            this.actor[a].setPosition(2, -(this.camera.originX - this.actor[a].x), -((this.actor[a].y + this.actor[a].height) - this.camera.originY));
-            this.actor[a].setPosition(3, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), -((this.actor[a].y + this.actor[a].height) - this.camera.originY));
+            //this.camera.debugGetPositions();
+            this.actor[a].setCameraPosition(0, -(this.camera.originX - this.actor[a].x), this.camera.originY - this.actor[a].y);
+            this.actor[a].setCameraPosition(1, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), this.camera.originY - this.actor[a].y);
+            this.actor[a].setCameraPosition(2, -(this.camera.originX - this.actor[a].x), (this.camera.originY - (this.actor[a].y + this.actor[a].height)));
+            this.actor[a].setCameraPosition(3, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), (this.camera.originY - (this.actor[a].y + this.actor[a].height)));
         }
+        //this.actor[0].debugGetPositions();
     }
 
     setupShaderProgram() {
@@ -167,8 +194,12 @@ class Program {
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.actor[actorIndex].colours.colour), this.gl.STATIC_DRAW);
     }
 
-    setPosition(actorIndex, vertexIndex, x, y) {
-        this.actor[actorIndex].setPosition(vertexIndex, x, y);
+    setPosition(actorIndex, x, y) {
+        this.actor[actorIndex].setWorldPosition(x, y);
+        this.actor[a].setCameraPosition(0, -(this.camera.originX - this.actor[a].x), this.camera.originY - this.actor[a].y);
+        this.actor[a].setCameraPosition(1, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), this.camera.originY - this.actor[a].y);
+        this.actor[a].setCameraPosition(2, -(this.camera.originX - this.actor[a].x), (this.camera.originY - (this.actor[a].y + this.actor[a].height)));
+        this.actor[a].setCameraPosition(3, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), (this.camera.originY - (this.actor[a].y + this.actor[a].height)));
     }
 
     setVertexColour(actorIndex, vertexIndex, r, g, b, a) {
@@ -178,10 +209,10 @@ class Program {
     setupRender() {
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.depthFunc(this.gl.LEQUAL);
-        for(let a = 0; a < this.actorNum; ++a) {
+        /*for(let a = 0; a < this.actorNum; ++a) {
             this.setupVertexAttribPosition(a);
             this.setupVertexAttribColour(a);
-        }
+        }*/
         this.gl.useProgram(this.shaderProgram);
     }
 
@@ -204,18 +235,26 @@ class Program {
 
     setModelViewMatrix(actorIndex) {
         this.actor[actorIndex].modelViewMatrix = glMatrix.mat4.create();
-        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + this.actor[actorIndex].width / 2, this.actor[actorIndex].positions[1] + this.actor[actorIndex].height / 2, 0.0]);
+        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2), this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2, 0.0]);
+        /*if(debugFirstRun) {
+            console.log(this.actor[actorIndex].width);
+            console.log("rotation translation x: " + (this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2)));
+            console.log("rotation translate y: " + (this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2));
+            debugFirstRun = false;
+        }*/
         if(this.actor[actorIndex].rotation != 0.0) {
             glMatrix.mat4.rotateZ(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation);
             //glMatrix.mat4.rotate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation, [0, 0, 1]);
         }
-        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [(this.gl. canvas.clientWidth / 2) - (100 + 100), 0, 0.0]);
+        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [-(this.actor[actorIndex].positions[0] + this.actor[actorIndex].width / 2), -(this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2), 0.0]);
     }
 
     render(deltaTime) {
         this.gl.clearDepth(1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
         for(let a = 0; a < this.actorNum; ++a) {
+            this.setupVertexAttribPosition(a);
+            this.setupVertexAttribColour(a);
             this.setProjectionMatrix(a);
             this.setModelViewMatrix(a);
             this.gl.uniformMatrix4fv(
@@ -228,15 +267,18 @@ class Program {
                 false,
                 this.actor[a].modelViewMatrix
             );
-            this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, this.actor[a].vertexCount);
-            console.log(this.actor[a].rotation);
-            this.actor[a].rotation += deltaTime;
+            this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, this.actor[a].verticesNum);
+            //console.log(this.actor[a].rotation);
+            if(a == 0)
+                this.actor[a].rotation += deltaTime;
+            else if(a == 1)
+                this.actor[a].rotation -= deltaTime;
         }
     }
 };
 
 function main() {
-    var program = new Program(1);
+    var program = new Program(2);
     program.setupActors();
     program.setupShaderProgram();
     for(let a = 0; a < program.actorNum; ++a) {
