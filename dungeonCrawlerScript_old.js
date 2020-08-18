@@ -8,13 +8,34 @@ class Camera {
         this.y = y;
         this.originX = this.x + (this.width / 2);
         this.originY = this.y + (this.height / 2);
+        this.heightChanged = false;
     }
 
     resetSize(width, height) { //in case of display change
-        this.width = width;
+        /*this.width = width;
         this.height = height;
         this.originX = this.x + (this.width / 2);
-        this.originY = this.y + (this.height / 2);
+        this.originY = this.y + (this.height / 2);*/
+        /*if(height > width) {
+            let canvasTemp = document.getElementById("canvas");
+            let paddingTop = Math.floor((height - width) / 2);
+            let paddingBottom = paddingTop;
+            if((paddingTop + paddingBottom + width) > height)
+                --paddingBottom;
+            else if((paddingTop + paddingBottom + width) < height)
+                ++paddingTop;
+            canvasTemp.style.paddingTop = paddingTop + "px";
+            canvasTemp.style.paddingBottom = paddingBottom + "px";
+            canvasTemp.style.height = width + "px";
+            this.heightChanged = true;
+        }
+        else if(this.heightChanged == true) {
+            let canvasTemp = document.getElementById('canvas');
+            canvasTemp.style.paddingTop = "0px";
+            canvasTemp.style.paddingBottom = "0px";
+            canvasTemp.style.height = "100%";
+            this.heightChanged = false;
+        }*/
     }
 
     setPosition(x, y) {
@@ -274,24 +295,32 @@ class Program {
             else if(a == 1)
                 this.actor[a].rotation -= deltaTime;
         }
+        //this.camera.debugGetPositions();
     }
 };
 
 function main() {
-    var program = new Program(2);
-    program.setupActors();
-    program.setupShaderProgram();
-    for(let a = 0; a < program.actorNum; ++a) {
-        program.setupPositionBuffer(a);
-        program.setupColourBuffer(a);
+    let programWrapper = {
+        program: new Program(2)
+    };
+    /*window.addEventListener("resize", (function(programWrapper) {
+        return function() {
+            programWrapper.program.camera.resetSize(programWrapper.program.gl.canvas.clientWidth, programWrapper.program.gl.canvas.clientHeight)
+        };
+    })(programWrapper));*/
+    programWrapper.program.setupActors();
+    programWrapper.program.setupShaderProgram();
+    for(let a = 0; a < programWrapper.program.actorNum; ++a) {
+        programWrapper.program.setupPositionBuffer(a);
+        programWrapper.program.setupColourBuffer(a);
     }
-    program.setupRender();
+    programWrapper.program.setupRender();
     var then = 0;
     function renderFunction(now) {
         now *= 0.001;
         let deltaTime = now - then;
         then = now;
-        program.render(deltaTime);
+        programWrapper.program.render(deltaTime);
         requestAnimationFrame(renderFunction);
     }
     requestAnimationFrame(renderFunction);
