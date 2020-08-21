@@ -383,9 +383,10 @@ class Program {
             this.setupVertexAttribTexture(a);
             this.setProjectionMatrix(a);
             this.setModelViewMatrix(a);
-            this.gl.activeTexture(this.gl.TEXTURE0);
+            /*this.gl.activeTexture(this.gl.TEXTURE0);
             this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture[0]);
             this.gl.uniform1i(this.uSamplerUniformLocation, 0);
+            */
             this.gl.uniformMatrix4fv(
                 this.projectionMatrixUniformLocation,
                 false,
@@ -396,6 +397,9 @@ class Program {
                 false,
                 this.actor[a].modelViewMatrix
             );
+            this.gl.activeTexture(this.gl.TEXTURE0);
+            this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture[0]);
+            this.gl.uniform1i(this.uSamplerUniformLocation, 0);
             this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, this.actor[a].verticesNum);
             //console.log(this.actor[a].rotation);
             if(a == 0)
