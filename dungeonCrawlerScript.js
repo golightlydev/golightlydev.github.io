@@ -1,6 +1,4 @@
-function isPowerOf2(value) {
-    return (value & (value - 1)) == 0;
-  }
+var debugFirstRun = true;
 
 class Camera {
     constructor(width, height, x, y) {
@@ -10,6 +8,7 @@ class Camera {
         this.y = y;
         this.originX = this.x + (this.width / 2);
         this.originY = this.y + (this.height / 2);
+        this.heightChanged = false;
     }
 
     resetSize(width, height) { //in case of display change
@@ -17,6 +16,26 @@ class Camera {
         this.height = height;
         this.originX = this.x + (this.width / 2);
         this.originY = this.y + (this.height / 2);
+        /*if(height > width) {
+            let canvasTemp = document.getElementById("canvas");
+            let paddingTop = Math.floor((height - width) / 2);
+            let paddingBottom = paddingTop;
+            if((paddingTop + paddingBottom + width) > height)
+                --paddingBottom;
+            else if((paddingTop + paddingBottom + width) < height)
+                ++paddingTop;
+            canvasTemp.style.paddingTop = paddingTop + "px";
+            canvasTemp.style.paddingBottom = paddingBottom + "px";
+            canvasTemp.style.height = width + "px";
+            this.heightChanged = true;
+        }
+        else if(this.heightChanged == true) {
+            let canvasTemp = document.getElementById('canvas');
+            canvasTemp.style.paddingTop = "0px";
+            canvasTemp.style.paddingBottom = "0px";
+            canvasTemp.style.height = "100%";
+            this.heightChanged = false;
+        }*/
     }
 
     setPosition(x, y) {
@@ -53,7 +72,7 @@ class ShapeColour {
 };
 
 class Actor {
-    constructor(verticesNum, width, height, x, y, spriteNum, textureIndex) {
+    constructor(verticesNum, width, height, x, y) {
         this.positions = new Array(verticesNum * 2);
         this.colours = new ShapeColour(verticesNum);
         this.colours.setVertexColour(0, 1.0, 1.0, 1.0, 1.0);
@@ -70,11 +89,6 @@ class Actor {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.spriteNum = spriteNum;
-        this.textureIndex = new Array(spriteNum);
-        for(let a = 0; a < spriteNum; ++a) {
-            this.textureIndex[a] = textureIndex[a];
-        }
     }
 
     setCameraPosition(vertexIndex, cameraX, cameraY) {
@@ -102,17 +116,15 @@ class Actor {
 };
 
 class Program {
-    constructor(actorNum, maxTextureNum) {
+    constructor(actorNum) {
         this.canvas = document.getElementById("canvas");
-        this.glContainer = {
-            gl: canvas.getContext("webgl")
-        }
+        this.gl = canvas.getContext("webgl");
         this.setupCheck = true;
-        if(this.glContainer.gl === null) {
+        if(this.gl === null) {
             this.setupCheck = false;
             return;
         }
-        this.glContainer.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.shaderProgram = null;
         this.vertexAttribPositionLocation = null;
         this.vertexAttribColourLocation = null;
@@ -120,15 +132,15 @@ class Program {
         this.modelViewMatrixUniformLocation = null;
         this.actorNum = actorNum;
         this.actor = new Array(this.actorNum);
-        this.camera = new Camera(this.glContainer.gl.canvas.clientWidth, this.glContainer.gl.canvas.clientHeight, 0, 0);
-        this.maxTextureNum = maxTextureNum;
-        this.textureIsLoaded = new Array(maxTextureNum);
-        //0 = not in use, 1 = loading, 2 = loaded
-        this.texture = new Array(maxTextureNum);
-        for(let a = 0; a < maxTextureNum; ++a) {
-            textureIsLoading[a] = 0;
-            texture[a] = null;
-        }
+        this.internalResolutionX = 1920;
+        this.internalResolutionY = 1080;
+        this.camera = new Camera(this.internalResolutionX, this.internalResolutionY, 0, 0);
+    }
+
+    resetSize(width, height) {
+        this.camera.resetSize(width, height);
+        //this.gl.viewport(0, 0, width, height);
+        //this.render(deltaTime);
     }
 
     setupActors() {
@@ -140,17 +152,25 @@ class Program {
         for(let a = 0; a < this.actorNum; ++a) {
             if(a == 0) {
                 verticesNum = 4;
-                width = 200;
+                /*width = 200;
                 height = 200;
                 x = 100;
-                y = (this.glContainer.gl.canvas.clientHeight / 2) - 100;
+                y = (this.gl.canvas.clientHeight / 2) - 100;*/
+                width = (200 / this.internalResolutionX) * this.internalResolutionX;
+                height = (200 / this.internalResolutionY) * this.internalResolutionY;
+                x = (100 / this.internalResolutionX) * this.internalResolutionX;
+                y = (this.internalResolutionY / 2) - (height / 2);
             }
             else if(a == 1) {
                 verticesNum = 4;
-                width = 300;
+                /*width = 300;
                 height = 300;
-                x = this.glContainer.gl.canvas.clientWidth - 100 - width;
-                y = (this.glContainer.gl.canvas.clientHeight / 2) - (height / 2);
+                x = this.gl.canvas.clientWidth - 100 - width;
+                y = (this.gl.canvas.clientHeight / 2) - (height / 2);*/
+                width = (300 / this.internalResolutionX) * this.internalResolutionX;
+                height = (300 / this.internalResolutionY) * this.internalResolutionY;
+                x = this.internalResolutionX - ((100 / this.internalResolutionX) * this.internalResolutionX) - width;
+                y = (this.internalResolutionY / 2) - (height / 2);
             }
             this.actor[a] = new Actor(verticesNum, width, height, x, y);
             //this.camera.debugGetPositions();
@@ -160,29 +180,6 @@ class Program {
             this.actor[a].setCameraPosition(3, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), (this.camera.originY - (this.actor[a].y + this.actor[a].height)));
         }
         //this.actor[0].debugGetPositions();
-        //setup stuff related to textures here
-    }
-
-    setupTexture(textureIndex, url) {
-        this.textureIsLoaded[textureIndex] = 1;
-        let tempImage = new Image();
-        tempImage.onload = (function(glContainer, texture, textureIndex, textureIsLoaded) {
-            return function() {
-                texture[textureIndex] = glContainer.gl.createTexture();
-                glContainer.gl.bindTexture(glContainer.gl.TEXTURE_2D, texture[textureIndex]);
-                glContainer.gl.texImage2D(glContainer.gl.TEXTURE_2D, 0, glContainer.gl.RGBA, glContainer.gl.RGBA, glContainer.gl.UNSIGNED_BYTE, this);
-                if(isPowerOf2(this.width) && isPowerOf2(this.height)) {
-                    glContainer.gl.generateMipmap(glContainer.gl.TEXTURE_2D);
-                }
-                else {
-                    glContainer.gl.texParameteri(glContainer.gl.TEXTURE_2D, glContainer.gl.TEXTURE_WRAP_S, glContainer.gl.CLAMP_TO_EDGE);
-                    glContainer.gl.texParameteri(glContainer.gl.TEXTURE_2D, glContainer.gl.TEXTURE_WRAP_T, glContainer.gl.CLAMP_TO_EDGE);
-                    glContainer.gl.texParameteri(glContainer.gl.TEXTURE_2D, glContainer.gl.TEXTURE_MIN_FILTER, glContainer.gl.LINEAR);
-                }
-                textureIsLoaded[textureIndex] = 2;
-            };
-        })(this.glContainer, this.texture, textureIndex, this.textureIsLoaded);
-        tempImage.src = url;
     }
 
     setupShaderProgram() {
@@ -206,32 +203,32 @@ class Program {
                 gl_FragColor = vColour;
             }
         `
-        let vertexShader = this.glContainer.gl.createShader(this.glContainer.gl.VERTEX_SHADER);
-        this.glContainer.gl.shaderSource(vertexShader, vertexShaderSource);
-        this.glContainer.gl.compileShader(vertexShader);
-        let fragmentShader = this.glContainer.gl.createShader(this.glContainer.gl.FRAGMENT_SHADER);
-        this.glContainer.gl.shaderSource(fragmentShader, fragmentShaderSource);
-        this.glContainer.gl.compileShader(fragmentShader);
-        this.shaderProgram = this.glContainer.gl.createProgram();
-        this.glContainer.gl.attachShader(this.shaderProgram, vertexShader);
-        this.glContainer.gl.attachShader(this.shaderProgram, fragmentShader);
-        this.glContainer.gl.linkProgram(this.shaderProgram);
-        this.vertexAttribPositionLocation = this.glContainer.gl.getAttribLocation(this.shaderProgram, 'aVertexPosition');
-        this.vertexAttribColourLocation = this.glContainer.gl.getAttribLocation(this.shaderProgram, 'aVertexColour');
-        this.projectionMatrixUniformLocation = this.glContainer.gl.getUniformLocation(this.shaderProgram, 'uProjectionMatrix');
-        this.modelViewMatrixUniformLocation = this.glContainer.gl.getUniformLocation(this.shaderProgram, 'uModelViewMatrix');
+        let vertexShader = this.gl.createShader(this.gl.VERTEX_SHADER);
+        this.gl.shaderSource(vertexShader, vertexShaderSource);
+        this.gl.compileShader(vertexShader);
+        let fragmentShader = this.gl.createShader(this.gl.FRAGMENT_SHADER);
+        this.gl.shaderSource(fragmentShader, fragmentShaderSource);
+        this.gl.compileShader(fragmentShader);
+        this.shaderProgram = this.gl.createProgram();
+        this.gl.attachShader(this.shaderProgram, vertexShader);
+        this.gl.attachShader(this.shaderProgram, fragmentShader);
+        this.gl.linkProgram(this.shaderProgram);
+        this.vertexAttribPositionLocation = this.gl.getAttribLocation(this.shaderProgram, 'aVertexPosition');
+        this.vertexAttribColourLocation = this.gl.getAttribLocation(this.shaderProgram, 'aVertexColour');
+        this.projectionMatrixUniformLocation = this.gl.getUniformLocation(this.shaderProgram, 'uProjectionMatrix');
+        this.modelViewMatrixUniformLocation = this.gl.getUniformLocation(this.shaderProgram, 'uModelViewMatrix');
     }
 
     setupPositionBuffer(actorIndex) {
-        this.actor[actorIndex].positionBuffer = this.glContainer.gl.createBuffer();
-        this.glContainer.gl.bindBuffer(this.glContainer.gl.ARRAY_BUFFER, this.actor[actorIndex].positionBuffer);
-        this.glContainer.gl.bufferData(this.glContainer.gl.ARRAY_BUFFER, new Float32Array(this.actor[actorIndex].positions), this.glContainer.gl.STATIC_DRAW);
+        this.actor[actorIndex].positionBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].positionBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.actor[actorIndex].positions), this.gl.STATIC_DRAW);
     }
 
     setupColourBuffer(actorIndex) {
-        this.actor[actorIndex].colourBuffer = this.glContainer.gl.createBuffer();
-        this.glContainer.gl.bindBuffer(this.glContainer.gl.ARRAY_BUFFER, this.actor[actorIndex].colourBuffer);
-        this.glContainer.gl.bufferData(this.glContainer.gl.ARRAY_BUFFER, new Float32Array(this.actor[actorIndex].colours.colour), this.glContainer.gl.STATIC_DRAW);
+        this.actor[actorIndex].colourBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].colourBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.actor[actorIndex].colours.colour), this.gl.STATIC_DRAW);
     }
 
     setPosition(actorIndex, x, y) {
@@ -247,25 +244,25 @@ class Program {
     }
 
     setupRender() {
-        this.glContainer.gl.enable(this.glContainer.gl.DEPTH_TEST);
-        this.glContainer.gl.depthFunc(this.glContainer.gl.LEQUAL);
+        this.gl.enable(this.gl.DEPTH_TEST);
+        this.gl.depthFunc(this.gl.LEQUAL);
         /*for(let a = 0; a < this.actorNum; ++a) {
             this.setupVertexAttribPosition(a);
             this.setupVertexAttribColour(a);
         }*/
-        this.glContainer.gl.useProgram(this.shaderProgram);
+        this.gl.useProgram(this.shaderProgram);
     }
 
     setupVertexAttribPosition(actorIndex) {
-        this.glContainer.gl.bindBuffer(this.glContainer.gl.ARRAY_BUFFER, this.actor[actorIndex].positionBuffer);
-        this.glContainer.gl.vertexAttribPointer(this.vertexAttribPositionLocation, 2, this.glContainer.gl.FLOAT, true, 0, 0);
-        this.glContainer.gl.enableVertexAttribArray(this.vertexAttribPositionLocation);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].positionBuffer);
+        this.gl.vertexAttribPointer(this.vertexAttribPositionLocation, 2, this.gl.FLOAT, true, 0, 0);
+        this.gl.enableVertexAttribArray(this.vertexAttribPositionLocation);
     }
 
     setupVertexAttribColour(actorIndex) {
-        this.glContainer.gl.bindBuffer(this.glContainer.gl.ARRAY_BUFFER, this.actor[actorIndex].colourBuffer);
-        this.glContainer.gl.vertexAttribPointer(this.vertexAttribColourLocation, 4, this.glContainer.gl.FLOAT, false, 0, 0);
-        this.glContainer.gl.enableVertexAttribArray(this.vertexAttribColourLocation);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].colourBuffer);
+        this.gl.vertexAttribPointer(this.vertexAttribColourLocation, 4, this.gl.FLOAT, false, 0, 0);
+        this.gl.enableVertexAttribArray(this.vertexAttribColourLocation);
     }
 
     setProjectionMatrix(actorIndex) {
@@ -290,52 +287,60 @@ class Program {
     }
 
     render(deltaTime) {
-        this.glContainer.gl.clearDepth(1.0);
-        this.glContainer.gl.clear(this.glContainer.gl.COLOR_BUFFER_BIT | this.glContainer.gl.DEPTH_BUFFER_BIT);
+        this.gl.clearDepth(1.0);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
         for(let a = 0; a < this.actorNum; ++a) {
             this.setupVertexAttribPosition(a);
             this.setupVertexAttribColour(a);
             this.setProjectionMatrix(a);
             this.setModelViewMatrix(a);
-            this.glContainer.gl.uniformMatrix4fv(
+            this.gl.uniformMatrix4fv(
                 this.projectionMatrixUniformLocation,
                 false,
                 this.actor[a].projectionMatrix
             );
-            this.glContainer.gl.uniformMatrix4fv(
+            this.gl.uniformMatrix4fv(
                 this.modelViewMatrixUniformLocation,
                 false,
                 this.actor[a].modelViewMatrix
             );
-            this.glContainer.gl.drawArrays(this.glContainer.gl.TRIANGLE_STRIP, 0, this.actor[a].verticesNum);
+            this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, this.actor[a].verticesNum);
             //console.log(this.actor[a].rotation);
             if(a == 0)
                 this.actor[a].rotation += deltaTime;
             else if(a == 1)
                 this.actor[a].rotation -= deltaTime;
         }
+        //this.camera.debugGetPositions();
     }
 };
 
 function main() {
-    var program = new Program(2, 1);
-    program.setupTexture(0, "https://i.imgur.com/FOg8r0h.jpeg");
-    program.setupActors();
-    program.setupShaderProgram();
-    for(let a = 0; a < program.actorNum; ++a) {
-        program.setupPositionBuffer(a);
-        program.setupColourBuffer(a);
+    let deltaTime = null;
+    let programWrapper = {
+        program: new Program(2)
+    };
+    programWrapper.program.setupActors();
+    programWrapper.program.setupShaderProgram();
+    for(let a = 0; a < programWrapper.program.actorNum; ++a) {
+        programWrapper.program.setupPositionBuffer(a);
+        programWrapper.program.setupColourBuffer(a);
     }
-    program.setupRender();
+    programWrapper.program.setupRender();
     var then = 0;
+    /*window.addEventListener("resize", (function(programWrapper) {
+        return function() {
+            programWrapper.program.resetSize(programWrapper.program.gl.canvas.clientWidth, programWrapper.program.gl.canvas.clientHeight)
+        };
+    })(programWrapper));*/
     function renderFunction(now) {
         now *= 0.001;
-        let deltaTime = now - then;
+        deltaTime = now - then;
         then = now;
-        program.render(deltaTime, texture);
+        programWrapper.program.render(deltaTime);
         requestAnimationFrame(renderFunction);
     }
     requestAnimationFrame(renderFunction);
 }
-var texture = null;
+
 window.onload = main;
