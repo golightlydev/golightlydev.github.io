@@ -1,5 +1,7 @@
 var debugFirstRun = true;
 
+var program = null;
+
 class Camera {
     constructor(width, height, x, y) {
         this.width = width;
@@ -72,15 +74,16 @@ class ShapeColour {
 };
 
 class Actor {
-    constructor(verticesNum, width, height, x, y) {
+    constructor(verticesNum, width, height, x, y, textureIndex) {
         this.positions = new Array(verticesNum * 2);
-        this.colours = new ShapeColour(verticesNum);
+        /*this.colours = new ShapeColour(verticesNum);
         this.colours.setVertexColour(0, 1.0, 1.0, 1.0, 1.0);
         this.colours.setVertexColour(1, 1.0, 0.0, 0.0, 1.0);
         this.colours.setVertexColour(2, 0.0, 1.0, 0.0, 1.0);
-        this.colours.setVertexColour(3, 0.0, 0.0, 1.0, 1.0);
+        this.colours.setVertexColour(3, 0.0, 0.0, 1.0, 1.0);*/
         this.positionBuffer = null;
-        this.colourBuffer = null;
+        //this.colourBuffer = null;
+        this.textureBuffer = null;
         this.projectionMatrix = null;
         this.modelViewMatrix = null;
         this.rotation = 0.0;
@@ -89,6 +92,7 @@ class Actor {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.textureIndex = textureIndex; //temp, eventually an array or even more complex
     }
 
     setCameraPosition(vertexIndex, cameraX, cameraY) {
@@ -116,7 +120,7 @@ class Actor {
 };
 
 class Program {
-    constructor(actorNum) {
+    constructor(actorNum, textureNum) {
         this.canvas = document.getElementById("canvas");
         this.gl = canvas.getContext("webgl");
         this.setupCheck = true;
@@ -127,14 +131,17 @@ class Program {
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.shaderProgram = null;
         this.vertexAttribPositionLocation = null;
-        this.vertexAttribColourLocation = null;
+        //this.vertexAttribColourLocation = null;
+        this.vertexAttribTextureLocation = null;
         this.projectionMatrixUniformLocation = null;
         this.modelViewMatrixUniformLocation = null;
+        this.uSamplerUniformLocation = null;
         this.actorNum = actorNum;
         this.actor = new Array(this.actorNum);
         this.internalResolutionX = 1920;
         this.internalResolutionY = 1080;
         this.camera = new Camera(this.internalResolutionX, this.internalResolutionY, 0, 0);
+        this.texture = new Array(textureNum);
     }
 
     resetSize(width, height) {
@@ -149,6 +156,7 @@ class Program {
         let height = null;
         let x = null;
         let y = null;
+        let textureIndex = null;
         for(let a = 0; a < this.actorNum; ++a) {
             if(a == 0) {
                 verticesNum = 4;
@@ -160,6 +168,7 @@ class Program {
                 height = (200 / this.internalResolutionY) * this.internalResolutionY;
                 x = (100 / this.internalResolutionX) * this.internalResolutionX;
                 y = (this.internalResolutionY / 2) - (height / 2);
+                textureIndex = 0;
             }
             else if(a == 1) {
                 verticesNum = 4;
@@ -171,8 +180,9 @@ class Program {
                 height = (300 / this.internalResolutionY) * this.internalResolutionY;
                 x = this.internalResolutionX - ((100 / this.internalResolutionX) * this.internalResolutionX) - width;
                 y = (this.internalResolutionY / 2) - (height / 2);
+                textureIndex = 0;
             }
-            this.actor[a] = new Actor(verticesNum, width, height, x, y);
+            this.actor[a] = new Actor(verticesNum, width, height, x, y, textureIndex);
             //this.camera.debugGetPositions();
             this.actor[a].setCameraPosition(0, -(this.camera.originX - this.actor[a].x), this.camera.originY - this.actor[a].y);
             this.actor[a].setCameraPosition(1, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), this.camera.originY - this.actor[a].y);
@@ -182,8 +192,41 @@ class Program {
         //this.actor[0].debugGetPositions();
     }
 
+    setupTextures() {
+        this.loadTexture("dungeonCrawlerAssets/testTexture.png", 0);
+    }
+
+    loadTexture(url, index) {
+        this.texture[index] = this.gl.createTexture();
+        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture[index]);
+        let level = 0;
+        let internalFormat = this.gl.RGBA;
+        let width = 1;
+        let height = 1;
+        let border = 0;
+        let srcFormat = this.gl.RGBA;
+        let srcType = this.gl.UNSIGNED_BYTE;
+        let pixel = new Uint8Array([0, 0, 255, 255]);
+        this.gl.texImage2D(this.gl.TEXTURE_2D, level, internalFormat, width, height, border, srcFormat, srcType, pixel);
+        let image = new Image();
+        image.onload = (function(index) {
+            return function() {
+                program.gl.bindTexture(program.gl.TEXTURE_2D, program.texture[index]);
+                program.gl.texImage2D(program.gl.TEXTURE_2D, 0, program.gl.RGBA, program.gl.RGBA, program.gl.UNSIGNED_BYTE, image);
+                if(isPowerOf2(image.width) && isPowerOf2(image.height))
+                    program.gl.generateMipmap(program.gl.TEXTURE_2D);
+                else {
+                    program.gl.texParameteri(program.gl.TEXTURE_2D, program.gl.TEXTURE_WRAP_S, program.gl.CLAMP_TO_EDGE);
+                    program.gl.texParmateri(program.gl.TEXTURE_2D, program.gl.TEXTURE_WRAP_T, program.gl.CLAMP_TO_EDGE);
+                    program.gl.texParmateri(program.gl.TEXTURE_2D, program.gl.TEXTURE_MIN_FILTER, program.gl.LINEAR);
+                }
+            };
+        })(index);
+        image.src = url;
+    }
+
     setupShaderProgram() {
-        let vertexShaderSource = `
+        /*let vertexShaderSource = `
             attribute vec4 aVertexPosition;
             attribute vec4 aVertexColour;
 
@@ -197,12 +240,37 @@ class Program {
                 vColour = aVertexColour;
             }
         `
+        
         let fragmentShaderSource = `
             varying lowp vec4 vColour;
             void main() {
                 gl_FragColor = vColour;
             }
-        `
+        `;
+        */
+        let vertexShaderSource = `
+            attribute vec4 aVertexPosition;
+            attribute vec2 aTextureCoord;
+            uniform mat4 uModelViewMatrix;
+            uniform mat4 uProjectionMatrix;
+
+            varying highp vec2 vTextureCoord;
+
+            void main(void) {
+                gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+                vTextureCoord = aTextureCoord;
+            }
+        `;
+
+        let fragmentShaderSource = `
+            varying highp vec2 vTextureCoord;
+
+            uniform sampler2D uSampler;
+
+            void main(void) {
+                gl_FragColor = texture2D(uSampler, vTextureCoord);
+            }
+        `;
         let vertexShader = this.gl.createShader(this.gl.VERTEX_SHADER);
         this.gl.shaderSource(vertexShader, vertexShaderSource);
         this.gl.compileShader(vertexShader);
@@ -214,9 +282,11 @@ class Program {
         this.gl.attachShader(this.shaderProgram, fragmentShader);
         this.gl.linkProgram(this.shaderProgram);
         this.vertexAttribPositionLocation = this.gl.getAttribLocation(this.shaderProgram, 'aVertexPosition');
-        this.vertexAttribColourLocation = this.gl.getAttribLocation(this.shaderProgram, 'aVertexColour');
+        //this.vertexAttribColourLocation = this.gl.getAttribLocation(this.shaderProgram, 'aVertexColour');
+        this.vertexAttribTextureLocation = this.gl.getAttribLocation(this.shaderProgram, 'aTextureCoord');
         this.projectionMatrixUniformLocation = this.gl.getUniformLocation(this.shaderProgram, 'uProjectionMatrix');
         this.modelViewMatrixUniformLocation = this.gl.getUniformLocation(this.shaderProgram, 'uModelViewMatrix');
+        this.uSamplerUniformLocation = this.gl.getUniformLocation(this.shaderProgram, 'uSampler');
     }
 
     setupPositionBuffer(actorIndex) {
@@ -229,6 +299,18 @@ class Program {
         this.actor[actorIndex].colourBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].colourBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.actor[actorIndex].colours.colour), this.gl.STATIC_DRAW);
+    }
+
+    setupTextureBuffer(actorIndex) {
+        this.actor[actorIndex].textureBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].textureBuffer);
+        let textureCoordinates = [
+            0.0, 0.0,
+            1.0, 0.0,
+            1.0, 1.0,
+            0.0, 1.0
+        ];
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), this.gl.STATIC_DRAW);
     }
 
     setPosition(actorIndex, x, y) {
@@ -265,6 +347,12 @@ class Program {
         this.gl.enableVertexAttribArray(this.vertexAttribColourLocation);
     }
 
+    setupVertexAttribTexture(actorIndex) {
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].textureBuffer);
+        this.gl.vertexAttribPointer(this.vertexAttribTextureLocation, 2, this.gl.FLOAT, false, 0, 0);
+        this.gl.enableVertexAttribArray(this.vertexAttribTextureLocation);
+    }
+
     setProjectionMatrix(actorIndex) {
         this.actor[actorIndex].projectionMatrix = glMatrix.mat4.create();
         glMatrix.mat4.ortho(this.actor[actorIndex].projectionMatrix, -(this.camera.width / 2), this.camera.width / 2, -(this.camera.height / 2), this.camera.height / 2, 0.0, 100.0);
@@ -291,9 +379,13 @@ class Program {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
         for(let a = 0; a < this.actorNum; ++a) {
             this.setupVertexAttribPosition(a);
-            this.setupVertexAttribColour(a);
+            //this.setupVertexAttribColour(a);
+            this.setupVertexAttribTexture(a);
             this.setProjectionMatrix(a);
             this.setModelViewMatrix(a);
+            this.gl.activeTexture(this.gl.TEXTURE0);
+            this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture[0]);
+            this.gl.uniform1i(this.uSamplerUniformLocation, 0);
             this.gl.uniformMatrix4fv(
                 this.projectionMatrixUniformLocation,
                 false,
@@ -317,16 +409,16 @@ class Program {
 
 function main() {
     let deltaTime = null;
-    let programWrapper = {
-        program: new Program(2)
-    };
-    programWrapper.program.setupActors();
-    programWrapper.program.setupShaderProgram();
-    for(let a = 0; a < programWrapper.program.actorNum; ++a) {
-        programWrapper.program.setupPositionBuffer(a);
-        programWrapper.program.setupColourBuffer(a);
+    program = new Program(2, 1);
+    program.setupTextures(); //temporary function
+    program.setupActors();
+    program.setupShaderProgram();
+    for(let a = 0; a < program.actorNum; ++a) {
+        program.setupPositionBuffer(a);
+        //program.setupColourBuffer(a);
+        program.setupTextureBuffer(a);
     }
-    programWrapper.program.setupRender();
+    program.setupRender();
     var then = 0;
     /*window.addEventListener("resize", (function(programWrapper) {
         return function() {
@@ -337,10 +429,14 @@ function main() {
         now *= 0.001;
         deltaTime = now - then;
         then = now;
-        programWrapper.program.render(deltaTime);
+        program.render(deltaTime);
         requestAnimationFrame(renderFunction);
     }
     requestAnimationFrame(renderFunction);
+}
+
+function isPowerOf2(value) {
+    return (value & (value - 1)) == 0;
 }
 
 window.onload = main;

@@ -12,10 +12,10 @@ class Camera {
     }
 
     resetSize(width, height) { //in case of display change
-        /*this.width = width;
+        this.width = width;
         this.height = height;
         this.originX = this.x + (this.width / 2);
-        this.originY = this.y + (this.height / 2);*/
+        this.originY = this.y + (this.height / 2);
         /*if(height > width) {
             let canvasTemp = document.getElementById("canvas");
             let paddingTop = Math.floor((height - width) / 2);
@@ -132,7 +132,15 @@ class Program {
         this.modelViewMatrixUniformLocation = null;
         this.actorNum = actorNum;
         this.actor = new Array(this.actorNum);
-        this.camera = new Camera(this.gl.canvas.clientWidth, this.gl.canvas.clientHeight, 0, 0);
+        this.internalResolutionX = 1920;
+        this.internalResolutionY = 1080;
+        this.camera = new Camera(this.internalResolutionX, this.internalResolutionY, 0, 0);
+    }
+
+    resetSize(width, height) {
+        this.camera.resetSize(width, height);
+        //this.gl.viewport(0, 0, width, height);
+        //this.render(deltaTime);
     }
 
     setupActors() {
@@ -144,17 +152,25 @@ class Program {
         for(let a = 0; a < this.actorNum; ++a) {
             if(a == 0) {
                 verticesNum = 4;
-                width = 200;
+                /*width = 200;
                 height = 200;
                 x = 100;
-                y = (this.gl.canvas.clientHeight / 2) - 100;
+                y = (this.gl.canvas.clientHeight / 2) - 100;*/
+                width = (200 / this.internalResolutionX) * this.internalResolutionX;
+                height = (200 / this.internalResolutionY) * this.internalResolutionY;
+                x = (100 / this.internalResolutionX) * this.internalResolutionX;
+                y = (this.internalResolutionY / 2) - (height / 2);
             }
             else if(a == 1) {
                 verticesNum = 4;
-                width = 300;
+                /*width = 300;
                 height = 300;
                 x = this.gl.canvas.clientWidth - 100 - width;
-                y = (this.gl.canvas.clientHeight / 2) - (height / 2);
+                y = (this.gl.canvas.clientHeight / 2) - (height / 2);*/
+                width = (300 / this.internalResolutionX) * this.internalResolutionX;
+                height = (300 / this.internalResolutionY) * this.internalResolutionY;
+                x = this.internalResolutionX - ((100 / this.internalResolutionX) * this.internalResolutionX) - width;
+                y = (this.internalResolutionY / 2) - (height / 2);
             }
             this.actor[a] = new Actor(verticesNum, width, height, x, y);
             //this.camera.debugGetPositions();
@@ -300,14 +316,10 @@ class Program {
 };
 
 function main() {
+    let deltaTime = null;
     let programWrapper = {
         program: new Program(2)
     };
-    /*window.addEventListener("resize", (function(programWrapper) {
-        return function() {
-            programWrapper.program.camera.resetSize(programWrapper.program.gl.canvas.clientWidth, programWrapper.program.gl.canvas.clientHeight)
-        };
-    })(programWrapper));*/
     programWrapper.program.setupActors();
     programWrapper.program.setupShaderProgram();
     for(let a = 0; a < programWrapper.program.actorNum; ++a) {
@@ -316,9 +328,14 @@ function main() {
     }
     programWrapper.program.setupRender();
     var then = 0;
+    /*window.addEventListener("resize", (function(programWrapper) {
+        return function() {
+            programWrapper.program.resetSize(programWrapper.program.gl.canvas.clientWidth, programWrapper.program.gl.canvas.clientHeight)
+        };
+    })(programWrapper));*/
     function renderFunction(now) {
         now *= 0.001;
-        let deltaTime = now - then;
+        deltaTime = now - then;
         then = now;
         programWrapper.program.render(deltaTime);
         requestAnimationFrame(renderFunction);
