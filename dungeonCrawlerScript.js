@@ -123,13 +123,14 @@ class Program {
     constructor(actorNum, textureNum) {
         let canvas = document.getElementById("canvas");
         this.gl = canvas.getContext("webgl");
-        this.setupCheck = true;
+        let setupCheck = true;
         if(this.gl === null) {
             this.setupCheck = false;
             return;
         }
         this.gl.canvas.width = 1366;
         this.gl.canvas.height = 768;
+        this.gl.viewport(0, 0, 1366, 768);
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.shaderProgram = null;
         this.vertexAttribPositionLocation = null;
@@ -364,19 +365,18 @@ class Program {
 
     setModelViewMatrix(actorIndex) {
         this.actor[actorIndex].modelViewMatrix = glMatrix.mat4.create();
-        //glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2), this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2, 0.0]);
+        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2), this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2, 0.0]);
         /*if(debugFirstRun) {
             console.log(this.actor[actorIndex].width);
             console.log("rotation translation x: " + (this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2)));
             console.log("rotation translate y: " + (this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2));
             debugFirstRun = false;
         }*/
-        /*if(this.actor[actorIndex].rotation != 0.0) {
+        if(this.actor[actorIndex].rotation != 0.0) {
             glMatrix.mat4.rotateZ(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation);
             //glMatrix.mat4.rotate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation, [0, 0, 1]);
         }
         glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [-(this.actor[actorIndex].positions[0] + this.actor[actorIndex].width / 2), -(this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2), 0.0]);
-        */
     }
 
     render(deltaTime) {
