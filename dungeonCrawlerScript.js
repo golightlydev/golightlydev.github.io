@@ -360,7 +360,7 @@ class Program {
 
     setModelViewMatrix(actorIndex) {
         this.actor[actorIndex].modelViewMatrix = glMatrix.mat4.create();
-        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2), this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2, 0.0]);
+        //glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2), this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2, 0.0]);
         /*if(debugFirstRun) {
             console.log(this.actor[actorIndex].width);
             console.log("rotation translation x: " + (this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2)));
@@ -371,7 +371,7 @@ class Program {
             glMatrix.mat4.rotateZ(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation);
             //glMatrix.mat4.rotate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation, [0, 0, 1]);
         }*/
-        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [-(this.actor[actorIndex].positions[0] + this.actor[actorIndex].width / 2), -(this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2), 0.0]);
+        //glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [-(this.actor[actorIndex].positions[0] + this.actor[actorIndex].width / 2), -(this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2), 0.0]);
     }
 
     render(deltaTime) {
@@ -383,10 +383,9 @@ class Program {
             this.setupVertexAttribTexture(a);
             this.setProjectionMatrix(a);
             this.setModelViewMatrix(a);
-            /*this.gl.activeTexture(this.gl.TEXTURE0);
+            this.gl.activeTexture(this.gl.TEXTURE0);
             this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture[0]);
             this.gl.uniform1i(this.uSamplerUniformLocation, 0);
-            */
             this.gl.uniformMatrix4fv(
                 this.projectionMatrixUniformLocation,
                 false,
@@ -397,9 +396,6 @@ class Program {
                 false,
                 this.actor[a].modelViewMatrix
             );
-            this.gl.activeTexture(this.gl.TEXTURE0);
-            this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture[0]);
-            this.gl.uniform1i(this.uSamplerUniformLocation, 0);
             this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, this.actor[a].verticesNum);
             //console.log(this.actor[a].rotation);
             if(a == 0)
