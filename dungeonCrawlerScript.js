@@ -427,8 +427,10 @@ function main() {
             programWrapper.program.resetSize(programWrapper.program.gl.canvas.clientWidth, programWrapper.program.gl.canvas.clientHeight)
         };
     })(programWrapper));*/
-    console.log("canvas width: " + program.gl.canvas.clientWidth);
-    console.log("canvas height: " + program.gl.canvas.clientHeight);
+    console.log("canvas clientWidth: " + program.gl.canvas.clientWidth);
+    console.log("canvas clientHeight: " + program.gl.canvas.clientHeight);
+    console.log("canvas width: " + program.gl.canvas.width);
+    console.log("canvas height: " + program.gl.canvas.height);
     function renderFunction(now) {
         now *= 0.001;
         deltaTime = now - then;
