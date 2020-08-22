@@ -164,8 +164,8 @@ class Program {
                 height = 200;
                 x = 100;
                 y = (this.gl.canvas.clientHeight / 2) - 100;*/
-                width = (200 / this.internalResolutionX) * this.internalResolutionX;
-                height = (200 / this.internalResolutionY) * this.internalResolutionY;
+                width = (256 / this.internalResolutionX) * this.internalResolutionX;
+                height = (256 / this.internalResolutionY) * this.internalResolutionY;
                 x = (100 / this.internalResolutionX) * this.internalResolutionX;
                 y = (this.internalResolutionY / 2) - (height / 2);
                 textureIndex = 0;
@@ -176,8 +176,8 @@ class Program {
                 height = 300;
                 x = this.gl.canvas.clientWidth - 100 - width;
                 y = (this.gl.canvas.clientHeight / 2) - (height / 2);*/
-                width = (300 / this.internalResolutionX) * this.internalResolutionX;
-                height = (300 / this.internalResolutionY) * this.internalResolutionY;
+                width = (256 / this.internalResolutionX) * this.internalResolutionX;
+                height = (256 / this.internalResolutionY) * this.internalResolutionY;
                 x = this.internalResolutionX - ((100 / this.internalResolutionX) * this.internalResolutionX) - width;
                 y = (this.internalResolutionY / 2) - (height / 2);
                 textureIndex = 0;
@@ -194,7 +194,7 @@ class Program {
     }
 
     setupTextures() {
-        this.loadTexture("dungeonCrawlerAssets/testTexture.png", 0);
+        this.loadTexture("dungeonCrawlerAssets/cubetexture.png", 0);
     }
 
     loadTexture(url, index) {
