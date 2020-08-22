@@ -184,15 +184,10 @@ class Program {
             }
             this.actor[a] = new Actor(verticesNum, width, height, x, y, textureIndex);
             //this.camera.debugGetPositions();
-            /*this.actor[a].setCameraPosition(0, -(this.camera.originX - this.actor[a].x), this.camera.originY - this.actor[a].y);
+            this.actor[a].setCameraPosition(0, -(this.camera.originX - this.actor[a].x), this.camera.originY - this.actor[a].y);
             this.actor[a].setCameraPosition(1, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), this.camera.originY - this.actor[a].y);
             this.actor[a].setCameraPosition(2, -(this.camera.originX - this.actor[a].x), (this.camera.originY - (this.actor[a].y + this.actor[a].height)));
             this.actor[a].setCameraPosition(3, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), (this.camera.originY - (this.actor[a].y + this.actor[a].height)));
-            */
-           this.actor[a].setCameraPosition(0, -(this.camera.originX - this.actor[a].x), this.camera.originY - this.actor[a].y);
-            this.actor[a].setCameraPosition(1, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), this.camera.originY - this.actor[a].y);
-            this.actor[a].setCameraPosition(2, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), (this.camera.originY - (this.actor[a].y + this.actor[a].height)));
-            this.actor[a].setCameraPosition(3, -(this.camera.originX - this.actor[a].x), (this.camera.originY - (this.actor[a].y + this.actor[a].height)));
         }
         this.actor[0].debugGetPositions();
         this.actor[1].debugGetPositions();
@@ -313,8 +308,8 @@ class Program {
         let textureCoordinates = [
             0.0, 0.0,
             1.0, 0.0,
-            1.0, 1.0,
-            0.0, 1.0
+            0.0, 1.0,
+            1.0, 1.0
         ];
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), this.gl.STATIC_DRAW);
     }
