@@ -123,14 +123,18 @@ class Program {
     constructor(actorNum, textureNum) {
         let canvas = document.getElementById("canvas");
         this.gl = canvas.getContext("webgl");
-        let setupCheck = true;
+        this.setupCheck = true;
         if(this.gl === null) {
             this.setupCheck = false;
             return;
         }
-        this.gl.canvas.width = 1366;
-        this.gl.canvas.height = 768;
-        this.gl.viewport(0, 0, 1366, 768);
+        this.developmentResolutionX = 1920;
+        this.developmentResolutionY = 1080;
+        this.resolutionX = this.gl.canvas.clientWidth;
+        this.resolutionY = this.gl.canvas.clientHeight;
+        this.gl.canvas.width = this.resolutionX;
+        this.gl.canvas.height = this.resolutionY;
+        this.gl.viewport(0, 0, this.resolutionX, this.resolutionY);
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.shaderProgram = null;
         this.vertexAttribPositionLocation = null;
@@ -141,9 +145,7 @@ class Program {
         this.uSamplerUniformLocation = null;
         this.actorNum = actorNum;
         this.actor = new Array(this.actorNum);
-        this.internalResolutionX = 1366;
-        this.internalResolutionY = 768;
-        this.camera = new Camera(this.internalResolutionX, this.internalResolutionY, 0, 0);
+        this.camera = new Camera(this.resolutionX, this.resolutionY, 0, 0);
         this.texture = new Array(textureNum);
     }
 
@@ -167,10 +169,10 @@ class Program {
                 height = 200;
                 x = 100;
                 y = (this.gl.canvas.clientHeight / 2) - 100;*/
-                width = (256 / this.internalResolutionX) * this.internalResolutionX;
-                height = (256 / this.internalResolutionY) * this.internalResolutionY;
-                x = (100 / this.internalResolutionX) * this.internalResolutionX;
-                y = (this.internalResolutionY / 2) - (height / 2);
+                width = (256 / this.developmentResolutionX) * this.resolutionX;
+                height = (256 / this.developmentResolutionY) * this.resolutionY;
+                x = (100 / this.developmentResolutionX) * this.resolutionX;
+                y = (this.resolutionY / 2) - (height / 2);
                 textureIndex = 0;
             }
             else if(a == 1) {
@@ -179,10 +181,10 @@ class Program {
                 height = 300;
                 x = this.gl.canvas.clientWidth - 100 - width;
                 y = (this.gl.canvas.clientHeight / 2) - (height / 2);*/
-                width = (256 / this.internalResolutionX) * this.internalResolutionX;
-                height = (256 / this.internalResolutionY) * this.internalResolutionY;
-                x = this.internalResolutionX - ((100 / this.internalResolutionX) * this.internalResolutionX) - width;
-                y = (this.internalResolutionY / 2) - (height / 2);
+                width = (256 / this.developmentResolutionX) * this.resolutionX;
+                height = (256 / this.developmentResolutionY) * this.resolutionY;
+                x = this.resolutionX - ((100 / this.developmentResolutionX) * this.resolutionX) - width;
+                y = (this.resolutionY / 2) - (height / 2);
                 textureIndex = 0;
             }
             this.actor[a] = new Actor(verticesNum, width, height, x, y, textureIndex);
