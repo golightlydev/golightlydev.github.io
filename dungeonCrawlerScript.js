@@ -128,8 +128,8 @@ class Program {
             this.setupCheck = false;
             return;
         }
-        this.gl.canvas.width = 1920;
-        this.gl.canvas.height = 1080;
+        this.gl.canvas.width = 1366;
+        this.gl.canvas.height = 768;
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.shaderProgram = null;
         this.vertexAttribPositionLocation = null;
@@ -140,8 +140,8 @@ class Program {
         this.uSamplerUniformLocation = null;
         this.actorNum = actorNum;
         this.actor = new Array(this.actorNum);
-        this.internalResolutionX = 1920;
-        this.internalResolutionY = 1080;
+        this.internalResolutionX = 1366;
+        this.internalResolutionY = 768;
         this.camera = new Camera(this.internalResolutionX, this.internalResolutionY, 0, 0);
         this.texture = new Array(textureNum);
     }
