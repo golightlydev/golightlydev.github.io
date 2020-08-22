@@ -121,13 +121,15 @@ class Actor {
 
 class Program {
     constructor(actorNum, textureNum) {
-        this.canvas = document.getElementById("canvas");
+        let canvas = document.getElementById("canvas");
         this.gl = canvas.getContext("webgl");
         this.setupCheck = true;
         if(this.gl === null) {
             this.setupCheck = false;
             return;
         }
+        this.gl.canvas.width = 1920;
+        this.gl.canvas.height = 1080;
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.shaderProgram = null;
         this.vertexAttribPositionLocation = null;
