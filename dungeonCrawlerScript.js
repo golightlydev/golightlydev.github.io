@@ -358,7 +358,8 @@ class Program {
 
     setProjectionMatrix(actorIndex) {
         this.actor[actorIndex].projectionMatrix = glMatrix.mat4.create();
-        glMatrix.mat4.ortho(this.actor[actorIndex].projectionMatrix, -(this.camera.width / 2), this.camera.width / 2, -(this.camera.height / 2), this.camera.height / 2, 0.0, 100.0);
+        //glMatrix.mat4.ortho(this.actor[actorIndex].projectionMatrix, -(this.camera.width / 2), this.camera.width / 2, -(this.camera.height / 2), this.camera.height / 2, 0.0, 100.0);
+        glMatrix.mat4.ortho(this.actor[actorIndex].projectionMatrix, 0, this.camera.width, 0, this.camera.height, 0.0, 100.0);
     }
 
     setModelViewMatrix(actorIndex) {
