@@ -199,7 +199,7 @@ class Program {
     }
 
     setupTextures() {
-        this.loadTexture("dungeonCrawlerAssets/cubetexture.png", 0);
+        this.loadTexture("webGLBrowserApp/cubetexture.png", 0);
     }
 
     loadTexture(url, index) {
