@@ -13,6 +13,6 @@ aug 24
 
 aug 25
 
-1) plan out relatively simple demo app in appDocument.txt
+1) plan out relatively simple demo browser app in browserAppDocument.txt
 
 2) plan out technical spec for the rewritten code for the app in techDocument.txt
