@@ -100,6 +100,12 @@ class Actor {
         this.positions[(vertexIndex * 2) + 1] = cameraY;
     }
 
+    setAttributes(width, height, x, y) {
+        this.width = width;
+        this.height = height;
+        this.setWorldPosition(x, y);
+    }
+
     setWorldPosition(x, y) {
         this.x = x;
         this.y = y;
@@ -145,14 +151,25 @@ class Program {
         this.uSamplerUniformLocation = null;
         this.actorNum = actorNum;
         this.actor = new Array(this.actorNum);
+        for(let a = 0; a < actorNum; ++a) {
+            this.actor[a] = null;
+        }
         this.camera = new Camera(this.resolutionX, this.resolutionY, 0, 0);
         this.texture = new Array(textureNum);
     }
 
     resetSize(width, height) {
+        this.resolutionX = width;
+        this.resolutionY = height;
+        this.gl.canvas.width = width;
+        this.gl.canvas.height = height;
         this.camera.resetSize(width, height);
-        //this.gl.viewport(0, 0, width, height);
+        this.gl.viewport(0, 0, width, height);
         //this.render(deltaTime);
+        this.setupActors();
+        for(let a = 0; a < this.actorNum; ++a) {
+            this.setupPositionBuffer(a);
+        }
     }
 
     setupActors() {
@@ -187,7 +204,10 @@ class Program {
                 y = (this.resolutionY / 2) - (height / 2);
                 textureIndex = 0;
             }
-            this.actor[a] = new Actor(verticesNum, width, height, x, y, textureIndex);
+            if(this.actor[a] == null)
+                this.actor[a] = new Actor(verticesNum, width, height, x, y, textureIndex);
+            else
+                this.actor[a].setAttributes(width, height, x, y);
             //this.camera.debugGetPositions();
             this.actor[a].setCameraPosition(0, -(this.camera.originX - this.actor[a].x), this.camera.originY - this.actor[a].y);
             this.actor[a].setCameraPosition(1, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), this.camera.originY - this.actor[a].y);
@@ -296,7 +316,8 @@ class Program {
     }
 
     setupPositionBuffer(actorIndex) {
-        this.actor[actorIndex].positionBuffer = this.gl.createBuffer();
+        if(this.actor[actorIndex].positionBuffer == null)
+            this.actor[actorIndex].positionBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].positionBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.actor[actorIndex].positions), this.gl.STATIC_DRAW);
     }
@@ -368,6 +389,7 @@ class Program {
     setModelViewMatrix(actorIndex) {
         this.actor[actorIndex].modelViewMatrix = glMatrix.mat4.create();
         glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2), this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2, 0.0]);
+        console.log("actor origin: " + this.actor[actorIndex].positions[0]);
         /*if(debugFirstRun) {
             console.log(this.actor[actorIndex].width);
             console.log("rotation translation x: " + (this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2)));
@@ -404,7 +426,7 @@ class Program {
                 this.actor[a].modelViewMatrix
             );
             this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, this.actor[a].verticesNum);
-            //console.log(this.actor[a].rotation);
+            console.log(this.resolutionX);
             if(a == 0)
                 this.actor[a].rotation += deltaTime;
             else if(a == 1)
@@ -427,11 +449,11 @@ function main() {
     }
     program.setupRender();
     var then = 0;
-    /*window.addEventListener("resize", (function(programWrapper) {
+    window.addEventListener("resize", (function() {
         return function() {
-            programWrapper.program.resetSize(programWrapper.program.gl.canvas.clientWidth, programWrapper.program.gl.canvas.clientHeight)
+            program.resetSize(program.gl.canvas.clientWidth, program.gl.canvas.clientHeight)
         };
-    })(programWrapper));*/
+    })());
     console.log("canvas clientWidth: " + program.gl.canvas.clientWidth);
     console.log("canvas clientHeight: " + program.gl.canvas.clientHeight);
     console.log("canvas width: " + program.gl.canvas.width);
