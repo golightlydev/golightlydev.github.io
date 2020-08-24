@@ -83,7 +83,7 @@ class Actor {
         this.colours.setVertexColour(3, 0.0, 0.0, 1.0, 1.0);*/
         this.positionBuffer = null;
         //this.colourBuffer = null;
-        this.textureBuffer = null;
+        //this.textureBuffer = null;
         this.projectionMatrix = null;
         this.modelViewMatrix = null;
         this.rotation = 0.0;
@@ -156,6 +156,11 @@ class Program {
         }
         this.camera = new Camera(this.resolutionX, this.resolutionY, 0, 0);
         this.texture = new Array(textureNum);
+        this.textureBuffer = new Array(textureNum);
+        for(let a = 0; a < textureNum; ++a) {
+            this.texture[a] = null;
+            this.textureBuffer[a] = null;
+        }
     }
 
     resetSize(width, height) {
@@ -329,15 +334,17 @@ class Program {
     }
 
     setupTextureBuffer(actorIndex) {
-        this.actor[actorIndex].textureBuffer = this.gl.createBuffer();
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].textureBuffer);
-        let textureCoordinates = [
-            0.0, 0.0,
-            1.0, 0.0,
-            0.0, 1.0,
-            1.0, 1.0
-        ];
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), this.gl.STATIC_DRAW);
+        if(this.textureBuffer[this.actor[actorIndex].textureIndex] == null) {
+            this.textureBuffer[this.actor[actorIndex].textureIndex] = this.gl.createBuffer();
+            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.textureBuffer[this.actor[actorIndex].textureIndex]);
+            let textureCoordinates = [
+                0.0, 0.0,
+                1.0, 0.0,
+                0.0, 1.0,
+                1.0, 1.0
+            ];
+            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), this.gl.STATIC_DRAW);
+        }
     }
 
     setPosition(actorIndex, x, y) {
@@ -375,7 +382,7 @@ class Program {
     }
 
     setupVertexAttribTexture(actorIndex) {
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.actor[actorIndex].textureBuffer);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.textureBuffer[this.actor[actorIndex].textureIndex]);
         this.gl.vertexAttribPointer(this.vertexAttribTextureLocation, 2, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(this.vertexAttribTextureLocation);
     }
@@ -389,7 +396,6 @@ class Program {
     setModelViewMatrix(actorIndex) {
         this.actor[actorIndex].modelViewMatrix = glMatrix.mat4.create();
         glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2), this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2, 0.0]);
-        console.log("actor origin: " + this.actor[actorIndex].positions[0]);
         /*if(debugFirstRun) {
             console.log(this.actor[actorIndex].width);
             console.log("rotation translation x: " + (this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2)));
@@ -426,7 +432,6 @@ class Program {
                 this.actor[a].modelViewMatrix
             );
             this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, this.actor[a].verticesNum);
-            console.log(this.resolutionX);
             if(a == 0)
                 this.actor[a].rotation += deltaTime;
             else if(a == 1)
