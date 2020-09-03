@@ -219,13 +219,23 @@ class Program {
         }
     }
 
+//constructor(verticesNum, width, height, x, y, animationTime, 
+//animationTimeDenomination, animationTextureIndex, currentAnimationIndex, 
+//currentTextureIndex, animationNum, animationTextureNum, actorIndex) {
+
     setupActors() {
         let verticesNum = null;
         let width = null;
         let height = null;
         let x = null;
         let y = null;
+        let animationTime = null;
+        let animationTimeDenomination = null;
+        let animationTextureIndex = null;
+        let currentAnimationIndex = null;
         let currentTextureIndex = null;
+        let animationNum = null;
+        let animationTextureNum = null;
         for(let a = 0; a < this.actorNum; ++a) {
             if(a == 0) {
                 verticesNum = 4;
@@ -237,6 +247,24 @@ class Program {
                 height = (256 / this.developmentResolutionY) * this.resolutionY;
                 x = (100 / this.developmentResolutionX) * this.resolutionX;
                 y = (this.resolutionY / 2) - (height / 2);
+                animationNum = 1;
+                animationTextureNum = new Array(animationNum);
+                animationTextureNum[0] = 2;
+                animationTime = new Array(animationNum);
+                for(let b = 0; b < animationNum; ++b) {
+                    animationTime[b] = new Array(animationTextureNum[b]);
+                }
+                animationTime[0][0] = 3;
+                animationTime[0][1] = 6;
+                animationTimeDenomination = new Array(animationNum);
+                animationTimeDenomination[0] = 'seconds';
+                animationTextureIndex = new Array(animationNum);
+                for(let b = 0; b < animationNum; ++b) {
+                    animationTextureIndex[b] = new Array(animationTextureNum[b]);
+                }
+                animationTextureIndex[0][0] = 0;
+                animationTextureIndex[0][1] = 1;
+                currentAnimationIndex = 0;
                 currentTextureIndex = 0;
             }
             else if(a == 1) {
@@ -249,12 +277,34 @@ class Program {
                 height = (256 / this.developmentResolutionY) * this.resolutionY;
                 x = this.resolutionX - ((100 / this.developmentResolutionX) * this.resolutionX) - width;
                 y = (this.resolutionY / 2) - (height / 2);
-                currentTextureIndex = 0;
+                animationNum = 1;
+                animationTextureNum = new Array(animationNum);
+                animationTextureNum[0] = 2;
+                animationTime = new Array(animationNum);
+                for(let b = 0; b < animationNum; ++b) {
+                    animationTime[b] = new Array(animationTextureNum[b]);
+                }
+                animationTime[0][0] = 3;
+                animationTime[0][1] = 6;
+                animationTimeDenomination = new Array(animationNum);
+                animationTimeDenomination[0] = 'seconds';
+                animationTextureIndex = new Array(animationNum);
+                for(let b = 0; b < animationNum; ++b) {
+                    animationTextureIndex[b] = new Array(animationTextureNum[b]);
+                }
+                animationTextureIndex[0][0] = 0;
+                animationTextureIndex[0][1] = 1;
+                currentAnimationIndex = 0;
+                currentTextureIndex = 1;
             }
-            if(this.actor[a] == null)
-                this.actor[a] = new Actor(verticesNum, width, height, x, y, currentTextureIndex);
+            //if(this.actor[a] == null)
+            this.actor[a] = new Actor(verticesNum, width, height, x, y, animationTime, 
+                animationTimeDenomination, animationTextureIndex, currentAnimationIndex, 
+                currentTextureIndex, animationNum, animationTextureNum, a);
+            /*
             else
                 this.actor[a].setAttributes(width, height, x, y);
+            */
             //this.camera.debugGetPositions();
             this.actor[a].setCameraPosition(0, -(this.camera.originX - this.actor[a].x), this.camera.originY - this.actor[a].y);
             this.actor[a].setCameraPosition(1, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), this.camera.originY - this.actor[a].y);
@@ -267,6 +317,7 @@ class Program {
 
     setupTextures() {
         this.loadTexture("webGLBrowserAppAssets/cubetexture.png", 0);
+        this.loadTexture("webGLBrowserAppAssets/testTexture.png", 1);
     }
 
     loadTexture(url, index) {
@@ -376,9 +427,9 @@ class Program {
     }
 
     setupTextureBuffer(actorIndex) {
-        if(this.textureBuffer[this.actor[actorIndex].currentTextureIndex] == null) {
-            this.textureBuffer[this.actor[actorIndex].currentTextureIndex] = this.gl.createBuffer();
-            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.textureBuffer[this.actor[actorIndex].currentTextureIndex]);
+        if(this.textureBuffer[this.actor[actorIndex].animationTextureIndex[currentAnimation][currentTextureIndex]] == null) {
+            this.textureBuffer[this.actor[actorIndex].animationTextureIndex[currentAnimation][currentTextureIndex]] = this.gl.createBuffer();
+            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.textureBuffer[this.actor[actorIndex].animationTextureIndex[currentAnimation][currentTextureIndex]]);
             let textureCoordinates = [
                 0.0, 0.0,
                 1.0, 0.0,
@@ -388,6 +439,8 @@ class Program {
             this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), this.gl.STATIC_DRAW);
         }
     }
+
+    //change actor width and height to depend on current texture
 
     setPosition(actorIndex, x, y) {
         this.actor[actorIndex].setWorldPosition(x, y);
@@ -450,6 +503,8 @@ class Program {
         }
         glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [-(this.actor[actorIndex].positions[0] + this.actor[actorIndex].width / 2), -(this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2), 0.0]);
     }
+
+    //at some point change render to be separate from logic stuff
 
     render(deltaTime) {
         this.gl.clearDepth(1.0);
