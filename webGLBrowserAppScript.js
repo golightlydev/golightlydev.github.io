@@ -116,6 +116,10 @@ class Actor {
         this.animationNum = animationNum; //number of animations in this.animationTextureIndex (first index)
         this.animationTextureNum = animationTextureNum; //array, number of texture indices in each animation
         this.actorIndex = actorIndex; //index of this actor in program, for purpose of callbacks
+        this.animationAttributes = null; //width and height, and amount to adjust x and y by on texture change
+        this.animationIsStatic = null; //animation only contains one texture and it's static, so don't make a timer
+        this.animationInput = null; //what input is an animation dependent on
+        //change this to have a more nuanced system.  some actors animate depending on input, and some use static textures
     }
 
     setCameraPosition(vertexIndex, cameraX, cameraY) {
@@ -439,8 +443,6 @@ class Program {
             this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), this.gl.STATIC_DRAW);
         }
     }
-
-    //change actor width and height to depend on current texture
 
     setPosition(actorIndex, x, y) {
         this.actor[actorIndex].setWorldPosition(x, y);
