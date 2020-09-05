@@ -74,7 +74,7 @@ class ShapeColour {
 };
 
 class Actor {
-    constructor(verticesNum, width, height, x, y, textureIndex) {
+    constructor(verticesNum, width, height, x, y, animationTime, animationTimeDenomination, animationTextureIndex, currentAnimationIndex, currentTextureIndex, animationNum, animationTextureNum, actorIndex) {
         this.positions = new Array(verticesNum * 2);
         /*this.colours = new ShapeColour(verticesNum);
         this.colours.setVertexColour(0, 1.0, 1.0, 1.0, 1.0);
@@ -92,7 +92,34 @@ class Actor {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.textureIndex = textureIndex; //temp, eventually an array or even more complex
+        this.animationTimer = null; //easytimer for use with animations
+        this.animationTime = new Array(animationNum); //2d array, time before switching to the next texture in animations
+        for(let a = 0; a < animationNum; ++a) {
+            this.animationTime[a] = new Array(animationTextureNum[a]);
+            for(let b = 0; b < animationTextureNum[a]; ++b) {
+                this.animationTime[a][b] = animationTime[a][b];
+            }
+        }
+        this.animationTimeDenomination = new Array(animationNum); //array, denomination for each animation.  ie. seconds, milliseconds
+        for(let a = 0; a < animationNum; ++a) {
+            this.animationTimeDenomination[a] = animationTimeDenomination[a];
+        }
+        this.animationTextureIndex = new Array(animationNum); //2d array, all texture indices for all animations
+        for(let a = 0; a < animationNum; ++a) {
+            this.animationTextureIndex[a] = new Array(animationTextureNum[a]);
+            for(let b = 0; b < animationTextureNum[a]; ++b) {
+                this.animationTextureIndex[a][b] = animationTextureIndex[a][b];
+            }
+        }
+        this.currentAnimationIndex = currentAnimationIndex; //current first index in this.animationTextureIndex
+        this.currentTextureIndex = currentTextureIndex; //current second index in  this.animationTextureIndex
+        this.animationNum = animationNum; //number of animations in this.animationTextureIndex (first index)
+        this.animationTextureNum = animationTextureNum; //array, number of texture indices in each animation
+        this.actorIndex = actorIndex; //index of this actor in program, for purpose of callbacks
+        this.animationAttributes = null; //width and height, and amount to adjust x and y by on texture change
+        this.animationIsStatic = null; //animation only contains one texture and it's static, so don't make a timer
+        this.animationInput = null; //what input is an animation dependent on
+        //change this to have a more nuanced system.  some actors animate depending on input, and some use static textures
     }
 
     setCameraPosition(vertexIndex, cameraX, cameraY) {
@@ -123,6 +150,25 @@ class Actor {
             console.log("vertex #" + a + ": y: " + this.positions[a+1]);
         }
     }
+
+    startAnimationTimer() {
+        this.animationTimer = new Timer();
+        this.animationTimer.start({precision: this.animationTimeDenomination[this.currentAnimationIndex], startValues: {startTime: 0}, target: {endTime: this.animationTime[this.currentAnimationIndex][this.currentTextureIndex]}});
+        this.animationTimer.addEventListener('targetAchieved', (function(actorIndex) {
+            return function() {
+                program.actor[actorIndex].setNextAnimationTexture();
+            };
+        })(this.actorIndex));
+    }
+
+    setNextAnimationTexture() {
+        console.log("this runs, actorIndex: " + this.actorIndex);
+    }
+
+    //to be finished
+    /*deleteAnimationTimer() {
+
+    }*/
 };
 
 class Program {
@@ -177,13 +223,23 @@ class Program {
         }
     }
 
+//constructor(verticesNum, width, height, x, y, animationTime, 
+//animationTimeDenomination, animationTextureIndex, currentAnimationIndex, 
+//currentTextureIndex, animationNum, animationTextureNum, actorIndex) {
+
     setupActors() {
         let verticesNum = null;
         let width = null;
         let height = null;
         let x = null;
         let y = null;
-        let textureIndex = null;
+        let animationTime = null;
+        let animationTimeDenomination = null;
+        let animationTextureIndex = null;
+        let currentAnimationIndex = null;
+        let currentTextureIndex = null;
+        let animationNum = null;
+        let animationTextureNum = null;
         for(let a = 0; a < this.actorNum; ++a) {
             if(a == 0) {
                 verticesNum = 4;
@@ -195,7 +251,25 @@ class Program {
                 height = (256 / this.developmentResolutionY) * this.resolutionY;
                 x = (100 / this.developmentResolutionX) * this.resolutionX;
                 y = (this.resolutionY / 2) - (height / 2);
-                textureIndex = 0;
+                animationNum = 1;
+                animationTextureNum = new Array(animationNum);
+                animationTextureNum[0] = 2;
+                animationTime = new Array(animationNum);
+                for(let b = 0; b < animationNum; ++b) {
+                    animationTime[b] = new Array(animationTextureNum[b]);
+                }
+                animationTime[0][0] = 3;
+                animationTime[0][1] = 6;
+                animationTimeDenomination = new Array(animationNum);
+                animationTimeDenomination[0] = 'seconds';
+                animationTextureIndex = new Array(animationNum);
+                for(let b = 0; b < animationNum; ++b) {
+                    animationTextureIndex[b] = new Array(animationTextureNum[b]);
+                }
+                animationTextureIndex[0][0] = 0;
+                animationTextureIndex[0][1] = 1;
+                currentAnimationIndex = 0;
+                currentTextureIndex = 0;
             }
             else if(a == 1) {
                 verticesNum = 4;
@@ -207,12 +281,34 @@ class Program {
                 height = (256 / this.developmentResolutionY) * this.resolutionY;
                 x = this.resolutionX - ((100 / this.developmentResolutionX) * this.resolutionX) - width;
                 y = (this.resolutionY / 2) - (height / 2);
-                textureIndex = 0;
+                animationNum = 1;
+                animationTextureNum = new Array(animationNum);
+                animationTextureNum[0] = 2;
+                animationTime = new Array(animationNum);
+                for(let b = 0; b < animationNum; ++b) {
+                    animationTime[b] = new Array(animationTextureNum[b]);
+                }
+                animationTime[0][0] = 3;
+                animationTime[0][1] = 6;
+                animationTimeDenomination = new Array(animationNum);
+                animationTimeDenomination[0] = 'seconds';
+                animationTextureIndex = new Array(animationNum);
+                for(let b = 0; b < animationNum; ++b) {
+                    animationTextureIndex[b] = new Array(animationTextureNum[b]);
+                }
+                animationTextureIndex[0][0] = 0;
+                animationTextureIndex[0][1] = 1;
+                currentAnimationIndex = 0;
+                currentTextureIndex = 1;
             }
-            if(this.actor[a] == null)
-                this.actor[a] = new Actor(verticesNum, width, height, x, y, textureIndex);
+            //if(this.actor[a] == null)
+            this.actor[a] = new Actor(verticesNum, width, height, x, y, animationTime, 
+                animationTimeDenomination, animationTextureIndex, currentAnimationIndex, 
+                currentTextureIndex, animationNum, animationTextureNum, a);
+            /*
             else
                 this.actor[a].setAttributes(width, height, x, y);
+            */
             //this.camera.debugGetPositions();
             this.actor[a].setCameraPosition(0, -(this.camera.originX - this.actor[a].x), this.camera.originY - this.actor[a].y);
             this.actor[a].setCameraPosition(1, -(this.camera.originX - (this.actor[a].x + this.actor[a].width)), this.camera.originY - this.actor[a].y);
@@ -225,6 +321,7 @@ class Program {
 
     setupTextures() {
         this.loadTexture("webGLBrowserAppAssets/cubetexture.png", 0);
+        this.loadTexture("webGLBrowserAppAssets/testTexture.png", 1);
     }
 
     loadTexture(url, index) {
@@ -334,9 +431,9 @@ class Program {
     }
 
     setupTextureBuffer(actorIndex) {
-        if(this.textureBuffer[this.actor[actorIndex].textureIndex] == null) {
-            this.textureBuffer[this.actor[actorIndex].textureIndex] = this.gl.createBuffer();
-            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.textureBuffer[this.actor[actorIndex].textureIndex]);
+        if(this.textureBuffer[this.actor[actorIndex].animationTextureIndex[currentAnimation][currentTextureIndex]] == null) {
+            this.textureBuffer[this.actor[actorIndex].animationTextureIndex[currentAnimation][currentTextureIndex]] = this.gl.createBuffer();
+            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.textureBuffer[this.actor[actorIndex].animationTextureIndex[currentAnimation][currentTextureIndex]]);
             let textureCoordinates = [
                 0.0, 0.0,
                 1.0, 0.0,
@@ -382,7 +479,7 @@ class Program {
     }
 
     setupVertexAttribTexture(actorIndex) {
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.textureBuffer[this.actor[actorIndex].textureIndex]);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.textureBuffer[this.actor[actorIndex].currentTextureIndex]);
         this.gl.vertexAttribPointer(this.vertexAttribTextureLocation, 2, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(this.vertexAttribTextureLocation);
     }
@@ -408,6 +505,8 @@ class Program {
         }
         glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [-(this.actor[actorIndex].positions[0] + this.actor[actorIndex].width / 2), -(this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2), 0.0]);
     }
+
+    //at some point change render to be separate from logic stuff
 
     render(deltaTime) {
         this.gl.clearDepth(1.0);
