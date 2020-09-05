@@ -1,14 +1,12 @@
-aug 24
+aug 25
 
-1) does every actor need a textureBuffer? probably not.  test it
+1) dynamic texture swap.  setup a second texture and have each actor use a different texture.  every five seconds, swap the textures, and see if it works that easily.  also tests for if textureBuffers can be reused.
 
-2) dynamic texture swap.  setup a second texture and have each actor use a different texture.  every five seconds, swap the textures, and see if it works that easily.
+2) test key presses.  what happens if the window is not in focus?  what happens if the user is typing in the address bar?
 
-3) test key presses.  what happens if the window is not in focus?  what happens if the user is typing in the address bar?
+3) test mobile view.  what happens, period.  what happens when landscape orientation is switched to. is there a way to lock to landscape orientation in a browser?
 
-4) test mobile view.  what happens, period.  what happens when landscape orientation is switched to. is there a way to lock to landscape orientation in a browser?
-
-5) test mouse clicks.  are those different from finger taps?  test those too.
+4) test mouse clicks.  are those different from finger taps?  test those too.
 
 
 aug 25
