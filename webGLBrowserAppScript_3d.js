@@ -388,25 +388,43 @@ class Program {
     }
 
     setProjectionMatrix(actorIndex) {
+        const fieldOfView = 45 * Math.PI / 180;   // in radians
+        const aspect = this.camera.width / this.camera.height;
+        const zNear = 0.1;
+        const zFar = 100.0;
+        this.actor[actorIndex].projectionMatrix = glMatrix.mat4.create();
+
+  // note: glmatrix.js always has the first argument
+  // as the destination to receive the result.
+        glMatrix.mat4.perspective(this.actor[actorIndex].projectionMatrix,
+                   fieldOfView,
+                   aspect,
+                   zNear,
+                   zFar);
+        /*
         this.actor[actorIndex].projectionMatrix = glMatrix.mat4.create();
         glMatrix.mat4.ortho(this.actor[actorIndex].projectionMatrix, -(this.camera.width / 2), this.camera.width / 2, -(this.camera.height / 2), this.camera.height / 2, 0.0, 100.0);
         //glMatrix.mat4.ortho(this.actor[actorIndex].projectionMatrix, 0, this.camera.width, 0, this.camera.height, 0.0, 100.0);
+    */
     }
 
     setModelViewMatrix(actorIndex) {
         this.actor[actorIndex].modelViewMatrix = glMatrix.mat4.create();
-        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2), this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2, 0.0]);
+        glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix,this.actor[actorIndex].modelViewMatrix, [0.0, 0.0, -5.0]);
+        //glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2), this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2, 0.0]);
         /*if(debugFirstRun) {
             console.log(this.actor[actorIndex].width);
             console.log("rotation translation x: " + (this.actor[actorIndex].positions[0] + (this.actor[actorIndex].width / 2)));
             console.log("rotation translate y: " + (this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2));
             debugFirstRun = false;
         }*/
+        /*
         if(this.actor[actorIndex].rotation != 0.0) {
             glMatrix.mat4.rotateZ(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation);
             //glMatrix.mat4.rotate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].rotation, [0, 0, 1]);
         }
         glMatrix.mat4.translate(this.actor[actorIndex].modelViewMatrix, this.actor[actorIndex].modelViewMatrix, [-(this.actor[actorIndex].positions[0] + this.actor[actorIndex].width / 2), -(this.actor[actorIndex].positions[1] - this.actor[actorIndex].height / 2), 0.0]);
+    */
     }
 
     render(deltaTime) {
@@ -459,15 +477,10 @@ function main() {
             program.resetSize(program.gl.canvas.clientWidth, program.gl.canvas.clientHeight)
         };
     })());
-    console.log("canvas clientWidth: " + program.gl.canvas.clientWidth);
-    console.log("canvas clientHeight: " + program.gl.canvas.clientHeight);
-    console.log("canvas width: " + program.gl.canvas.width);
-    console.log("canvas height: " + program.gl.canvas.height);
     function renderFunction(now) { //now is the time since requestAnimation was first called, deltaTime is time between each frame
         now *= 0.001;
         deltaTime = now - then;
         then = now;
-        console.log(deltaTime);
         program.render(deltaTime);
         requestAnimationFrame(renderFunction);
     }
