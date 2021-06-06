@@ -1,0 +1,263 @@
+body, #menuArea, .pageContainer, .page, .page img, .menuButton {
+    margin: 0;
+    padding: 0;
+}
+
+/*might need to remove pageContainer
+add some test content to updates page to make sure*/
+html, body, #overflowWrapper, #menuArea, #pageContainer, .page {
+    /*touch-action: pinch-zoom;*/
+    touch-action: auto;
+}
+
+#updates {
+    touch-action: auto;
+    margin-top: 15vh;
+    text-align: center;
+    /*overscroll-behavior: none;*/
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    height: 100%;
+    background-color: #dddddd;
+}
+
+#home, #about {
+    scrollbar-width: none;
+}
+
+#menuArea {
+    display: flex;
+    position: absolute;
+    z-index: 2;
+    background-color: black;
+    top: 0%;
+    font-size: 3vw;
+    width: 100%;
+    height: 15vh;
+}
+
+#homeButtonArea {
+    flex: 3 1 1152px;
+    display: flex;
+}
+
+#sectionButtonArea {
+    flex: 3 1 672px;
+    display: flex;
+}
+
+#logoLeftPadding {
+    flex: 1 3 30px;
+    min-width: 0px;
+    max-width: 5%;
+}
+
+#logoArea {
+    flex: 1 1 500px;
+}
+
+#logoRightPadding {
+    flex: 1 2 70px;
+    min-width: 0px;
+}
+
+#logo {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+#hamburgerMenuImage {
+    width: 100%;
+    height: 80%;
+} 
+
+.menuButtonContainer {
+    flex: 1 1 100px;
+    display: flex;
+}
+
+#sectionButtonAreaPaddingRight {
+    flex: 1 2 96px;
+    min-width: 0px;
+}
+
+.menuButton {
+    cursor: pointer;
+    background-color: black;
+    border-color: black;
+    color: white;
+    border-width: 0px;
+    border-style: none;
+    outline: none;
+    transition: color 0.5s;
+    font-size: 2vw;
+    text-align: center;
+    text-indent: auto;
+}
+
+#pageContainer {
+    position: absolute;
+    width: 400%;
+    height: 92vh;
+    display: flex;
+    z-index: 1;
+    transition: transform 1s;
+    overflow-y: hidden;
+}
+
+.page {
+    padding-left: 1.25%;
+    padding-right: 1.25%;
+    width: 22.5%;
+    overflow-y: scroll; /*should account for overlay not working in firefox*/
+    overflow-y: overlay;
+}
+
+.page img {
+    width: 100%;
+    display: block;
+}
+
+#overflowWrapper {
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link, a:visited {
+    color:grey;
+}
+
+a:link:hover, a:visited:hover {
+    color:hotpink;
+}
+
+a:-webkit-any-link {
+    text-decoration: none;
+    color:grey;
+}
+
+a:hover:-webkit-any-link {
+    color:hotpink
+}
+
+#homeWrapper {
+    width: 100%;
+    text-align: center;
+}
+
+#updatesWrapper {
+    width: 100%;
+    text-align: center;
+    overscroll-behavior: none;
+    touch-action: auto;
+}
+
+.homeContent {
+    color: black;
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.arialFont {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#about {
+    text-align: center;
+}
+
+#aboutText {
+    font-size: 1.5em;
+}
+
+#githubImage {
+    width: 63px;
+    height: 61px;
+    margin: auto;
+}
+
+#testImage {
+    width: 100%;
+    height: 100%;
+}
+
+#hamburgerMenuArea {
+    display: none;
+}
+
+#mobileMenu {
+    z-index: 2;
+    visibility: hidden;
+    background-color: black;
+    height: 80vh;
+    width: 80vw;
+    left: 10vw;
+    right: 10vw;
+    text-align: center;
+    position: absolute;
+    top: 10vh;
+    border-radius: 0px 0px 15px 15px;
+    font-size: 9vh;
+    visibility: hidden;
+}
+
+.mobileMenuButton {
+    font-size: 9vh;
+}
+
+@media screen and (max-width: 850px) {
+    #logo {
+        content:url("img/logoMobile.svg");
+    }
+    #menuArea {
+        height: 10vh;
+    }
+    #updates {
+        margin-top: 10vh;
+    }
+    #updatesButton {
+        visibility: hidden;
+    }
+    #portfolioButton {
+        visibility: hidden;
+    }
+    #aboutArea {
+        display: none;
+    }
+    #hamburgerMenuArea {
+        display: flex;
+    }
+}
+
+.mobileMenuElement {
+    margin-top: 10vh;
+}
+
+/*attempt to style scrollbar*/
+html {
+    --scrollbarBG: #CFD8DC;
+    --thumbBG: #90A4AE;
+  }
+  #updates::-webkit-scrollbar, #portfolio::-webkit-scrollbar {
+    width: 11px;
+  }
+  #updates, #portfolio {
+    scrollbar-width: thin;
+    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+  }
+  #updates::-webkit-scrollbar-track, #portfolio::-webkit-scrollbar-track {
+    background: var(--scrollbarBG);
+  }
+  #updates::-webkit-scrollbar-thumb, #portfolio::-webkit-scrollbar-thumb {
+    background-color: var(--thumbBG) ;
+    border-radius: 6px;
+    border: 3px solid var(--scrollbarBG);
+  }
