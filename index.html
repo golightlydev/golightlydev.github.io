@@ -7,71 +7,74 @@
 </head>
 <body id="body">
     <div id="overflowWrapper">
-    <div id="menuArea">
-        <div id="homeButtonArea">
-            <div id="logoLeftPadding"></div>
-            <div id="logoArea">
-                <img id="logo" src="./img/logo.svg" alt="logo">
-            </div>
-            <div id="logoRightPadding"></div>
+        <div id="displayMenuToggle">
+            <img id="displayMenuToggleImage" src="./img/hideMenu.svg">
         </div>
-        <div id="sectionButtonArea">
-            <div id="updatesArea" class="menuButtonContainer arialFont">
-                <button id="updatesButton" class="menuButton" type="button">Updates</button>
+        <div id="menuArea">
+            <div id="homeButtonArea">
+                <div id="logoLeftPadding"></div>
+                <div id="logoArea">
+                    <img id="logo" src="./img/logo.svg" alt="logo">
+                </div>
+                <div id="logoRightPadding"></div>
             </div>
-            <div id="portfolioArea" class="menuButtonContainer arialFont">
-                <button id="portfolioButton" class="menuButton" type="button">Portfolio</button>
+            <div id="sectionButtonArea">
+                <div id="updatesArea" class="menuButtonContainer arialFont">
+                    <button id="updatesButton" class="menuButton" type="button">Updates</button>
+                </div>
+                <div id="portfolioArea" class="menuButtonContainer arialFont">
+                    <button id="portfolioButton" class="menuButton" type="button">Portfolio</button>
+                </div>
+                <div id="aboutArea" class="menuButtonContainer arialFont">
+                    <button id="aboutButton" class="menuButton" type="button">About</button>
+                </div>
+                <div id="hamburgerMenuArea" class="menuButtonContainer">
+                    <button id="hamburgerMenuButton" class="menuButton" type="button">
+                        <img id="hamburgerMenuImage" src="img/hamburgerToOpen.png" alt="=">
+                    </button>
+                </div>
             </div>
-            <div id="aboutArea" class="menuButtonContainer arialFont">
-                <button id="aboutButton" class="menuButton" type="button">About</button>
-            </div>
-            <div id="hamburgerMenuArea" class="menuButtonContainer">
-                <button id="hamburgerMenuButton" class="menuButton" type="button">
-                    <img id="hamburgerMenuImage" src="img/hamburgerToOpen.png" alt="=">
-                </button>
-            </div>
+            <div id="sectionButtonAreaPaddingRight"></div>
         </div>
-        <div id="sectionButtonAreaPaddingRight"></div>
-    </div>
-    <div id="pageContainer">
-        <div id="home" class="page">
-            <div id="homeWrapper">
-                <p id="software" class="homeContent arialFont">software</p>
-                <p id="web" class="homeContent arialFont">web</p>
-                <p id="mobile" class="homeContent arialFont">mobile</p>
+        <div id="pageContainer">
+            <div id="home" class="page">
+                <div id="homeWrapper">
+                    <p id="software" class="homeContent arialFont">software</p>
+                    <p id="web" class="homeContent arialFont">web</p>
+                    <p id="mobile" class="homeContent arialFont">mobile</p>
+                </div>
             </div>
-        </div>
-        <div id="updates" class="page">
-            <div id="updatesWrapper">
+            <div id="updates" class="page">
+                <div id="updatesWrapper">
+                    
+                </div>
+            </div>
+            <div id="portfolio" class="page">
                 
             </div>
-        </div>
-        <div id="portfolio" class="page">
-            
-        </div>
-        <div id="about" class="page">
-            <div id="aboutWrapper">
-                <p id="aboutText" class="arialFont">
-                    I'm a software, web, and mobile developer<br/>
-                    My main interest is in developing software creation tools<br/>
-                </p>
-                <br/><br/><br/><br/>
-                <a id="linkedin" href="https://github.com/golightly"><img id="githubImage" src="./img/github.svg" alt="github"></a>
-            </div>
+            <div id="about" class="page">
+                <div id="aboutWrapper">
+                    <p id="aboutText" class="arialFont">
+                        I'm a software, web, and mobile developer<br/>
+                        My main interest is in developing software creation tools<br/>
+                    </p>
+                    <br/><br/><br/><br/>
+                    <a id="github" href="https://github.com/golightly"><img id="githubImage" src="./img/github.svg" alt="github"></a>
+                </div>
 
+            </div>
         </div>
-    </div>
-    <div id="mobileMenu">
-        <div id="mobileMenuUpdatesButtonArea" class="mobileMenuElement arialFont">
-            <button id="mobileMenuUpdatesButton" class="menuButton mobileMenuButton" type="button">Updates</button>
+        <div id="mobileMenu">
+            <div id="mobileMenuUpdatesButtonArea" class="mobileMenuElement arialFont">
+                <button id="mobileMenuUpdatesButton" class="menuButton mobileMenuButton" type="button">Updates</button>
+            </div>
+            <div id="mobileMenuPortfolioButtonArea" class="mobileMenuElement arialFont">
+                <button id="mobileMenuPortfolioButton" class="menuButton mobileMenuButton" type="button">Portfolio</button>
+            </div>
+            <div id="mobileMenuAboutButtonArea" class="mobileMenuElement arialFont">
+                <button id="mobileMenuAboutButton" class="menuButton mobileMenuButton" type="button">About</button>
+            </div>
         </div>
-        <div id="mobileMenuPortfolioButtonArea" class="mobileMenuElement arialFont">
-            <button id="mobileMenuPortfolioButton" class="menuButton mobileMenuButton" type="button">Portfolio</button>
-        </div>
-        <div id="mobileMenuAboutButtonArea" class="mobileMenuElement arialFont">
-            <button id="mobileMenuAboutButton" class="menuButton mobileMenuButton" type="button">About</button>
-        </div>
-    </div>
     </div>
     <!--<script src="otherScripts/hammer.min.js"></script>-->
     <script src="script.js"></script>

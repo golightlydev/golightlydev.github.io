@@ -8,11 +8,12 @@ add some test content to updates page to make sure*/
 html, body, #overflowWrapper, #menuArea, #pageContainer, .page {
     /*touch-action: pinch-zoom;*/
     touch-action: auto;
+    overflow-x: hidden;
 }
 
 #updates {
     touch-action: auto;
-    margin-top: 15vh;
+    margin-top: 10vh;
     text-align: center;
     /*overscroll-behavior: none;*/
     overflow-x: hidden;
@@ -28,6 +29,19 @@ body {
     scrollbar-width: none;
 }
 
+#displayMenuToggle {
+    position: absolute;
+    z-index: 3;
+    top: 3vh;
+    height: 4vh;
+    left: 2vw;
+    cursor: pointer;
+}
+
+#displayMenuToggle img {
+    height: inherit;
+}
+
 #menuArea {
     display: flex;
     position: absolute;
@@ -36,7 +50,7 @@ body {
     top: 0%;
     font-size: 3vw;
     width: 100%;
-    height: 15vh;
+    height: 10vh;
 }
 
 #homeButtonArea {
@@ -51,12 +65,13 @@ body {
 
 #logoLeftPadding {
     flex: 1 3 30px;
-    min-width: 0px;
+    min-width: 13.5vw;
     max-width: 5%;
 }
 
 #logoArea {
     flex: 1 1 500px;
+    text-align: left;
 }
 
 #logoRightPadding {
@@ -65,7 +80,7 @@ body {
 }
 
 #logo {
-    width: 100%;
+    /*width: 100%;*/
     height: 100%;
     cursor: pointer;
 }
@@ -215,14 +230,15 @@ a:hover:-webkit-any-link {
 
 @media screen and (max-width: 850px) {
     #logo {
-        content:url("img/logoMobile.svg");
-    }
-    #menuArea {
+        width: 100%;
+        /*content:url("img/logoMobile.svg");*/ /*this doesnt work in firefox*/
+    } 
+    /*#menuArea {
         height: 10vh;
     }
     #updates {
         margin-top: 10vh;
-    }
+    }*/
     #updatesButton {
         visibility: hidden;
     }

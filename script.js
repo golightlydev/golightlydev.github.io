@@ -99,13 +99,36 @@ const mobileAbout = () => {
     hamburgerMenu();
 }
 
+const displayMenu = () => {
+    if(menuIsDisplayed) {
+        displayMenuButton.setAttribute("src", "./img/displayMenu.svg");
+        menuArea.style.display = "none";
+        container.style.height = "100vh";
+        updatesPage.style.marginTop = "0vh";
+        menuIsDisplayed = false;
+    }
+    else {
+        displayMenuButton.setAttribute("src", "./img/hideMenu.svg");
+        menuArea.style.display = "flex";
+        container.style.height = "92vh";
+        updatesPage.style.marginTop = "10vh";
+        menuIsDisplayed = true;
+    }
+}
+
 var currentPage = 0;
 
 var hamburgerMenuIsOpen = false;
 
-const menuArea = document.getElementById("menuArea");
+var mobileLogoIsShown = false;
+
+var menuIsDisplayed = true;
 
 const container = document.getElementById("pageContainer");
+const updatesPage = document.getElementById("updates");
+const menuArea = document.getElementById("menuArea");
+const displayMenuButton = document.getElementById("displayMenuToggleImage");
+displayMenuButton.addEventListener("click", displayMenu);
 const homeButton = document.getElementById("logo");
 homeButton.addEventListener("click", home);
 const updatesButton = document.getElementById("updatesButton");
@@ -128,6 +151,11 @@ const mobileMenuPortfolioButton = document.getElementById("mobileMenuPortfolioBu
 mobileMenuPortfolioButton.addEventListener("click", mobilePortfolio);
 const mobileMenuAboutButton = document.getElementById("mobileMenuAboutButton");
 mobileMenuAboutButton.addEventListener("click", mobileAbout);
+
+if (window.innerWidth <= 850 && mobileLogoIsShown == false) {
+    homeButton.setAttribute("src", "./img/logoMobile.svg");
+    mobileLogoIsShown = true;
+} 
 
 document.getElementById('software').style.marginBottom =
     String((document.getElementById('home').offsetHeight /10)) + "px";
@@ -160,9 +188,18 @@ window.addEventListener('resize', function(event) {
             hamburgerMenu();
         }
     }
+    if (window.innerWidth <= 850 && mobileLogoIsShown == false) {
+            console.log("logo replace function fires");
+            homeButton.setAttribute("src", "./img/logoMobile.svg");
+            mobileLogoIsShown = true;
+    }
+    else if(window.innerWidth > 850 && mobileLogoIsShown == true) {
+        document.getElementById("logo").setAttribute("src", "./img/logo.svg");
+        mobileLogoIsShown = false;
+    }
 });
 
-console.log("result: " + window.visualViewport.scale > 1);
+
 
 //hammer testing
 /*var updatesZoom = new Hammer(document.getElementById("updates"));
