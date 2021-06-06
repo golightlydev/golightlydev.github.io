@@ -54,12 +54,12 @@ body {
 }
 
 #homeButtonArea {
-    flex: 3 1 1152px;
+    flex: 3 1 960px;
     display: flex;
 }
 
 #sectionButtonArea {
-    flex: 3 1 672px;
+    flex: 3 1 960px;
     display: flex;
 }
 
@@ -92,6 +92,8 @@ body {
 
 .menuButtonContainer {
     flex: 1 1 100px;
+    text-align: center;
+    justify-content: center;
     display: flex;
 }
 
@@ -116,7 +118,7 @@ body {
 
 #pageContainer {
     position: absolute;
-    width: 400%;
+    width: 500%;
     height: 92vh;
     display: flex;
     z-index: 1;
@@ -127,7 +129,7 @@ body {
 .page {
     padding-left: 1.25%;
     padding-right: 1.25%;
-    width: 22.5%;
+    width: 17.5%;
     overflow-y: scroll; /*should account for overlay not working in firefox*/
     overflow-y: overlay;
 }
@@ -242,8 +244,11 @@ a:hover:-webkit-any-link {
     #updatesButton {
         visibility: hidden;
     }
-    #portfolioButton {
+    #softwareButton {
         visibility: hidden;
+    }
+    #documentationButton {
+        display: none;
     }
     #aboutArea {
         display: none;
@@ -262,17 +267,17 @@ html {
     --scrollbarBG: #CFD8DC;
     --thumbBG: #90A4AE;
   }
-  #updates::-webkit-scrollbar, #portfolio::-webkit-scrollbar {
+  #updates::-webkit-scrollbar, #software::-webkit-scrollbar, #documentation::-webkit-scrollbar {
     width: 11px;
   }
-  #updates, #portfolio {
+  #updates, #software, #documentation {
     scrollbar-width: thin;
     scrollbar-color: var(--thumbBG) var(--scrollbarBG);
   }
-  #updates::-webkit-scrollbar-track, #portfolio::-webkit-scrollbar-track {
+  #updates::-webkit-scrollbar-track, #software::-webkit-scrollbar-track, #documentation::-webkit-scrollbar-track {
     background: var(--scrollbarBG);
   }
-  #updates::-webkit-scrollbar-thumb, #portfolio::-webkit-scrollbar-thumb {
+  #updates::-webkit-scrollbar-thumb, #software::-webkit-scrollbar-thumb, #documentation::-webkit-scrollbar-thumb {
     background-color: var(--thumbBG) ;
     border-radius: 6px;
     border: 3px solid var(--scrollbarBG);

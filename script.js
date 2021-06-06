@@ -2,20 +2,29 @@ const revertColor = (exclude) => {
     switch(exclude) {
         case "home":
             updatesButton.style.color = "white";
-            portfolioButton.style.color = "white";
+            softwareButton.style.color = "white";
+            documentationButton.style.color = "white";
             aboutButton.style.color = "white";
             break;
         case "updates":
-            portfolioButton.style.color = "white";
+            softwareButton.style.color = "white";
+            documentationButton.style.color = "white";
             aboutButton.style.color = "white";
             break;
-        case "portfolio":
+        case "software":
             updatesButton.style.color = "white";
+            documentationButton.style.color = "white";
+            aboutButton.style.color = "white";
+            break;
+        case "documentation":
+            updatesButton.style.color = "white";
+            softwareButton.style.color = "white";
             aboutButton.style.color = "white";
             break;
         case "about":
             updatesButton.style.color = "white";
-            portfolioButton.style.color = "white";
+            softwareButton.style.color = "white";
+            documentationButton.style.color = "white";
             break;
     }
 }
@@ -27,7 +36,7 @@ const home = () => {
 }
 
 const updates = () => {
-    container.style.transform = "translateX(-25%)";
+    container.style.transform = "translateX(-20%)";
     currentPage = 1;
     revertColor("updates");
 }
@@ -41,24 +50,39 @@ const updatesMouseout = () => {
         updatesButton.style.color = "white";
 }
 
-const portfolio = () => {
-    container.style.transform = "translateX(-50%)";
+const software = () => {
+    container.style.transform = "translateX(-40%)";
     currentPage = 2;
-    revertColor("portfolio");
+    revertColor("software");
 }
 
-const portfolioMouseover = () => {
-    portfolioButton.style.color = "#8b99af";
+const softwareMouseover = () => {
+    softwareButton.style.color = "#8b99af";
 }
 
-const portfolioMouseout = () => {
+const softwareMouseout = () => {
     if(currentPage != 2)
-        portfolioButton.style.color = "white";
+        softwareButton.style.color = "white";
+}
+
+const documentation = () => {
+    container.style.transform = "translateX(-60%)";
+    currentPage = 3;
+    revertColor("documentation");
+}
+
+const documentationMouseover = () => {
+    documentationButton.style.color = "#8b99af";
+}
+
+const documentationMouseout = () => {
+    if(currentPage != 3)
+        documentationButton.style.color = "white";
 }
 
 const about = () => {
-    container.style.transform = "translateX(-75%)";
-    currentPage = 3;
+    container.style.transform = "translateX(-80%)";
+    currentPage = 4;
     revertColor("about");
 }
 
@@ -67,7 +91,7 @@ const aboutMouseover = () => {
 }
 
 const aboutMouseout = () => {
-    if(currentPage != 3)
+    if(currentPage != 4)
         aboutButton.style.color = "white";
 }
 
@@ -89,8 +113,13 @@ const mobileUpdates = () => {
     hamburgerMenu();
 }
 
-const mobilePortfolio = () => {
-    portfolio();
+const mobileSoftware = () => {
+    software();
+    hamburgerMenu();
+}
+
+const mobileDocumentation = () => {
+    documentation();
     hamburgerMenu();
 }
 
@@ -135,10 +164,14 @@ const updatesButton = document.getElementById("updatesButton");
 updatesButton.addEventListener("click", updates);
 updatesButton.addEventListener("mouseover", updatesMouseover);
 updatesButton.addEventListener("mouseout", updatesMouseout);
-const portfolioButton = document.getElementById("portfolioButton");
-portfolioButton.addEventListener("click", portfolio);
-portfolioButton.addEventListener("mouseover", portfolioMouseover);
-portfolioButton.addEventListener("mouseout", portfolioMouseout);
+const softwareButton = document.getElementById("softwareButton");
+softwareButton.addEventListener("click", software);
+softwareButton.addEventListener("mouseover", softwareMouseover);
+softwareButton.addEventListener("mouseout", softwareMouseout);
+const documentationButton = document.getElementById("documentationButton");
+documentationButton.addEventListener("click", documentation);
+documentationButton.addEventListener("mouseover", documentationMouseover);
+documentationButton.addEventListener("mouseout", documentationMouseout);
 const aboutButton = document.getElementById("aboutButton");
 aboutButton.addEventListener("click", about);
 aboutButton.addEventListener("mouseover", aboutMouseover);
@@ -147,8 +180,10 @@ const hamburgerMenuButton = document.getElementById("hamburgerMenuButton");
 hamburgerMenuButton.addEventListener("click", hamburgerMenu);
 const mobileMenuUpdatesButton = document.getElementById("mobileMenuUpdatesButton");
 mobileMenuUpdatesButton.addEventListener("click", mobileUpdates);
-const mobileMenuPortfolioButton = document.getElementById("mobileMenuPortfolioButton");
-mobileMenuPortfolioButton.addEventListener("click", mobilePortfolio);
+const mobileMenuSoftwareButton = document.getElementById("mobileMenuSoftwareButton");
+mobileMenuSoftwareButton.addEventListener("click", mobileSoftware);
+const mobileMenuDocumentationButton = document.getElementById("mobileMenuDocumentationButton");
+mobileMenuDocumentationButton.addEventListener("click", mobileDocumentation);
 const mobileMenuAboutButton = document.getElementById("mobileMenuAboutButton");
 mobileMenuAboutButton.addEventListener("click", mobileAbout);
 
