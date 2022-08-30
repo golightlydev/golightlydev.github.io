@@ -3,20 +3,20 @@ const revertColor = (exclude) => {
         case "home":
             updatesButton.style.color = "white";
             softwareButton.style.color = "white";
-            documentationButton.style.color = "white";
+            mediaButton.style.color = "white";
             aboutButton.style.color = "white";
             break;
         case "updates":
             softwareButton.style.color = "white";
-            documentationButton.style.color = "white";
+            mediaButton.style.color = "white";
             aboutButton.style.color = "white";
             break;
         case "software":
             updatesButton.style.color = "white";
-            documentationButton.style.color = "white";
+            mediaButton.style.color = "white";
             aboutButton.style.color = "white";
             break;
-        case "documentation":
+        case "media":
             updatesButton.style.color = "white";
             softwareButton.style.color = "white";
             aboutButton.style.color = "white";
@@ -24,7 +24,7 @@ const revertColor = (exclude) => {
         case "about":
             updatesButton.style.color = "white";
             softwareButton.style.color = "white";
-            documentationButton.style.color = "white";
+            mediaButton.style.color = "white";
             break;
     }
 }
@@ -65,19 +65,19 @@ const softwareMouseout = () => {
         softwareButton.style.color = "white";
 }
 
-const documentation = () => {
+const media = () => {
     container.style.transform = "translateX(-60%)";
     currentPage = 3;
-    revertColor("documentation");
+    revertColor("media");
 }
 
-const documentationMouseover = () => {
-    documentationButton.style.color = "#8b99af";
+const mediaMouseover = () => {
+    mediaButton.style.color = "#8b99af";
 }
 
-const documentationMouseout = () => {
+const mediaMouseout = () => {
     if(currentPage != 3)
-        documentationButton.style.color = "white";
+        mediaButton.style.color = "white";
 }
 
 const about = () => {
@@ -118,8 +118,8 @@ const mobileSoftware = () => {
     hamburgerMenu();
 }
 
-const mobileDocumentation = () => {
-    documentation();
+const mobileMedia = () => {
+    media();
     hamburgerMenu();
 }
 
@@ -168,10 +168,10 @@ const softwareButton = document.getElementById("softwareButton");
 softwareButton.addEventListener("click", software);
 softwareButton.addEventListener("mouseover", softwareMouseover);
 softwareButton.addEventListener("mouseout", softwareMouseout);
-const documentationButton = document.getElementById("documentationButton");
-documentationButton.addEventListener("click", documentation);
-documentationButton.addEventListener("mouseover", documentationMouseover);
-documentationButton.addEventListener("mouseout", documentationMouseout);
+const mediaButton = document.getElementById("mediaButton");
+mediaButton.addEventListener("click", media);
+mediaButton.addEventListener("mouseover", mediaMouseover);
+mediaButton.addEventListener("mouseout", mediaMouseout);
 const aboutButton = document.getElementById("aboutButton");
 aboutButton.addEventListener("click", about);
 aboutButton.addEventListener("mouseover", aboutMouseover);
@@ -182,8 +182,8 @@ const mobileMenuUpdatesButton = document.getElementById("mobileMenuUpdatesButton
 mobileMenuUpdatesButton.addEventListener("click", mobileUpdates);
 const mobileMenuSoftwareButton = document.getElementById("mobileMenuSoftwareButton");
 mobileMenuSoftwareButton.addEventListener("click", mobileSoftware);
-const mobileMenuDocumentationButton = document.getElementById("mobileMenuDocumentationButton");
-mobileMenuDocumentationButton.addEventListener("click", mobileDocumentation);
+const mobileMenuMediaButton = document.getElementById("mobileMenuMediaButton");
+mobileMenuMediaButton.addEventListener("click", mobileMedia);
 const mobileMenuAboutButton = document.getElementById("mobileMenuAboutButton");
 mobileMenuAboutButton.addEventListener("click", mobileAbout);
 
