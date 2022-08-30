@@ -248,7 +248,7 @@ a:hover:-webkit-any-link {
     #softwareButton {
         visibility: hidden;
     }
-    #documentationButton {
+    #mediaButton {
         display: none;
     }
     #aboutArea {
@@ -268,17 +268,17 @@ html {
     --scrollbarBG: #CFD8DC;
     --thumbBG: #90A4AE;
   }
-  #updates::-webkit-scrollbar, #software::-webkit-scrollbar, #documentation::-webkit-scrollbar {
+  #updates::-webkit-scrollbar, #software::-webkit-scrollbar, #media::-webkit-scrollbar {
     width: 11px;
   }
-  #updates, #software, #documentation {
+  #updates, #software, #media {
     scrollbar-width: thin;
     scrollbar-color: var(--thumbBG) var(--scrollbarBG);
   }
-  #updates::-webkit-scrollbar-track, #software::-webkit-scrollbar-track, #documentation::-webkit-scrollbar-track {
+  #updates::-webkit-scrollbar-track, #software::-webkit-scrollbar-track, #media::-webkit-scrollbar-track {
     background: var(--scrollbarBG);
   }
-  #updates::-webkit-scrollbar-thumb, #software::-webkit-scrollbar-thumb, #documentation::-webkit-scrollbar-thumb {
+  #updates::-webkit-scrollbar-thumb, #software::-webkit-scrollbar-thumb, #media::-webkit-scrollbar-thumb {
     background-color: var(--thumbBG) ;
     border-radius: 6px;
     border: 3px solid var(--scrollbarBG);
